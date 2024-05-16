@@ -19,7 +19,7 @@ public class ArmUIController : MonoBehaviour
     // private int itemsInList = 10;
      private Vector3 initialScrollPosition;
     [SerializeField] private float staticScrollSpeed = 50f;
-    [SerializeField] private float dynamicScrollSpeed = 5f;
+    [SerializeField] private float dynamicScrollSpeed = 2f;
     private Vector3 lastContactPoint = Vector3.zero;
     private float slowMovementThreshold = .1f; // Add the declaration here
     int dynamicDirection = 1; //1 == z for dynamic scrolling 2 == y for scrolling
@@ -182,7 +182,7 @@ public class ArmUIController : MonoBehaviour
 
     // Update the new scroll position
     Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
-    newScrollPosition.y -= deltaY; // Subtracting because moving the hand up should scroll down
+    newScrollPosition.y += deltaY; // Subtracting because moving the hand up should scroll down
 
     // Clamp the new scroll position within the scrollable area
     newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
