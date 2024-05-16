@@ -3242,6 +3242,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346581460}
   m_CullTransparentMesh: 1
+--- !u!1 &386494027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 386494029}
+  - component: {fileID: 386494028}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &386494028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386494027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6990b07bac21812448252bff1206fa81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  techniqueNumber: 1
+  areaNumber: 1
+--- !u!224 &386494029
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386494027}
+  m_LocalRotation: {x: -0, y: -0.122328855, z: -0, w: 0.99248964}
+  m_LocalPosition: {x: 0, y: 0, z: 1.389}
+  m_LocalScale: {x: 0.0008170876, y: 0.0023141052, z: 0.00052083336}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -931.97595, y: 1239.356}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &388811138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4247,8 +4297,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0, y: 448}
-  m_SizeDelta: {x: 0, y: 1729.4}
+  m_AnchoredPosition: {x: -0, y: 150.6}
+  m_SizeDelta: {x: 0, y: 1432}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &518675539
 PrefabInstance:
@@ -7090,10 +7140,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.47108674
+  m_Radius: 0.6220156
   m_Height: 2.2353363
   m_Direction: 1
-  m_Center: {x: -0.0028925464, y: 0.035784736, z: -0.18993127}
+  m_Center: {x: 0.01227245, y: -0.015797244, z: -0.021080703}
 --- !u!114 &839943955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7109,8 +7159,9 @@ MonoBehaviour:
   startPoint: {fileID: 654980524}
   endPoint: {fileID: 1888158608}
   scrollableList: {fileID: 679323135}
+  allVariables: {fileID: 386494028}
   scaleFactor: 1
-  scrollSpeed: 25
+  scrollSpeed: 50
   distText: {fileID: 883789104}
   selectText: {fileID: 722904766}
 --- !u!1 &873126581
@@ -17672,6 +17723,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 386494029}
   - {fileID: 1864140036}
   - {fileID: 1532600789}
   - {fileID: 2079705924}
