@@ -7,6 +7,8 @@ TagManager:
   - Finger
   - Thumb
   - Detector
+  - DistText
+  - MenuText
   layers:
   - Default
   - TransparentFX
