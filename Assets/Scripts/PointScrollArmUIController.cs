@@ -9,7 +9,7 @@ public class PointScrollArmUIController : ArmUIController{
     // Define the new smaller range on the arm
     private float startOffsetPercentage = 0.30f;  // 30%
     private float endOffsetPercentage = 0.83f;   // 83%
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
     }

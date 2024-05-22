@@ -9,7 +9,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int areaNumber = -1;
 
     private int previousTechnique = -1;
-
+    private int previousArea = -1;
 
     // Property for techniqueNumber
     public int TechniqueNumber
@@ -32,33 +32,50 @@ public class GameManager : Singleton<GameManager>
     }
 
     // Update is called once per frame
-    void Update()
-    {   
-        //Only check change technique number if it has changed from its previous value
-        if(techniqueNumber != previousTechnique){
-           
-        //Update current object selected as enabled, disable the other objects before doing so.
-        switch (techniqueNumber)
+   void Update()
+    {
+        // Only check and update technique or area if they have changed
+        if (techniqueNumber != previousTechnique || areaNumber != previousArea)
+        {
+            // Composite value for the switch case
+            int compositeValue = areaNumber * 10 + techniqueNumber;
+
+            // Update current object selected as enabled, disable the other objects before doing so.
+            switch (compositeValue)
             {
-                case 1:
+                case 11:
                     Disable();
                     armUIControllers[0].gameObject.SetActive(true);
                     break;
-                case 2:
+                case 12:
                     Disable();
                     armUIControllers[1].gameObject.SetActive(true);
                     break;
-                case 3:
+                case 13:
                     Disable();
                     armUIControllers[2].gameObject.SetActive(true);
                     break;
+                case 21:
+                    Disable();
+                    armUIControllers[3].gameObject.SetActive(true);
+                    break;
+                case 22:
+                    Disable();
+                    armUIControllers[4].gameObject.SetActive(true);
+                    break;
+                case 23:
+                    Disable();
+                    armUIControllers[5].gameObject.SetActive(true);
+                    break;
             }
-            //Otherwise assign previous technique to the current technique number
+
+            // Update previous values
             previousTechnique = techniqueNumber;
+            previousArea = areaNumber;
         }
     }
     void Disable(){
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < armUIControllers.Count; i++){
             armUIControllers[i].gameObject.SetActive(false);
         }
     }

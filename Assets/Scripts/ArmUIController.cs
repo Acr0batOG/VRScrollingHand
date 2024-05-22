@@ -18,7 +18,19 @@ public class ArmUIController : MonoBehaviour
     protected void Start()
     {   
         gameManager = GameManager.instance;
-       
+        int areaNum = gameManager.AreaNumber; //Load different start and end points based on areaNumber
+        switch(areaNum) //Switch to change which area is selected
+        {   
+            case 1:
+                startPoint = GameObject.FindWithTag("Elbow").transform; //Else just make sure original start and end points assigned
+                endPoint = GameObject.FindWithTag("WristOther").transform;
+                break;
+            case 2:
+                startPoint = GameObject.FindWithTag("Wrist").transform; //If area num 2 selected, change start and end points to the hand
+                endPoint = GameObject.FindWithTag("Finger").transform;
+                break;            
+        }
+        
        
     }
 
