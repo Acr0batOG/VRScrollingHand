@@ -1,63 +1,91 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 
-public class PointScrollArmUIController : ArmUIController{
-    // Define the new smaller range on the arm
-    private float startOffsetPercentage = 0.30f;  // 30%
-    private float endOffsetPercentage = 0.83f;   // 83%
+public class PointScrollArmUIController : ArmUIController
+{
+    private float userPointHeight; // Variable to hold user's height
+
+    // Constants for offset percentages and divisors
+    float startOffsetPercentage = 0.185f; //Default offset position
+    float startOffsetPercentageHand = 0.22f; // Used for hand check
+    float endOffsetPercentage = 1.22f; // End of arm, used for 11 inch forearms. Will be replaced in GameManager
+    float armDivisor = 2.0f; // Used to convert user's arm length to the ending point on their arm
+    float handDivisor = 2.30f; // Used to convert user's hand length from their arm length to the ending point on their hand
+    float handDivisorAdjustment = .08f;
+    // Start is called before the first frame update
     protected new void Start()
     {
         base.Start();
+        LengthCheck(); // Check arm length
     }
-    protected  void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter(Collider other)
     {
-        menuText.text = "Enter";
-        Scroll(other);
+        LengthCheck(); // Check arm length
+        menuText.text = "Enter"; // Update menu text
+        Scroll(other); // Scroll through the content
     }
 
-    protected void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        Scroll(other);
-    }
-    protected  void OnTriggerExit(Collider other){
-        menuText.text = "Exit";
+        Scroll(other); // Scroll through the content
     }
 
-    protected override void Scroll(Collider collisionInfo){
-        Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
+    private void OnTriggerExit(Collider other)
+    {
+        menuText.text = "Exit"; // Update menu text
+    }
 
-        // Get the content height and the viewport height
+    protected override void Scroll(Collider collisionInfo)
+    {
+        Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position); // Get the closest contact point
+
+        // Calculate content and viewport height
         float contentHeight = scrollableList.content.sizeDelta.y;
         float viewportHeight = scrollableList.viewport.rect.height;
 
-        // Determine the total number of bins (1-20)
-        int totalBins = 20;
+        int totalBins = 20; // Total number of bins for scrolling
 
-        // Calculate the new range positions
+        // Calculate arm length and offsets
         float armLength = (endPoint.position - startPoint.position).magnitude;
         float startOffset = startOffsetPercentage * armLength;
         float endOffset = endOffsetPercentage * armLength;
 
-        // Calculate the position along the arm in terms of the new range
+        // Calculate contact and adjusted contact positions
         float contactPosition = (contactPoint - startPoint.position).magnitude;
         float adjustedContactPosition = Mathf.Clamp(contactPosition - startOffset, 0, endOffset - startOffset);
 
-        // Calculate the bin index within the new range with reversed mapping
+        // Calculate bin index based on adjusted contact position
         int binIndex = Mathf.Clamp(Mathf.RoundToInt((1 - (adjustedContactPosition / (endOffset - startOffset))) * (totalBins - 1)), 0, totalBins - 1) + 1;
 
-        // Determine the new scroll position based on the bin index
+        // Calculate bin height and new scroll position
         float binHeight = (contentHeight - viewportHeight) / (totalBins - 1);
         float newScrollPositionY = (binIndex - 1) * binHeight;
 
-        // Set the new anchored position for the scroll content
+        // Set the new scroll position
         Vector2 newScrollPosition = new Vector2(scrollableList.content.anchoredPosition.x, newScrollPositionY);
         scrollableList.content.anchoredPosition = newScrollPosition;
 
-        // Update the distance text
-        distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString();
+        // Update distance text
+        distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + handCollider.GetComponent<CapsuleCollider>().height;
+    }
+
+    // Check arm length and adjust offsets accordingly
+    void LengthCheck()
+    {
+        userPointHeight = gameManager.UserHeight; // Get arm length from GameManager
+        int handCheck = gameManager.AreaNumber; // Check the area number
+
+        // Adjust offsets based on hand or arm being used for scrolling. 
+        switch(handCheck){
+            case 1: 
+                endOffsetPercentage = userPointHeight / armDivisor; //Arm being used for scrolling, different size
+                break;
+            case 2:
+                endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users
+                startOffsetPercentage = startOffsetPercentageHand; //Set starting point to .22 of capsule size. Works best for hands
+                break;
+        }
     }
 }
