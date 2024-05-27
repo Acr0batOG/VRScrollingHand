@@ -21,32 +21,31 @@ public class GameManager : Singleton<GameManager>
     public int TechniqueNumber
     {
         get { return techniqueNumber; }
+        set { techniqueNumber = value; }
     }
 
     // Property for areaNumber
     public int AreaNumber
     {
         get { return areaNumber; }
+        set { areaNumber = value; }
     }
 
     // Property for bodyVisibility
     public bool BodyVisibility
     {
         get { return bodyVisibility; }
+        set { bodyVisibility = value; }
     }
 
     // Property for userHeight with notification logic
     public float UserHeight
     {
         get { return userHeight; }
-        set
-        {
-            if (Mathf.Approximately(userHeight, value) == false)
-            {
+        set {
                 userHeight = value;
                 NotifyHeightChange();
             }
-        }
     }
 
     // Start is called before the first frame update
@@ -106,9 +105,7 @@ public class GameManager : Singleton<GameManager>
             UpdateVisibility();
             previousBodyVisibility = bodyVisibility;
         }
-         
-
-            
+                    
     }
 
     void Disable()

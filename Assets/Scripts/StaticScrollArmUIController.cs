@@ -13,7 +13,7 @@ public class StaticScrollArmUIController : ArmUIController{
     protected new void Start()
     {
         base.Start();
-        handCollider = GetComponent<CapsuleCollider>();
+        
     }
     protected void OnTriggerEnter(Collider other)
     {
