@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int areaNumber = -1;
     [SerializeField] private bool bodyVisibility = true;
     [SerializeField] private float userHeight = 1.8f; 
+    [SerializeField] private int numberOfItems = 50; // Number of items to populate
 
     private int previousTechnique = -1;
     private int previousArea = -1;
@@ -46,6 +47,11 @@ public class GameManager : Singleton<GameManager>
                 userHeight = value;
                 NotifyHeightChange();
             }
+    }
+    public int NumberOfItems
+    {
+        get { return numberOfItems; }
+        set { numberOfItems = value; }
     }
 
     // Start is called before the first frame update

@@ -1553,7 +1553,7 @@ Transform:
   m_GameObject: {fileID: 324206702}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.786, y: 2.792, z: 1.296}
+  m_LocalPosition: {x: -0.786, y: 2.702, z: 1.296}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1671,10 +1671,11 @@ MonoBehaviour:
   - {fileID: 655410264}
   - {fileID: 1786928252}
   - {fileID: 909413929}
-  techniqueNumber: 1
+  techniqueNumber: 3
   areaNumber: 1
   bodyVisibility: 1
   userHeight: 1.8
+  numberOfItems: 50
 --- !u!1001 &388811138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2966,7 +2967,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.46
+  m_Radius: 0.52
   m_Height: 2.03
   m_Direction: 1
   m_Center: {x: 0.15752773, y: -0.17739928, z: 0.11458226}
@@ -4410,7 +4411,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.46
+  m_Radius: 0.52
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.03100785, y: -0.20953706, z: 0.024338206}
@@ -6991,8 +6992,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listItemPrefab: {fileID: 7204510089002462784, guid: faa673d6d677a964bb66a0677e3cc38b, type: 3}
-  numberOfItems: 10
   content: {fileID: 462433551}
+  scrollRect: {fileID: 679323135}
 --- !u!1 &1883185547
 GameObject:
   m_ObjectHideFlags: 0
@@ -7251,7 +7252,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.54
+  m_Radius: 0.56
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.02586497, y: 0.007109135, z: -0.03860996}

@@ -45,7 +45,7 @@ public class PointScrollArmUIController : ArmUIController
         float contentHeight = scrollableList.content.sizeDelta.y;
         float viewportHeight = scrollableList.viewport.rect.height;
 
-        int totalBins = 20; // Total number of bins for scrolling
+        int totalBins = gameManager.NumberOfItems; // Total number of bins for scrolling
 
         // Calculate arm length and offsets
         float armLength = (endPoint.position - startPoint.position).magnitude;
