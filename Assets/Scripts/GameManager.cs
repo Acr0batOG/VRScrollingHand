@@ -138,10 +138,7 @@ public class GameManager : Singleton<GameManager>
     void NotifyHeightChange()
     {
         UpdateHeight();
-        foreach (var controller in armUIControllers)
-        {
-            controller.OnUserHeightChanged(userHeight); //Update the capsule size for each controller once user height has changed
-        }
+        
     }
 
     // Called when the script is loaded or a value changes

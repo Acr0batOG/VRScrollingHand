@@ -7,7 +7,7 @@ public class PointScrollArmUIController : ArmUIController
     private float userPointHeight; // Variable to hold user's height
 
     // Constants for offset percentages and divisors
-    float startOffsetPercentage = 0.185f; //Default offset position
+    float startOffsetPercentage = 0.22f; //Default offset position
     float startOffsetPercentageHand = 0.22f; // Used for hand check
     float endOffsetPercentage = 1.22f; // End of arm, used for 11 inch forearms. Will be replaced in GameManager
     float armDivisor = 2.0f; // Used to convert user's arm length to the ending point on their arm
@@ -80,7 +80,7 @@ public class PointScrollArmUIController : ArmUIController
         // Adjust offsets based on hand or arm being used for scrolling. 
         switch(handCheck){
             case 1: 
-                endOffsetPercentage = userPointHeight / armDivisor; //Arm being used for scrolling, different size
+                endOffsetPercentage = userPointHeight / armDivisor + .05f; //Arm being used for scrolling, different size
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users

@@ -11,8 +11,8 @@ public class FirebaseUpdateGame : MonoBehaviour
     [SerializeField] protected int blockId;
     [SerializeField] protected bool loadData;
     [SerializeField] protected TextMeshPro dataText;
-    DatabaseReference reference;
-    GameManager gameManager;
+    protected DatabaseReference reference;
+    protected GameManager gameManager;
     protected int areaNumber;
     protected int techniqueNumber;
     protected bool bodyVisibility;
