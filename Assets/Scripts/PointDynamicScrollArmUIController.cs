@@ -29,7 +29,7 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
 
     private void OnTriggerStay(Collider other)
     {
-        if (!isPaused&&triggerTimer<42) 
+        if (!isPaused&&triggerTimer<10) 
         {
              Scroll(other);
         }else if(!isPaused)

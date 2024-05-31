@@ -1668,10 +1668,14 @@ MonoBehaviour:
   - {fileID: 1260951433}
   - {fileID: 1935256624}
   - {fileID: 839943955}
+  - {fileID: 1794967985}
+  - {fileID: 1979821014}
   - {fileID: 655410264}
   - {fileID: 1786928252}
   - {fileID: 909413929}
-  techniqueNumber: 3
+  - {fileID: 1602888169}
+  - {fileID: 1589997542}
+  techniqueNumber: 4
   areaNumber: 1
   bodyVisibility: 1
   userHeight: 1.8

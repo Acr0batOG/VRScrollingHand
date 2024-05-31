@@ -1,12 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class PointStaticScrollArmUIController : PointScrollArmUIController
 {
     [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
     [SerializeField] private float threshold = .0105f;
     private int triggerTimer = 0;
+    Vector3 collisionPoint;
     protected new void Start()
     {
         base.Start();
@@ -22,11 +28,11 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
 
     private void OnTriggerStay(Collider other)
     {
-        if (triggerTimer<42){
+        if (triggerTimer<26){
              Scroll(other);
         }else { //After collision give appx 800ms to make selection then switch to dynamic scroll
             
-            StaticScroll(other);
+            StaticScroll(other, collisionPoint);
         }
     }
 
@@ -67,20 +73,18 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         scrollableList.content.anchoredPosition = newScrollPosition;
         triggerTimer++; //800 ms given to select point or 42 frames, then switch methods. 
         // Update distance text
+        collisionPoint = collisionInfo.ClosestPoint(startPoint.position); //Set middle point to location where last point selection was made
         distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + handCollider.GetComponent<CapsuleCollider>().height;
     }
-    protected void StaticScroll(Collider collisionInfo){
+    protected void StaticScroll(Collider collisionInfo, Vector3 collisionPoint){
         Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
 
-        // Calculate the middle point between startPoint and endPoint
-        Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
+        Vector3 middlePoint = collisionPoint;
 
-        // Calculate the distance from the contact point to the start and end points
-        float distanceFromStart = (contactPoint - startPoint.position).magnitude;
-        float distanceFromEnd = (contactPoint - endPoint.position).magnitude;
 
         // Determine the polarity based on which end the contact point is closer to
-        int polarity = distanceFromStart > distanceFromEnd ? -1 : 1;
+        int polarity = contactPoint.magnitude > middlePoint.magnitude ? -1 : 1;
+      
 
         // Get the content height and the viewport height
         float contentHeight = scrollableList.content.sizeDelta.y;
