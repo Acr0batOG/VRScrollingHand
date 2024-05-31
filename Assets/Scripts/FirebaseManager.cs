@@ -23,6 +23,22 @@ public class FirebaseManager : MonoBehaviour
         // Firebase Unity SDK is not safe to use here.
         }
         });
+        //Random Auth BS for firebase
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.SignInAnonymouslyAsync().ContinueWith(task => {
+        if (task.IsCanceled) {
+                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+            return;
+        }
+        if (task.IsFaulted) {
+                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+             return;
+            }
+
+            Firebase.Auth.AuthResult result = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                 result.User.DisplayName, result.User.UserId);
+            });
     }
 
     // Update is called once per frame

@@ -2,18 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PointScrollArmUIController : ArmUIController
+public class PointStaticScrollArmUIController : PointScrollArmUIController
 {
-    protected float userPointHeight; // Variable to hold user's height
-
-    // Constants for offset percentages and divisors
-    protected float startOffsetPercentage = 0.22f; //Default offset position
-    protected float startOffsetPercentageHand = 0.22f; // Used for hand check
-    protected float endOffsetPercentage = 1.22f; // End of arm, used for 11 inch forearms. Will be replaced in GameManager
-    protected float armDivisor = 2.0f; // Used to convert user's arm length to the ending point on their arm
-    protected float handDivisor = 2.30f; // Used to convert user's hand length from their arm length to the ending point on their hand
-    protected float handDivisorAdjustment = .08f;
-    // Start is called before the first frame update
+    [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
+    [SerializeField] private float threshold = .0105f;
+    private int triggerTimer = 0;
     protected new void Start()
     {
         base.Start();
@@ -29,11 +22,17 @@ public class PointScrollArmUIController : ArmUIController
 
     private void OnTriggerStay(Collider other)
     {
-        Scroll(other); // Scroll through the content
+        if (triggerTimer<42){
+             Scroll(other);
+        }else { //After collision give appx 800ms to make selection then switch to dynamic scroll
+            
+            StaticScroll(other);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        triggerTimer = 0; //Only reset to other method if collision done
         menuText.text = "Exit"; // Update menu text
     }
 
@@ -66,9 +65,43 @@ public class PointScrollArmUIController : ArmUIController
         // Set the new scroll position
         Vector2 newScrollPosition = new Vector2(scrollableList.content.anchoredPosition.x, newScrollPositionY);
         scrollableList.content.anchoredPosition = newScrollPosition;
-
+        triggerTimer++; //800 ms given to select point or 42 frames, then switch methods. 
         // Update distance text
         distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + handCollider.GetComponent<CapsuleCollider>().height;
+    }
+    protected void StaticScroll(Collider collisionInfo){
+        Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
+
+        // Calculate the middle point between startPoint and endPoint
+        Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
+
+        // Calculate the distance from the contact point to the start and end points
+        float distanceFromStart = (contactPoint - startPoint.position).magnitude;
+        float distanceFromEnd = (contactPoint - endPoint.position).magnitude;
+
+        // Determine the polarity based on which end the contact point is closer to
+        int polarity = distanceFromStart > distanceFromEnd ? -1 : 1;
+
+        // Get the content height and the viewport height
+        float contentHeight = scrollableList.content.sizeDelta.y;
+        float viewportHeight = scrollableList.viewport.rect.height;
+
+        // Calculate the new scroll position based on the distance from the middle point
+        float deltaY = (contactPoint - middlePoint).magnitude * polarity * staticScrollSpeed;
+        if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
+            return; //Middle dead zone for no scrolling
+        // Update the new scroll position
+        Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
+        newScrollPosition.y += deltaY;
+
+        // Clamp the new scroll position within the scrollable area
+        newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
+
+        // Set the new anchored position for the scroll content
+        scrollableList.content.anchoredPosition = newScrollPosition;
+
+        // Update the distance text
+        distText.text = "Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString();
     }
 
     // Check arm length and adjust offsets accordingly
