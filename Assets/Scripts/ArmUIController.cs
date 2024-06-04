@@ -33,15 +33,15 @@ public class ArmUIController : MonoBehaviour
                 break;
             case 2:
                 startPoint = GameObject.FindWithTag("Wrist").transform; //Hand scrolling
-                endPoint = GameObject.FindWithTag("Fingertip").transform;
+                endPoint = GameObject.FindWithTag("LFingertip").transform;
                 break;
             case 3:
                 startPoint = GameObject.FindWithTag("Fingerbase").transform; //Finger scrolling
-                endPoint = GameObject.FindWithTag("Fingertip").transform;
+                endPoint = GameObject.FindWithTag("RFingertip").transform;
                 break;
             case 4:
                 startPoint = GameObject.FindWithTag("Fingermid").transform; //Fingertip scrolling
-                endPoint = GameObject.FindWithTag("Fingertip").transform;
+                endPoint = GameObject.FindWithTag("RFingertip").transform;
                 break;
         }
     }
@@ -89,24 +89,24 @@ public class ArmUIController : MonoBehaviour
     void AreaCheck(int previousArea, int areaNum){
         if(areaNum!=previousArea){
             switch (areaNum) // Switch to set the start and end points
-            {
-                case 1: // Arm scrolling
-                    startPoint = GameObject.FindWithTag("Elbow").transform; // Arm scrolling
-                    endPoint = GameObject.FindWithTag("Wrist").transform;
-                    break;
-                case 2: // Hand scrolling
-                    startPoint = GameObject.FindWithTag("Wrist").transform; //Hand scrolling
-                    endPoint = GameObject.FindWithTag("Fingertip").transform;
-                    break;
-                case 3: // Finger scrolling
-                    startPoint = GameObject.FindWithTag("Fingerbase").transform; //Finger scrolling
-                    endPoint = GameObject.FindWithTag("Fingertip").transform;
-                    break;
-                case 4: // Fingertip scrolling
-                    startPoint = GameObject.FindWithTag("Fingermid").transform; //Fingertip scrolling
-                    endPoint = GameObject.FindWithTag("Fingertip").transform;
-                    break;
-            }
+        {
+            case 1:
+                startPoint = GameObject.FindWithTag("Elbow").transform; // Arm scrolling
+                endPoint = GameObject.FindWithTag("Wrist").transform;
+                break;
+            case 2:
+                startPoint = GameObject.FindWithTag("Wrist").transform; //Hand scrolling
+                endPoint = GameObject.FindWithTag("LFingertip").transform;
+                break;
+            case 3:
+                startPoint = GameObject.FindWithTag("Fingerbase").transform; //Finger scrolling
+                endPoint = GameObject.FindWithTag("RFingertip").transform;
+                break;
+            case 4:
+                startPoint = GameObject.FindWithTag("Fingermid").transform; //Fingertip scrolling
+                endPoint = GameObject.FindWithTag("RFingertip").transform;
+                break;
+        }
         }
     }   
 

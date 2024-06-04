@@ -23,13 +23,13 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
     {
         LengthCheck(); // Check arm length
         menuText.text = "Enter"; // Update menu text
-        Scroll(other); // Scroll through the content
         lastContactPoint = other.ClosestPoint(startPoint.position);
+        Scroll(other); // Scroll through the content
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (!isPaused&&triggerTimer<26) 
+        if (!isPaused&&triggerTimer<15) 
         {
              Scroll(other);
         }else if(!isPaused)

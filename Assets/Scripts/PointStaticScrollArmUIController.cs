@@ -28,7 +28,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
 
     private void OnTriggerStay(Collider other)
     {
-        if (triggerTimer<26){
+        if (triggerTimer<15){
              Scroll(other);
         }else { //After collision give appx 800ms to make selection then switch to Static scroll
             

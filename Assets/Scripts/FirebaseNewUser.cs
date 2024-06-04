@@ -184,7 +184,8 @@ public class FirebaseNewUser : MonoBehaviour
                 Debug.Log("User data inserted successfully.");
 
                 // Insert blocks for the new user
-                InsertBlocksForUser(user.userId);
+                // Commented out as no study is happening now and this is bound to change
+                //InsertBlocksForUser(user.userId); 
             }
             else
             {
@@ -196,19 +197,19 @@ public class FirebaseNewUser : MonoBehaviour
     void InsertBlocksForUser(int userId)
     {
         int k = 0;
-        for (int a = 1; a <= 2; a++)
+        for (int area = 1; area <= 4; area++)
         {
-            for (int t = 1; t <= 3; t++)
+            for (int technique = 1; technique <= 5; technique++)
             {
-                for (int v = 0; v <= 1; v++)
+                for (int visibility = 0; visibility <= 1; visibility++)
                 {
                     k++;
                     int blockId = k;
 
                     // Set the values for the current combination
-                    techniqueNumber = t;
-                    areaNumber = a;
-                    bodyVisibility = v == 1;
+                    techniqueNumber = technique;
+                    areaNumber = area;
+                    bodyVisibility = visibility == 1;
 
                     // Retrieve the last blockId and then insert a new block
                     InsertBlock(new Block(blockId, userId, techniqueNumber, areaNumber, bodyVisibility));

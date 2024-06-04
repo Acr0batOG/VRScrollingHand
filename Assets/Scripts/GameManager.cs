@@ -5,6 +5,7 @@ using static OVRPlugin;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] List<ArmUIController> armUIControllers;
+    [SerializeField] List<CapsuleCollider> armUIDetectors;
     [SerializeField] private int techniqueNumber = -1;
     [SerializeField] private int areaNumber = -1;
     [SerializeField] private bool bodyVisibility = true;
@@ -58,6 +59,7 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         Disable();
+        SetCollider();
         handMesh = GameObject.Find("Hand_ply");
         upperBodyMesh = GameObject.Find("upper_body_ply");
 
@@ -91,6 +93,7 @@ public class GameManager : Singleton<GameManager>
                 Disable();
                 armUIControllers[index].gameObject.SetActive(true);
             }
+            SetCollider();
 
             previousTechnique = techniqueNumber;
             previousArea = areaNumber;
@@ -110,6 +113,15 @@ public class GameManager : Singleton<GameManager>
         for (int i = 0; i < armUIControllers.Count; i++)
         {
             armUIControllers[i].gameObject.SetActive(false);
+        }
+    }
+    void SetCollider(){
+        if(areaNumber<=2){
+            armUIDetectors[1].gameObject.SetActive(false); //Disable the thumb collider when scrolling on right hand
+            armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
+        }else{
+            armUIDetectors[0].gameObject.SetActive(false); //Disable the fingertip collider when scrolling on right hand
+            armUIDetectors[1].gameObject.SetActive(true); //Enable the thumb collider
         }
     }
 
