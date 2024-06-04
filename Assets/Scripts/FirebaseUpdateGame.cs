@@ -2,7 +2,7 @@ using UnityEngine;
 using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
-using TMPro; // For ContinueWithOnMainThread
+using TMPro; 
 
 public class FirebaseUpdateGame : MonoBehaviour
 {

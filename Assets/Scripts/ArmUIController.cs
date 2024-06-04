@@ -33,9 +33,7 @@ public class ArmUIController : MonoBehaviour
                 startPoint = GameObject.FindWithTag("Wrist").transform;
                 endPoint = GameObject.FindWithTag("Finger").transform;
                 break;
-        }
-
-    
+        }    
     }
 
     void Update()
@@ -71,11 +69,6 @@ public class ArmUIController : MonoBehaviour
         // Apply the rotation to the collider
         collider.transform.rotation = rotation;
     }
-
-    
-
-    
-
     protected virtual void Scroll(Collider collisionInfo)
     {
         // Add scrolling logic here if needed

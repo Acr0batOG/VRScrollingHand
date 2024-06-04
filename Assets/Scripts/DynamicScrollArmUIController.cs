@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 
 public class DynamicScrollArmUIController : ArmUIController
 {
@@ -22,6 +20,7 @@ public class DynamicScrollArmUIController : ArmUIController
         menuText.text = "Enter";
         // Initialize last contact point but don't scroll yet
         lastContactPoint = other.ClosestPoint(startPoint.position);
+        Scroll(other);
     }
 
     protected void OnTriggerStay(Collider other)

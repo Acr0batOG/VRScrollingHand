@@ -5,13 +5,13 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
 using TMPro;
-using System;
-using System.Threading.Tasks; // Add this namespace
+
 
 public class GameStart : FirebaseUpdateGame
 {
+    //Used to load a random number the user will select in the list
     [SerializeField] TextMeshPro selectNumber; // Number to be selected by user.
-    readonly int[] numberArray = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 }; // Array to hold numbers the user will select, will be shuffled each time
+    int[] numberArray = {}; // Array to hold numbers the user will select, will be shuffled each time
     int numberArrayIndex = 0;
     int currentBlockId;
     int currentUserId;
@@ -20,6 +20,7 @@ public class GameStart : FirebaseUpdateGame
     // Only 10 values will be read for each trial. But different every time and non-repeating
   void Start()
     {
+        InitArray(numberArray);
         Shuffle(numberArray);
 
         currentBlockId = blockId; //UserId and blockId from superclass
@@ -38,6 +39,12 @@ public class GameStart : FirebaseUpdateGame
         if(previousUserId!=currentUserId){
             currentUserId = userId;
             previousUserId = currentUserId;
+        }
+    }
+    void InitArray(int[] array){
+        int count = gameManager.NumberOfItems;
+        for(int i = 0; i < count; i++){
+            array[i] = i+1; //Load array with each number in the list for selection
         }
     }
 

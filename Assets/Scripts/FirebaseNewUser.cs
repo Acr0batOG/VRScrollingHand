@@ -65,7 +65,7 @@ public class FirebaseNewUser : MonoBehaviour
 
     IEnumerator InsertAfterDelay()
     {
-        // Wait for the specified delay
+        // Wait for the specified delay before attempting to insert a user
         yield return new WaitForSeconds(insertionDelay);
 
         // Retrieve all users and then check if the new user should be inserted
@@ -153,7 +153,8 @@ void InsertUser(User user)
             Debug.Log("User data inserted successfully.");
 
             // Insert blocks for the new user
-            InsertBlocksForUser(user.userId);
+            //Commented out since not sure how many trials and blocks are needed per user yet
+            //InsertBlocksForUser(user.userId);
         }
         else
         {
@@ -164,19 +165,19 @@ void InsertUser(User user)
 
     void InsertBlocksForUser(int userId)
     {
-        int k = 0;
-        for (int a = 1; a <= 2; a++)
+        int k = 0; //Hold blockId
+        for (int area = 1; area <= 2; area++) //Area number changing for each block added
         {
-            for (int t = 1; t <= 3; t++)
+            for (int technique = 1; technique <= 3; technique++) //Technique number changing for each block added
             {
-                for (int v = 0; v <= 1; v++)
+                for (int visibility = 0; visibility <= 1; visibility++) //Body Visibility changing for each block. 
                 {   k++;
                 int blockId = k;
 
                     // Set the values for the current combination
-                    techniqueNumber = t;
-                    areaNumber = a;
-                    bodyVisibility = v == 1;
+                    techniqueNumber = technique;
+                    areaNumber = area;
+                    bodyVisibility = visibility == 1;
 
                     // Retrieve the last blockId and then insert a new block
                     InsertBlock(new Block(blockId, userId, techniqueNumber, areaNumber, bodyVisibility));
@@ -198,7 +199,7 @@ void InsertUser(User user)
                 DataSnapshot userSnapshot = task.Result;
                 if (userSnapshot.Exists)
                 {
-                    // User exists, proceed with inserting the block
+                    // User exists, proceed with inserting the block for the user
                     reference.Child("Users").Child(block.userId.ToString()).Child("Blocks").Child(blockIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(task =>
                     {
                         if (task.IsCompleted)

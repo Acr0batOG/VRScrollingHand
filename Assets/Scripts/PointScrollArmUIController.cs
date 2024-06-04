@@ -13,6 +13,7 @@ public class PointScrollArmUIController : ArmUIController
     float armDivisor = 2.0f; // Used to convert user's arm length to the ending point on their arm
     float handDivisor = 2.30f; // Used to convert user's hand length from their arm length to the ending point on their hand
     float handDivisorAdjustment = .08f;
+    float armDivisorAdjustment = .05f;
     // Start is called before the first frame update
     protected new void Start()
     {
@@ -80,7 +81,7 @@ public class PointScrollArmUIController : ArmUIController
         // Adjust offsets based on hand or arm being used for scrolling. 
         switch(handCheck){
             case 1: 
-                endOffsetPercentage = userPointHeight / armDivisor + .05f; //Arm being used for scrolling, different size
+                endOffsetPercentage = userPointHeight / armDivisor + armDivisorAdjustment; //Arm being used for scrolling, different size
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users

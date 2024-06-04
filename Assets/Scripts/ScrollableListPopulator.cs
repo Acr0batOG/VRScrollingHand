@@ -6,7 +6,8 @@ using Oculus.Interaction.Body.Input;
 using Unity.VisualScripting;
 
 public class ScrollableListPopulator : MonoBehaviour
-{
+{   
+    //Just Ignore most things in this file as it has been fixed in a different branch
     [SerializeField] private GameObject listItemPrefab; // Reference to the prefab for list items
      private int numberOfItems; // Number of items to populate
      int previousNumberOfItems;
@@ -102,6 +103,7 @@ public class ScrollableListPopulator : MonoBehaviour
         }
     }
     private void SetAdditionValue(){ //Setting the length of each item so the list of numberOfItems ends at 1.
+        //Just a mess really, not what I hoped for but it's been fixed in the next branch
         switch(numberOfItems/5){
             case 1:
                 additionValue = 1.10475f; //5
