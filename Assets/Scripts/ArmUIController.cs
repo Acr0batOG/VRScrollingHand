@@ -17,7 +17,7 @@ public class ArmUIController : MonoBehaviour
     protected float armModify = 4.5f; //Works
     protected float handModify = 4.25f; //Works
     protected float fingerModify = 5.15f; //Works
-    protected float fingertipModify = 3.75f; //Needs to be tested
+    protected float fingertipModify = 16.35f; //Needs to be tested
 
     protected void Start()
     {
