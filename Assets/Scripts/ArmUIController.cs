@@ -25,12 +25,12 @@ public class ArmUIController : MonoBehaviour
         switch (areaNum) //Switch to set the start and end points
         {
             case 1:
-                startPoint = GameObject.FindWithTag("Elbow").transform;
-                endPoint = GameObject.FindWithTag("WristOther").transform;
+                startPoint = GameObject.FindWithTag("Elbow").transform; //Set start point to elbow for arm scrolling
+                endPoint = GameObject.FindWithTag("WristOther").transform; //Set to wrist as end point
                 break;
             case 2:
-                startPoint = GameObject.FindWithTag("Wrist").transform;
-                endPoint = GameObject.FindWithTag("Finger").transform;
+                startPoint = GameObject.FindWithTag("Wrist").transform; //Set to wrist as start point
+                endPoint = GameObject.FindWithTag("Finger").transform;  //Set fingertip as end point
                 break;
         }
         UpdateUserHeight(userHeight); //Set height on start
