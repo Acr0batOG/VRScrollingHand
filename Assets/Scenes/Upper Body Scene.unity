@@ -1869,7 +1869,7 @@ MonoBehaviour:
   - {fileID: 1791423802}
   - {fileID: 1172596523}
   techniqueNumber: 1
-  areaNumber: 1
+  areaNumber: 4
   bodyVisibility: 1
   userHeight: 1.8
   numberOfItems: 50
@@ -2625,7 +2625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 2128932967}
-  endPoint: {fileID: 1128527161}
+  endPoint: {fileID: 991801929}
   scrollableList: {fileID: 679323135}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
@@ -4023,7 +4023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 2128932967}
-  endPoint: {fileID: 1128527161}
+  endPoint: {fileID: 991801929}
   scrollableList: {fileID: 679323135}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
@@ -4417,6 +4417,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &991801929 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7621523073098970929, guid: 566315f3a83d28341a878d894d4feca3, type: 3}
+  m_PrefabInstance: {fileID: 14389139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1013978045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4896,37 +4901,6 @@ Transform:
   - {fileID: 654980524}
   m_Father: {fileID: 1713107632}
   m_LocalEulerAnglesHint: {x: -2.832, y: -4.665, z: 5.24}
---- !u!1 &1128527160
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1128527161}
-  m_Layer: 10
-  m_Name: Fingertip
-  m_TagString: Finger
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1128527161
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1128527160}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.252, y: 0.029, z: 0.062}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1937802064}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1161010015
 GameObject:
   m_ObjectHideFlags: 0
@@ -7043,7 +7017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 2128932967}
-  endPoint: {fileID: 1128527161}
+  endPoint: {fileID: 991801929}
   scrollableList: {fileID: 679323135}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
@@ -7198,7 +7172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 2128932967}
-  endPoint: {fileID: 1128527161}
+  endPoint: {fileID: 991801929}
   scrollableList: {fileID: 679323135}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
@@ -8107,7 +8081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 2128932967}
-  endPoint: {fileID: 1128527161}
+  endPoint: {fileID: 991801929}
   scrollableList: {fileID: 679323135}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
@@ -9493,7 +9467,6 @@ Transform:
   - {fileID: 1589997546}
   - {fileID: 1602888173}
   - {fileID: 655410263}
-  - {fileID: 1128527161}
   m_Father: {fileID: 1711130656}
   m_LocalEulerAnglesHint: {x: -2.832, y: -4.665, z: 5.24}
 --- !u!1001 &1951164776

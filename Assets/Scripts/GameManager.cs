@@ -75,92 +75,27 @@ public class GameManager : Singleton<GameManager>
         if (techniqueNumber != previousTechnique || areaNumber != previousArea)
         {
             int compositeValue = areaNumber * 10 + techniqueNumber;
-            switch (compositeValue) //Switch case to enable the capsule needed
+
+            // Dictionary to map composite values to their corresponding UI controller index
+            Dictionary<int, int> compositeToIndex = new Dictionary<int, int>
             {
-                case 11: //Area 1 = Arm, Technique 1 = Rate Control
-                    Disable();
-                    armUIControllers[0].gameObject.SetActive(true);
-                    break;
-                case 12: // Technique 2 = Point Select (Volume Scroll)
-                    Disable();
-                    armUIControllers[1].gameObject.SetActive(true);
-                    break;
-                case 13: // Technique 3 = Dynamic Scroll
-                    Disable();
-                    armUIControllers[2].gameObject.SetActive(true);
-                    break;
-                case 14: // Technique 4 = Point Select then Rate Control
-                    Disable();
-                    armUIControllers[3].gameObject.SetActive(true);
-                    break;
-                case 15: // Technique 5 = Point Select then Dynamic Scroll
-                    Disable();
-                    armUIControllers[4].gameObject.SetActive(true);
-                    break;
-                case 21: //Area 2 = Hand
-                    Disable();
-                    armUIControllers[5].gameObject.SetActive(true);
-                    break;
-                case 22:
-                    Disable();
-                    armUIControllers[6].gameObject.SetActive(true);
-                    break;
-                case 23:
-                    Disable();
-                    armUIControllers[7].gameObject.SetActive(true);
-                    break;
-                case 24:
-                    Disable();
-                    armUIControllers[8].gameObject.SetActive(true);
-                    break;
-                case 25:
-                    Disable();
-                    armUIControllers[9].gameObject.SetActive(true);
-                    break;
-                case 31: //Area 3 =  Finger
-                    Disable();
-                    armUIControllers[10].gameObject.SetActive(true);
-                    break;
-                case 32:
-                    Disable();
-                    armUIControllers[11].gameObject.SetActive(true);
-                    break;
-                case 33:
-                    Disable();
-                    armUIControllers[12].gameObject.SetActive(true);
-                    break;
-                case 34:
-                    Disable();
-                    armUIControllers[13].gameObject.SetActive(true);
-                    break;
-                case 35:
-                    Disable();
-                    armUIControllers[14].gameObject.SetActive(true);
-                    break;
-                case 41: //Area 4 = Fingertip
-                    Disable();
-                    armUIControllers[15].gameObject.SetActive(true);
-                    break;
-                case 42:
-                    Disable();
-                    armUIControllers[16].gameObject.SetActive(true);
-                    break;
-                case 43:
-                    Disable();
-                    armUIControllers[17].gameObject.SetActive(true);
-                    break;
-                case 44:
-                    Disable();
-                    armUIControllers[18].gameObject.SetActive(true);
-                    break;
-                case 45:
-                    Disable();
-                    armUIControllers[19].gameObject.SetActive(true);
-                    break;
+                { 11, 0 }, { 12, 1 }, { 13, 2 }, { 14, 3 }, { 15, 4 },
+                { 21, 5 }, { 22, 6 }, { 23, 7 }, { 24, 8 }, { 25, 9 },
+                { 31, 10 }, { 32, 11 }, { 33, 12 }, { 34, 13 }, { 35, 14 },
+                { 41, 15 }, { 42, 16 }, { 43, 17 }, { 44, 18 }, { 45, 19 }
+            };
+
+            // Check if the composite value exists in the dictionary
+            if (compositeToIndex.TryGetValue(compositeValue, out int index))
+            {
+                Disable();
+                armUIControllers[index].gameObject.SetActive(true);
             }
+
             previousTechnique = techniqueNumber;
             previousArea = areaNumber;
         }
+
 
         if (bodyVisibility != previousBodyVisibility)
         {

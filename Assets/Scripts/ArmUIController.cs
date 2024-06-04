@@ -33,7 +33,7 @@ public class ArmUIController : MonoBehaviour
                 break;
             case 2:
                 startPoint = GameObject.FindWithTag("Wrist").transform; //Hand scrolling
-                endPoint = GameObject.FindWithTag("Finger").transform;
+                endPoint = GameObject.FindWithTag("Fingertip").transform;
                 break;
             case 3:
                 startPoint = GameObject.FindWithTag("Fingerbase").transform; //Finger scrolling
@@ -52,7 +52,9 @@ public class ArmUIController : MonoBehaviour
         Vector3 direction = (endPoint.position - startPoint.position).normalized;
         float distance = Vector3.Distance(startPoint.position, endPoint.position);
         userHeight = gameManager.UserHeight; // Get height of character
-
+        int previousArea = areaNum;
+        areaNum = gameManager.AreaNumber;
+        AreaCheck(previousArea, areaNum); //Check if area has changed
         switch (areaNum) // Switch to set the start and end points
         {
             case 1: // Arm scrolling
@@ -83,6 +85,29 @@ public class ArmUIController : MonoBehaviour
 
         // Apply the rotation to the collider
         collider.transform.rotation = rotation;
+    }
+    void AreaCheck(int previousArea, int areaNum){
+        if(areaNum!=previousArea){
+            switch (areaNum) // Switch to set the start and end points
+            {
+                case 1: // Arm scrolling
+                    startPoint = GameObject.FindWithTag("Elbow").transform; // Arm scrolling
+                    endPoint = GameObject.FindWithTag("Wrist").transform;
+                    break;
+                case 2: // Hand scrolling
+                    startPoint = GameObject.FindWithTag("Wrist").transform; //Hand scrolling
+                    endPoint = GameObject.FindWithTag("Fingertip").transform;
+                    break;
+                case 3: // Finger scrolling
+                    startPoint = GameObject.FindWithTag("Fingerbase").transform; //Finger scrolling
+                    endPoint = GameObject.FindWithTag("Fingertip").transform;
+                    break;
+                case 4: // Fingertip scrolling
+                    startPoint = GameObject.FindWithTag("Fingermid").transform; //Fingertip scrolling
+                    endPoint = GameObject.FindWithTag("Fingertip").transform;
+                    break;
+            }
+        }
     }   
 
     protected virtual void Scroll(Collider collisionInfo)
