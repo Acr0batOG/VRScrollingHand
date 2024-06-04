@@ -2,17 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 
 public class DynamicScrollArmUIController : ArmUIController
 {
-    [SerializeField] private float scrollSpeed = 50f; // Speed multiplier for scrolling
-    private float multiplier = 1650;
+    [SerializeField] private float scrollSpeed = 2f; // Speed multiplier for scrolling
+    private float multiplier = 1550;
     private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
-    private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
+    private float slowMovementThreshold = .00125f; // To detect and ignore movement within the collision below this threshold
 
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
     }
@@ -22,6 +20,7 @@ public class DynamicScrollArmUIController : ArmUIController
         menuText.text = "Enter";
         // Initialize last contact point but don't scroll yet
         lastContactPoint = other.ClosestPoint(startPoint.position);
+        Scroll(other);
     }
 
     protected void OnTriggerStay(Collider other)

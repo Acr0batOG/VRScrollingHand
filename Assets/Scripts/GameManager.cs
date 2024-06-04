@@ -1,66 +1,159 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
+using static OVRPlugin;
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] List<ArmUIController> armUIControllers;
     [SerializeField] private int techniqueNumber = -1;
     [SerializeField] private int areaNumber = -1;
+    [SerializeField] private bool bodyVisibility = true;
+    [SerializeField] private float userHeight = 1.8f; 
+    [SerializeField] private int numberOfItems = 50; // Number of items to populate
 
     private int previousTechnique = -1;
-
+    private int previousArea = -1;
+    private bool previousBodyVisibility = true;
+    
+    private GameObject handMesh; //Used to change the visibility of the hand mesh
+    private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
 
     // Property for techniqueNumber
     public int TechniqueNumber
     {
         get { return techniqueNumber; }
+        set { techniqueNumber = value; }
     }
 
     // Property for areaNumber
     public int AreaNumber
     {
         get { return areaNumber; }
+        set { areaNumber = value; }
+    }
+
+    // Property for bodyVisibility
+    public bool BodyVisibility
+    {
+        get { return bodyVisibility; }
+        set { bodyVisibility = value; }
+    }
+
+    // Property for userHeight with notification logic
+    public float UserHeight
+    {
+        get { return userHeight; }
+        set {
+                userHeight = value;
+                NotifyHeightChange();
+            }
+    }
+    public int NumberOfItems
+    {
+        get { return numberOfItems; }
+        set { numberOfItems = value; }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //Set all collision detection objects as disabled
         Disable();
-        
+        handMesh = GameObject.Find("Hand_ply");
+        upperBodyMesh = GameObject.Find("upper_body_ply");
+
+        if (handMesh == null || upperBodyMesh == null)
+        {
+            return;
+        }
+        UpdateVisibility();
+        UpdateHeight();
     }
 
     // Update is called once per frame
     void Update()
-    {   
-        //Only check change technique number if it has changed from its previous value
-        if(techniqueNumber != previousTechnique){
-           
-        //Update current object selected as enabled, disable the other objects before doing so.
-        switch (techniqueNumber)
+    {
+        if (techniqueNumber != previousTechnique || areaNumber != previousArea)
+        {
+            int compositeValue = areaNumber * 10 + techniqueNumber;
+            switch (compositeValue) //Switch case to enable the capsule needed
             {
-                case 1:
+                case 11:
                     Disable();
                     armUIControllers[0].gameObject.SetActive(true);
                     break;
-                case 2:
+                case 12:
                     Disable();
                     armUIControllers[1].gameObject.SetActive(true);
                     break;
-                case 3:
+                case 13:
                     Disable();
                     armUIControllers[2].gameObject.SetActive(true);
                     break;
+                case 21:
+                    Disable();
+                    armUIControllers[3].gameObject.SetActive(true);
+                    break;
+                case 22:
+                    Disable();
+                    armUIControllers[4].gameObject.SetActive(true);
+                    break;
+                case 23:
+                    Disable();
+                    armUIControllers[5].gameObject.SetActive(true);
+                    break;
             }
-            //Otherwise assign previous technique to the current technique number
             previousTechnique = techniqueNumber;
+            previousArea = areaNumber;
         }
+
+        if (bodyVisibility != previousBodyVisibility)
+        {
+            UpdateVisibility();
+            previousBodyVisibility = bodyVisibility;
+        }
+                    
     }
-    void Disable(){
-        for(int i = 0; i < 3; i++){
+
+    void Disable()
+    {
+        for (int i = 0; i < armUIControllers.Count; i++)
+        {
             armUIControllers[i].gameObject.SetActive(false);
         }
     }
-}
 
+    void UpdateVisibility()
+    {
+        bool isVisible = bodyVisibility == true;
+        SetMeshVisibility(handMesh, isVisible); //Set visibility of hand and arm
+        SetMeshVisibility(upperBodyMesh, isVisible);
+    }
+
+    void SetMeshVisibility(GameObject meshObject, bool isVisible)
+    {
+        if (meshObject != null)
+        {
+            Renderer meshRenderer = meshObject.GetComponent<Renderer>(); //Get component and set visibility
+            if (meshRenderer != null)
+            {
+                meshRenderer.enabled = isVisible;
+            }
+        }
+    }
+
+    void NotifyHeightChange()
+    {
+        UpdateHeight();
+        
+    }
+
+    // Called when the script is loaded or a value changes
+    private void OnValidate()
+    {
+        NotifyHeightChange(); //When height value changes, update value
+    }
+    private void UpdateHeight(){
+        BodyTrackingCalibrationInfo calibrationInfo; //On height change. Update body height info
+        calibrationInfo.BodyHeight = userHeight; //Update body height
+    }
+}
