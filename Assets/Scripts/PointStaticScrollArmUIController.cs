@@ -10,7 +10,6 @@ using Vector3 = UnityEngine.Vector3;
 public class PointStaticScrollArmUIController : PointScrollArmUIController
 {
     [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
-    [SerializeField] private float threshold = .0105f;
     private int triggerTimer = 0;
     Vector3 collisionPoint;
     protected new void Start()
@@ -30,7 +29,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
     {
         if (triggerTimer<26){
              Scroll(other);
-        }else { //After collision give appx 800ms to make selection then switch to dynamic scroll
+        }else { //After collision give appx 800ms to make selection then switch to Static scroll
             
             StaticScroll(other, collisionPoint);
         }
@@ -74,13 +73,13 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         triggerTimer++; //800 ms given to select point or 42 frames, then switch methods. 
         // Update distance text
         collisionPoint = collisionInfo.ClosestPoint(startPoint.position); //Set middle point to location where last point selection was made
-        distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + handCollider.GetComponent<CapsuleCollider>().height;
+        distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
     }
     protected void StaticScroll(Collider collisionInfo, Vector3 collisionPoint){
         Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
 
         Vector3 middlePoint = collisionPoint;
-
+        float threshold = capsuleCollider.height/215.5f;
 
         // Determine the polarity based on which end the contact point is closer to
         int polarity = contactPoint.magnitude > middlePoint.magnitude ? -1 : 1;
@@ -105,7 +104,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         scrollableList.content.anchoredPosition = newScrollPosition;
 
         // Update the distance text
-        distText.text = "Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString();
+        distText.text = "Point Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString();
     }
 
     // Check arm length and adjust offsets accordingly

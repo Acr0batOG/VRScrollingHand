@@ -1,25 +1,26 @@
 using UnityEngine;
 using Firebase;
 using Firebase.Database;
+using Firebase.Auth;
 using Firebase.Extensions;
 using TMPro; // For ContinueWithOnMainThread
 
 public class FirebaseUpdateGame : MonoBehaviour
 {
-    
     [SerializeField] protected int userId;
     [SerializeField] protected int blockId;
-    [SerializeField] protected bool loadData;
+    [SerializeField] protected bool loadData = false;
     [SerializeField] protected TextMeshPro dataText;
     protected DatabaseReference reference;
     protected GameManager gameManager;
+    protected FirebaseAuth auth;
     protected int areaNumber;
     protected int techniqueNumber;
     protected bool bodyVisibility;
-    
+
     void Start()
     {
-        // Initialize Firebase and get the root reference location of the database.
+        // Initialize Firebase and authenticate the user
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result == DependencyStatus.Available)
@@ -27,13 +28,37 @@ public class FirebaseUpdateGame : MonoBehaviour
                 // Set the root reference
                 reference = FirebaseDatabase.DefaultInstance.RootReference;
 
-                // Get the reference to GameManager
-                gameManager = GameManager.instance;
+                // Initialize Firebase Auth
+                auth = FirebaseAuth.DefaultInstance;
+
+                // Sign in the user anonymously
+                SignInUser();
             }
             else
             {
                 Debug.LogError(System.String.Format("Could not resolve all Firebase dependencies: {0}", task.Result));
             }
+        });
+    }
+
+    void SignInUser()
+    {
+        auth.SignInAnonymouslyAsync().ContinueWithOnMainThread(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            
+
+            // Get the reference to GameManager
+            gameManager = GameManager.instance;
         });
     }
 
@@ -46,13 +71,14 @@ public class FirebaseUpdateGame : MonoBehaviour
 
             // Retrieve block data and update GameManager
             RetrieveAndSetBlockData();
+
+            loadData = false;
         }
-        loadData = false;
     }
 
     void RetrieveAndSetUserData()
     {
-        reference.Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
+        reference.Child("Game").Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -77,7 +103,7 @@ public class FirebaseUpdateGame : MonoBehaviour
     void RetrieveAndSetBlockData()
     {
         // Query block data based on the blockId under the specified user ID
-        reference.Child("Users").Child(userId.ToString()).Child("Blocks").Child(blockId.ToString()).GetValueAsync().ContinueWithOnMainThread(task =>
+        reference.Child("Game").Child("Users").Child(userId.ToString()).Child("Blocks").Child(blockId.ToString()).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -101,5 +127,4 @@ public class FirebaseUpdateGame : MonoBehaviour
             }
         });
     }
-    
 }

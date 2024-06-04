@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
 using Firebase.Database;
+using Firebase.Auth;
 using Firebase.Extensions; // For ContinueWithOnMainThread
 
 public class FirebaseNewUser : MonoBehaviour
 {
     DatabaseReference reference;
+    FirebaseAuth auth;
     [SerializeField] string userName;
     [SerializeField] float userHeight;
     int userId;
@@ -27,19 +29,48 @@ public class FirebaseNewUser : MonoBehaviour
     {
         previousUserName = userName;
         previousUserHeight = userHeight;
-        // Initialize Firebase and get the root reference location of the database.
+
+        // Initialize Firebase and authenticate user
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result == DependencyStatus.Available)
             {
                 // Set the root reference
                 reference = FirebaseDatabase.DefaultInstance.RootReference;
-                CheckAndInsertUser();
+
+                // Initialize Firebase Auth
+                auth = FirebaseAuth.DefaultInstance;
+
+                // Sign in the user anonymously
+                SignInUser();
             }
             else
             {
                 Debug.LogError(System.String.Format("Could not resolve all Firebase dependencies: {0}", task.Result));
             }
+        });
+    }
+
+    void SignInUser()
+    {
+        auth.SignInAnonymouslyAsync().ContinueWithOnMainThread(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.AuthResult result = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                result.User.DisplayName, result.User.UserId);
+
+            // Now that the user is authenticated, check and insert user
+            CheckAndInsertUser();
         });
     }
 
@@ -74,7 +105,7 @@ public class FirebaseNewUser : MonoBehaviour
 
     void CheckAndInsertUser()
     {
-        reference.Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
+        reference.Child("Game").Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -111,56 +142,56 @@ public class FirebaseNewUser : MonoBehaviour
         });
     }
 
-   void GetLastUserIdAndInsertUser()
-{
-    reference.Child("Users").OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(task =>
+    void GetLastUserIdAndInsertUser()
     {
-        if (task.IsCompleted)
+        reference.Child("Game").Child("Users").OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            DataSnapshot snapshot = task.Result;
-            int newUserId = 1; // Default userId if there are no users
-
-            foreach (DataSnapshot childSnapshot in snapshot.Children)
+            if (task.IsCompleted)
             {
-                string lastUserIdStr = childSnapshot.Key;
-                if (int.TryParse(lastUserIdStr, out int lastUserId))
+                DataSnapshot snapshot = task.Result;
+                int newUserId = 1; // Default userId if there are no users
+
+                foreach (DataSnapshot childSnapshot in snapshot.Children)
                 {
-                    newUserId = lastUserId + 1;
-                    userId = newUserId;
+                    string lastUserIdStr = childSnapshot.Key;
+                    if (int.TryParse(lastUserIdStr, out int lastUserId))
+                    {
+                        newUserId = lastUserId + 1;
+                        userId = newUserId;
+                    }
                 }
+
+                // Create a new user with the incremented userId
+                User newUser = new User(newUserId, userName, userHeight);
+                InsertUser(newUser);
             }
+            else
+            {
+                Debug.LogError("Failed to retrieve last userId: " + task.Exception);
+            }
+        });
+    }
 
-            // Create a new user with the incremented userId
-            User newUser = new User(newUserId, userName, userHeight);
-            InsertUser(newUser);
-        }
-        else
-        {
-            Debug.LogError("Failed to retrieve last userId: " + task.Exception);
-        }
-    });
-}
-
-void InsertUser(User user)
-{
-    // Convert userId to string to use it as a key
-    string userIdStr = user.userId.ToString();
-    // Insert the user data into the "users" node in the database
-    reference.Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).ContinueWithOnMainThread(task =>
+    void InsertUser(User user)
     {
-        if (task.IsCompleted)
+        // Convert userId to string to use it as a key
+        string userIdStr = user.userId.ToString();
+        // Insert the user data into the "games" node in the database
+        reference.Child("Game").Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).ContinueWithOnMainThread(task =>
         {
-            Debug.Log("User data inserted successfully.");
+            if (task.IsCompleted)
+            {
+                Debug.Log("User data inserted successfully.");
 
-            // Insert blocks for the new user
-            InsertBlocksForUser(user.userId);
-        }
-        else
-        {
-            Debug.LogError("Failed to insert user data: " + task.Exception);
-        }
-    });
-}
+                // Insert blocks for the new user
+                InsertBlocksForUser(user.userId);
+            }
+            else
+            {
+                Debug.LogError("Failed to insert user data: " + task.Exception);
+            }
+        });
+    }
 
     void InsertBlocksForUser(int userId)
     {
@@ -170,8 +201,9 @@ void InsertUser(User user)
             for (int t = 1; t <= 3; t++)
             {
                 for (int v = 0; v <= 1; v++)
-                {   k++;
-                int blockId = k;
+                {
+                    k++;
+                    int blockId = k;
 
                     // Set the values for the current combination
                     techniqueNumber = t;
@@ -191,7 +223,7 @@ void InsertUser(User user)
         string blockIdStr = block.blockId.ToString();
 
         // Check if the user exists
-        reference.Child("Users").Child(block.userId.ToString()).GetValueAsync().ContinueWithOnMainThread(task =>
+        reference.Child("Game").Child("Users").Child(userId.ToString()).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -199,12 +231,13 @@ void InsertUser(User user)
                 if (userSnapshot.Exists)
                 {
                     // User exists, proceed with inserting the block
-                    reference.Child("Users").Child(block.userId.ToString()).Child("Blocks").Child(blockIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(task =>
+                    reference.Child("Game").Child("Users").Child(userId.ToString()).Child("Blocks").Child(blockIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(task =>
                     {
                         if (task.IsCompleted)
                         {
                             Debug.Log("Block data inserted successfully.");
-                        }else
+                        }
+                        else
                         {
                             Debug.LogError("Failed to insert block data: " + task.Exception);
                         }
@@ -222,6 +255,3 @@ void InsertUser(User user)
         });
     }
 }
-
-
-

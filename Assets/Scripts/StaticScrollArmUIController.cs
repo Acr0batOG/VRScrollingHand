@@ -7,8 +7,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 
 public class StaticScrollArmUIController : ArmUIController{
-    [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
-    [SerializeField] private float threshold = .0105f; //Used to create a center "dead zone" for on arm scrolling when the user wants select or stop at a certain selection 
+    [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling 
     
     protected new void Start()
     {
@@ -34,6 +33,8 @@ public class StaticScrollArmUIController : ArmUIController{
 
         // Calculate the middle point between startPoint and endPoint
         Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
+
+        float threshold = capsuleCollider.height/215.5f; //Determine threshold size base on collision object
 
         // Calculate the distance from the contact point to the start and end points
         float distanceFromStart = (contactPoint - startPoint.position).magnitude;

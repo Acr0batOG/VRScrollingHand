@@ -23,6 +23,7 @@ public class DynamicScrollArmUIController : ArmUIController
         menuText.text = "Enter";
         // Initialize last contact point but don't scroll yet
         lastContactPoint = other.ClosestPoint(startPoint.position);
+        Scroll(other);
     }
 
     protected void OnTriggerStay(Collider other)
@@ -97,7 +98,7 @@ public class DynamicScrollArmUIController : ArmUIController
         scrollableList.content.anchoredPosition = newScrollPosition;
 
         // Update the distance text
-        distText.text = $"Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Distance for speed: {Vector3.Distance(lastContactPoint, currentContactPoint)}";
+        distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} ";
 
         // Update the last contact point
         lastContactPoint = currentContactPoint;

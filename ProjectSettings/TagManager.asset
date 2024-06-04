@@ -12,6 +12,9 @@ TagManager:
   - Wrist
   - Elbow
   - WristOther
+  - Fingerbase
+  - Fingertip
+  - Fingermid
   layers:
   - Default
   - TransparentFX

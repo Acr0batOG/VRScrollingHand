@@ -11,11 +11,13 @@ public class ArmUIController : MonoBehaviour
     [SerializeField] protected TextMeshPro distText;
     [SerializeField] protected TextMeshProUGUI menuText;
     protected float userHeight;
-    [SerializeField] protected CapsuleCollider handCollider;
-    [SerializeField] protected CapsuleCollider armCollider;
+    [SerializeField] protected CapsuleCollider capsuleCollider;
+    
     protected int areaNum;
     protected float armModify = 4.5f;
     protected float handModify = 4.25f;
+    protected float fingerModify = 5.15f;
+    protected float fingertipModify = 3.75f;
 
     protected void Start()
     {
@@ -30,8 +32,16 @@ public class ArmUIController : MonoBehaviour
                 endPoint = GameObject.FindWithTag("Wrist").transform;
                 break;
             case 2:
-                startPoint = GameObject.FindWithTag("Wrist").transform;
+                startPoint = GameObject.FindWithTag("Wrist").transform; //Hand scrolling
                 endPoint = GameObject.FindWithTag("Finger").transform;
+                break;
+            case 3:
+                startPoint = GameObject.FindWithTag("Fingerbase").transform; //Finger scrolling
+                endPoint = GameObject.FindWithTag("Fingertip").transform;
+                break;
+            case 4:
+                startPoint = GameObject.FindWithTag("Fingermid").transform; //Fingertip scrolling
+                endPoint = GameObject.FindWithTag("Fingertip").transform;
                 break;
         }
 
@@ -49,10 +59,16 @@ public class ArmUIController : MonoBehaviour
         switch (areaNum) // Switch to set the start and end points
         {
             case 1: // Arm scrolling
-                OrientCollider(armCollider, middlePoint, direction, distance, userHeight, armModify);
+                OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, armModify);
                 break;
             case 2: // Hand scrolling
-                OrientCollider(handCollider, middlePoint, direction, distance, userHeight, handModify);
+                OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, handModify);
+                break;
+            case 3: // Arm scrolling
+                OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, fingerModify);
+                break;
+            case 4: // Hand scrolling
+                OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, fingertipModify);
                 break;
         }
     }

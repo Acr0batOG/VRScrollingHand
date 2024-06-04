@@ -29,7 +29,7 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
 
     private void OnTriggerStay(Collider other)
     {
-        if (!isPaused&&triggerTimer<10) 
+        if (!isPaused&&triggerTimer<26) 
         {
              Scroll(other);
         }else if(!isPaused)
@@ -80,13 +80,13 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
         triggerTimer++; //800 ms given to select point or 42 frames
 
         // Update distance text
-        distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + handCollider.GetComponent<CapsuleCollider>().height;
+        distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
     }
      protected void DynamicScroll(Collider collisionInfo)
     {
         float currentTime = Time.time;
         
-         //42 Frames in a similar or stopped location and greater than 1 second since last pause
+         //26 Frames in a similar or stopped location and greater than 1 second since last pause
         
         if (stoppedDetector > 42)
         {
@@ -139,7 +139,7 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
         scrollableList.content.anchoredPosition = newScrollPosition;
 
         // Update the distance text
-        distText.text = $"Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Distance for speed: {Vector3.Distance(lastContactPoint, currentContactPoint)}";
+        distText.text = $"Dynamic Scroll Point: Position {currentContactPoint} Scroll Position {newScrollPosition.y}";
 
         // Update the last contact point
         lastContactPoint = currentContactPoint;

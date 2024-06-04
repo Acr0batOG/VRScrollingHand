@@ -68,7 +68,7 @@ public class PointScrollArmUIController : ArmUIController
         scrollableList.content.anchoredPosition = newScrollPosition;
 
         // Update distance text
-        distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + handCollider.GetComponent<CapsuleCollider>().height;
+        distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
     }
 
     // Check arm length and adjust offsets accordingly

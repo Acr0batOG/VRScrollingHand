@@ -117,6 +117,46 @@ public class GameManager : Singleton<GameManager>
                     Disable();
                     armUIControllers[9].gameObject.SetActive(true);
                     break;
+                case 31:
+                    Disable();
+                    armUIControllers[10].gameObject.SetActive(true);
+                    break;
+                case 32:
+                    Disable();
+                    armUIControllers[11].gameObject.SetActive(true);
+                    break;
+                case 33:
+                    Disable();
+                    armUIControllers[12].gameObject.SetActive(true);
+                    break;
+                case 34:
+                    Disable();
+                    armUIControllers[13].gameObject.SetActive(true);
+                    break;
+                case 35:
+                    Disable();
+                    armUIControllers[14].gameObject.SetActive(true);
+                    break;
+                case 41:
+                    Disable();
+                    armUIControllers[15].gameObject.SetActive(true);
+                    break;
+                case 42:
+                    Disable();
+                    armUIControllers[16].gameObject.SetActive(true);
+                    break;
+                case 43:
+                    Disable();
+                    armUIControllers[17].gameObject.SetActive(true);
+                    break;
+                case 44:
+                    Disable();
+                    armUIControllers[18].gameObject.SetActive(true);
+                    break;
+                case 45:
+                    Disable();
+                    armUIControllers[19].gameObject.SetActive(true);
+                    break;
             }
             previousTechnique = techniqueNumber;
             previousArea = areaNumber;
