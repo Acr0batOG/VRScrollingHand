@@ -14,10 +14,10 @@ public class ArmUIController : MonoBehaviour
     [SerializeField] protected CapsuleCollider capsuleCollider;
     
     protected int areaNum;
-    protected float armModify = 4.5f;
-    protected float handModify = 4.25f;
-    protected float fingerModify = 5.15f;
-    protected float fingertipModify = 3.75f;
+    protected float armModify = 4.5f; //Works
+    protected float handModify = 4.25f; //Works
+    protected float fingerModify = 5.15f; //Works
+    protected float fingertipModify = 3.75f; //Needs to be tested
 
     protected void Start()
     {
@@ -44,10 +44,7 @@ public class ArmUIController : MonoBehaviour
                 endPoint = GameObject.FindWithTag("Fingertip").transform;
                 break;
         }
-
-    
     }
-
     void Update()
     {
         // Calculate the middle point between startPoint and endPoint
@@ -64,10 +61,10 @@ public class ArmUIController : MonoBehaviour
             case 2: // Hand scrolling
                 OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, handModify);
                 break;
-            case 3: // Arm scrolling
+            case 3: // Finger scrolling
                 OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, fingerModify);
                 break;
-            case 4: // Hand scrolling
+            case 4: // Fingertip scrolling
                 OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, fingertipModify);
                 break;
         }
@@ -86,11 +83,7 @@ public class ArmUIController : MonoBehaviour
 
         // Apply the rotation to the collider
         collider.transform.rotation = rotation;
-    }
-
-    
-
-    
+    }   
 
     protected virtual void Scroll(Collider collisionInfo)
     {

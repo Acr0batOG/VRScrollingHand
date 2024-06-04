@@ -14,6 +14,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
     Vector3 collisionPoint;
     protected new void Start()
     {
+
         base.Start();
         LengthCheck(); // Check arm length
     }
@@ -111,16 +112,23 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
     void LengthCheck()
     {
         userPointHeight = gameManager.UserHeight; // Get arm length from GameManager
-        int handCheck = gameManager.AreaNumber; // Check the area number
+        int areaNum = gameManager.AreaNumber; // Check the area number
 
-        // Adjust offsets based on hand or arm being used for scrolling. 
-        switch(handCheck){
+        switch(areaNum){
             case 1: 
-                endOffsetPercentage = userPointHeight / armDivisor + .05f; //Arm being used for scrolling, different size
+                endOffsetPercentage = userPointHeight / armDivisor + armDivisorAdjustment; //Arm being used for scrolling, different size
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users
-                startOffsetPercentage = startOffsetPercentageHand; //Set starting point to .22 of capsule size. Works best for hands
+                staticScrollSpeed *= 1.06f;
+                break;
+            case 3:
+                endOffsetPercentage = userHeight / fingerDivisor - armDivisorAdjustment;  //Needs to be changed
+                staticScrollSpeed *= 1.55f;
+                break;
+            case 4:
+                endOffsetPercentage = userHeight / fingertipDivisor - armDivisorAdjustment; 
+                staticScrollSpeed *= 1.75f;
                 break;
         }
     }

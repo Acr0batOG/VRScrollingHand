@@ -8,11 +8,13 @@ public class PointScrollArmUIController : ArmUIController
 
     // Constants for offset percentages and divisors
     protected float startOffsetPercentage = 0.22f; //Default offset position
-    protected float startOffsetPercentageHand = 0.22f; // Used for hand check
     protected float endOffsetPercentage = 1.22f; // End of arm, used for 11 inch forearms. Will be replaced in GameManager
     protected float armDivisor = 2.0f; // Used to convert user's arm length to the ending point on their arm
     protected float handDivisor = 2.30f; // Used to convert user's hand length from their arm length to the ending point on their hand
+    protected float fingerDivisor = 2.60f; // Used to convert user's finger length
+    protected float fingertipDivisor = 2.90f; // Used to convert user's fingertip length
     protected float handDivisorAdjustment = .08f;
+    protected float armDivisorAdjustment =.05f;
     // Start is called before the first frame update
     protected new void Start()
     {
@@ -75,16 +77,20 @@ public class PointScrollArmUIController : ArmUIController
     void LengthCheck()
     {
         userPointHeight = gameManager.UserHeight; // Get arm length from GameManager
-        int handCheck = gameManager.AreaNumber; // Check the area number
+        int areaNum = gameManager.AreaNumber; // Check the area number
 
-        // Adjust offsets based on hand or arm being used for scrolling. 
-        switch(handCheck){
+        switch(areaNum){
             case 1: 
-                endOffsetPercentage = userPointHeight / armDivisor + .05f; //Arm being used for scrolling, different size
+                endOffsetPercentage = userPointHeight / armDivisor + armDivisorAdjustment; //Arm being used for scrolling, different size
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users
-                startOffsetPercentage = startOffsetPercentageHand; //Set starting point to .22 of capsule size. Works best for hands
+                break;
+            case 3:
+                endOffsetPercentage = userHeight / fingerDivisor - armDivisorAdjustment;  //Needs to be changed
+                break;
+            case 4:
+                endOffsetPercentage = userHeight / fingertipDivisor - armDivisorAdjustment; 
                 break;
         }
     }

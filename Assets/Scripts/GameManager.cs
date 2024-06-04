@@ -77,27 +77,27 @@ public class GameManager : Singleton<GameManager>
             int compositeValue = areaNumber * 10 + techniqueNumber;
             switch (compositeValue) //Switch case to enable the capsule needed
             {
-                case 11:
+                case 11: //Area 1 = Arm, Technique 1 = Rate Control
                     Disable();
                     armUIControllers[0].gameObject.SetActive(true);
                     break;
-                case 12:
+                case 12: // Technique 2 = Point Select (Volume Scroll)
                     Disable();
                     armUIControllers[1].gameObject.SetActive(true);
                     break;
-                case 13:
+                case 13: // Technique 3 = Dynamic Scroll
                     Disable();
                     armUIControllers[2].gameObject.SetActive(true);
                     break;
-                case 14:
+                case 14: // Technique 4 = Point Select then Rate Control
                     Disable();
                     armUIControllers[3].gameObject.SetActive(true);
                     break;
-                case 15:
+                case 15: // Technique 5 = Point Select then Dynamic Scroll
                     Disable();
                     armUIControllers[4].gameObject.SetActive(true);
                     break;
-                case 21:
+                case 21: //Area 2 = Hand
                     Disable();
                     armUIControllers[5].gameObject.SetActive(true);
                     break;
@@ -117,7 +117,7 @@ public class GameManager : Singleton<GameManager>
                     Disable();
                     armUIControllers[9].gameObject.SetActive(true);
                     break;
-                case 31:
+                case 31: //Area 3 =  Finger
                     Disable();
                     armUIControllers[10].gameObject.SetActive(true);
                     break;
@@ -137,7 +137,7 @@ public class GameManager : Singleton<GameManager>
                     Disable();
                     armUIControllers[14].gameObject.SetActive(true);
                     break;
-                case 41:
+                case 41: //Area 4 = Fingertip
                     Disable();
                     armUIControllers[15].gameObject.SetActive(true);
                     break;

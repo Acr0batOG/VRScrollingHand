@@ -12,6 +12,7 @@ public class StaticScrollArmUIController : ArmUIController{
     protected new void Start()
     {
         base.Start();
+        AdjustSpeed();
         
     }
     protected void OnTriggerEnter(Collider other)
@@ -63,5 +64,20 @@ public class StaticScrollArmUIController : ArmUIController{
 
         // Update the distance text
         distText.text = "Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString();
+    }
+    void AdjustSpeed(){
+        switch(areaNum){
+            case 1: 
+                break;
+            case 2:
+                staticScrollSpeed*=1.06f;
+                break;
+            case 3:
+                staticScrollSpeed*=1.55f;
+                break;
+            case 4:
+                staticScrollSpeed*=1.75f;
+                break;
+        }
     }
 }
