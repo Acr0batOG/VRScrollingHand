@@ -34,7 +34,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
 
     private void OnTriggerStay(Collider other)
     {
-        if (triggerTimer<8){
+        if (triggerTimer<15){
              Scroll(other);
         }else { //After collision give appx 800ms to make selection then switch to Static scroll
             
@@ -89,8 +89,8 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         // Set the new scroll position
         Vector2 newScrollPosition = new Vector2(scrollableList.content.anchoredPosition.x, newScrollPositionY);
         scrollableList.content.anchoredPosition = newScrollPosition;
-        triggerTimer++; //800 ms given to select point or 42 frames, then switch methods. 
-        // Update distance text
+        triggerTimer++;  
+        
         collisionPoint = collisionInfo.ClosestPoint(startPoint.position); //Set middle point to location where last point selection was made
         distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
     }
@@ -98,7 +98,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
 
         Vector3 middlePoint = collisionPoint;
-        float threshold = capsuleCollider.height/215.5f;
+        float threshold = capsuleCollider.height/180.0f;
 
         // Determine the polarity based on which end the contact point is closer to
         int polarity = contactPoint.magnitude > middlePoint.magnitude ? -1 : 1;

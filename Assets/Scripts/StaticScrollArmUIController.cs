@@ -52,7 +52,7 @@ public class StaticScrollArmUIController : ArmUIController{
         // Calculate the middle point between startPoint and endPoint
         Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
 
-        float threshold = capsuleCollider.height/215.5f; //Determine threshold size base on collision object
+        float threshold = capsuleCollider.height/180f; //Determine threshold size base on collision object
 
         // Calculate the distance from the contact point to the start and end points
         float distanceFromStart = (contactPoint - startPoint.position).magnitude;

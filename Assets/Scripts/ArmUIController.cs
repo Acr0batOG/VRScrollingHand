@@ -17,19 +17,24 @@ public class ArmUIController : MonoBehaviour
     protected TextMeshPro dataText;
     protected float userHeight; 
     protected int areaNum;
+    protected int selectedItem;
+    protected Coroutine dwellCoroutine; // Coroutine for the dwell selection
     protected float armModify = 4.75f; //Works
     protected float handModify = 4.5f; //Works
     protected float fingerModify = 5.0f; //Works
     protected float fingertipModify = 7.45f; //Works, except tracking sucks
-    protected Coroutine dwellCoroutine; // Coroutine for the dwell selection
+    protected float itemCountMultiplier = 1.3f; //Multiplier for items
+    protected float itemHeight = 55f; //Block item height
     protected float previousScrollPosition; // Previous scroll position for dwell check
     protected float dwellThreshold = 10f; // Threshold for movement to cancel dwell
-    protected float dwellTime = 2.5f; // Time required to dwell on an item
+    protected float dwellTime = 2.2f; // Time required to dwell on an item
     protected int itemCount = 0;
+
     protected void Start()
     {
         gameManager = GameManager.instance;
         areaNum = gameManager.AreaNumber; // Get area being used
+        selectedItem = gameManager.SelectedItem;
         selectionBar = GameObject.FindWithTag("SelectionBar").GetComponent<Slider>();
         selectionBar.value = 0f;
         itemCount = gameManager.NumberOfItems;
@@ -62,10 +67,14 @@ public class ArmUIController : MonoBehaviour
         userHeight = gameManager.UserHeight; // Get height of character
         int previousArea = areaNum;
         areaNum = gameManager.AreaNumber;
+        if(selectedItem != gameManager.SelectedItem){
+            selectedItem = gameManager.SelectedItem;
+        }
         if(itemCount!=gameManager.NumberOfItems){
             itemCount = gameManager.NumberOfItems; //Replace itemCount if NumberOfItems ever changes
         }
         AreaCheck(previousArea, areaNum); //Check if area has changed
+       
         switch (areaNum) // Switch to set the start and end points
         {
             case 1: // Arm scrolling
@@ -119,33 +128,34 @@ public class ArmUIController : MonoBehaviour
                 break;
         }
         }
-    }   
+    } 
+ 
 
     protected virtual void Scroll(Collider collisionInfo)
     {
-        // Add scrolling logic here if needed
+        //Just to be inherited
     }
     protected IEnumerator DwellSelection()
 {
     float initialPosition = scrollableList.content.anchoredPosition.y;
     previousScrollPosition = initialPosition;
     float startTime = Time.time;
-    Debug.Log("Selection Starting");
+    //Debug.Log("Selection Starting");
 
     while (Time.time - startTime < dwellTime)
     {
         if(Time.time-startTime < .066){
-            selectionBar.value = 0;
+            selectionBar.value = 0; //Don't fill the bar for the first 66ms for smoother looking fill
         }else{
             selectionBar.value = Time.time-startTime; //Fill the selection bar
         }
         
-        float currentPosition = scrollableList.content.anchoredPosition.y;
-        Debug.Log("Checking threshold");
+        float currentPosition = scrollableList.content.anchoredPosition.y; //Current list position
+       // Debug.Log("Checking threshold");
 
-        if (Mathf.Abs(currentPosition - initialPosition) > dwellThreshold)
+        if (Mathf.Abs(currentPosition - initialPosition) > dwellThreshold) //If too much movement reset position
         {
-            Debug.Log("Selection Cancelled");
+            //Debug.Log("Selection Cancelled");
             startTime = Time.time; // Reset the dwell timer
             initialPosition = currentPosition; // Update the initial position
         }
@@ -153,7 +163,7 @@ public class ArmUIController : MonoBehaviour
         yield return null; // Wait for the next frame
     }
 
-    Debug.Log("Selection Made");
+    //Debug.Log("Selection Made");
     // Dwell time completed, select the item
     SelectItem();
     }
@@ -161,33 +171,31 @@ public class ArmUIController : MonoBehaviour
 
     protected void SelectItem()
     {
-       GameObject dataTextObject = GameObject.FindWithTag("DataText");
+        GameObject dataTextObject = GameObject.FindWithTag("DataText"); //Get item to show selection
         float viewportHeight = scrollableList.viewport.rect.height;
-        // Calculate the height of each item in the list
-        float itemHeight = 55f;
 
         // Calculate the total height of the list content
         float contentHeight = itemHeight * itemCount;
-        float relativeScrollPosition = scrollableList.content.anchoredPosition.y / (contentHeight - viewportHeight);
-        int x = Mathf.Clamp(Mathf.FloorToInt(relativeScrollPosition * itemCount), 1, itemCount) + 1;
+        float relativeScrollPosition = scrollableList.content.anchoredPosition.y / (contentHeight - viewportHeight); //CUrrent scroll psoition of current list 
         // Calculate the relative scroll position within the content
-        float halfwayHeight = (contentHeight-viewportHeight)/2f;
-        int selectedItem;
-        int targetValue = 1;
-        float distanceFromTarget = Mathf.Abs(relativeScrollPosition * itemCount - targetValue);
+        float halfwayHeight = (contentHeight-viewportHeight)/2f; //Halfway point to see if we meed to add an adjustment factor
+        
+        int targetValue = 1; //Target for distance calculations
+        float distanceFromTarget = Mathf.Abs(relativeScrollPosition * itemCount - targetValue); //Distance for adjustment calculation
 
         // Factor to increase the adjustment based on distance from target
-        float adjustmentFactor = distanceFromTarget / itemCount*1.3f;
-        Debug.Log("ADJ" + adjustmentFactor);
-        Debug.Log(relativeScrollPosition * itemCount + 1);
+        float adjustmentFactor = distanceFromTarget / (itemCount*itemCountMultiplier); //Subtraction for items greater than 25 to align the selections
+        //Debug.Log("ADJ" + adjustmentFactor); //For testing
+        //Debug.Log(relativeScrollPosition * itemCount + 1);
         if (halfwayHeight < relativeScrollPosition)
         {
-            selectedItem = Mathf.Clamp(Mathf.RoundToInt(relativeScrollPosition * itemCount + 1), 1, itemCount);
+            selectedItem = Mathf.Clamp(Mathf.RoundToInt(relativeScrollPosition * itemCount + 1), 1, itemCount); //Get item selected
         }
         else
         {
-            selectedItem = Mathf.Clamp(Mathf.RoundToInt(relativeScrollPosition * itemCount + 1 - adjustmentFactor), 1, itemCount);
+            selectedItem = Mathf.Clamp(Mathf.RoundToInt(relativeScrollPosition * itemCount + 1 - adjustmentFactor), 1, itemCount); //Get item selected minus a factor
         }
+        gameManager.SelectedItem = selectedItem;
         // Calculate the selected item index based on the scroll position and item height
         // Check if the GameObject was found
         if (dataTextObject != null)
@@ -198,7 +206,7 @@ public class ArmUIController : MonoBehaviour
             // Check if the component was found
             if (dataText != null)
             {
-                // Implement item selection logic here
+                // Set text to the item selected
                 dataText.text = "Item Selected: " + selectedItem;
             }
         }

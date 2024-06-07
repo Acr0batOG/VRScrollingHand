@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int numberOfItems = 50; // Number of items to populate
 
     private int previousTechnique = -1;
+    private int selectedItem = 0;
     private int previousArea = -1;
     private bool previousBodyVisibility = true;
     
@@ -53,6 +54,10 @@ public class GameManager : Singleton<GameManager>
     {
         get { return numberOfItems; }
         set { numberOfItems = value; }
+    }
+    public int SelectedItem{
+        get{ return selectedItem; }
+        set{ selectedItem = value; }
     }
 
     // Start is called before the first frame update

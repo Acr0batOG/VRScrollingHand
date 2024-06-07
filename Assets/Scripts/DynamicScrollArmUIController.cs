@@ -10,9 +10,8 @@ public class DynamicScrollArmUIController : ArmUIController
     private float multiplier = 1550;
     private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
     private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
-    int stoppedDetector = 0;
     private bool isPaused = false; // Flag to track if scrolling is paused
-    private float lastPauseTime = 0f; // Timestamp of the last pause
+    
 
     protected new void Start()
     {
@@ -52,7 +51,7 @@ public class DynamicScrollArmUIController : ArmUIController
 
     protected void OnTriggerExit(Collider other)
     {
-        stoppedDetector = 0; //Reset on exit
+
         menuText.text = "Exit";
         // Stop dwell selection coroutine on exit
         if (dwellCoroutine != null)
@@ -64,20 +63,6 @@ public class DynamicScrollArmUIController : ArmUIController
 
     protected override void Scroll(Collider collisionInfo)
     {
-        float currentTime = Time.time;
-        
-         //42 Frames in a similar or stopped location and greater than 1 second since last pause
-        
-        if (stoppedDetector > 48)
-        {
-            if (currentTime - lastPauseTime > 1.0f)
-            {
-                StartCoroutine(PauseForSelectionCoroutine());
-                lastPauseTime = currentTime;
-            }
-            stoppedDetector = 0;
-            return;
-        }
 
         // Determine the current contact point
         Vector3 currentContactPoint = collisionInfo.ClosestPoint(startPoint.position);
@@ -85,7 +70,6 @@ public class DynamicScrollArmUIController : ArmUIController
         // If the last contact point is not initialized, skip the first scroll to avoid jump
         if ((lastContactPoint == Vector3.zero)||Vector3.Distance(lastContactPoint, currentContactPoint) < (slowMovementThreshold*.36f)) //If no movement or very small movement
         {
-            stoppedDetector++;
             lastContactPoint = currentContactPoint;
             return;
         }
@@ -151,10 +135,5 @@ public class DynamicScrollArmUIController : ArmUIController
         }
     }
 
-    private IEnumerator PauseForSelectionCoroutine()
-    {
-        isPaused = true; // Set the pause flag to true
-        yield return new WaitForSeconds(1); // Don't allow scrolling for 1 second
-        isPaused = false; // Reset the pause flag to false
-    }
+    
 }
