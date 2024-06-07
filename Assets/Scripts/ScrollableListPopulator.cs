@@ -10,6 +10,7 @@ public class ScrollableListPopulator : MonoBehaviour
     [SerializeField] private GameObject listItemPrefab; // Reference to the prefab for list items
      private int numberOfItems; // Number of items to populate
      int previousNumberOfItems;
+     private float listStartOffset = .0002f;
     [SerializeField] private Transform content; // Reference to the Content object in the ScrollView
     [SerializeField] private ScrollRect scrollRect; // Reference to the ScrollRect component
     GameManager gameManager;
@@ -66,7 +67,7 @@ public class ScrollableListPopulator : MonoBehaviour
         }
 
         // Adjust the size of the content to fit all items
-         RectTransform contentRect = content.GetComponent<RectTransform>();
+        RectTransform contentRect = content.GetComponent<RectTransform>();
         totalHeight = numberOfItems * 50 + 240; //Linear formula to align the list
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
     }
@@ -86,7 +87,7 @@ public class ScrollableListPopulator : MonoBehaviour
         float targetPosition = midpointPosition - (viewportHeight / 2.0f);
 
         // Normalize the target position to a value between 0 and 1
-        float normalizedPosition = 1.0f - (targetPosition / (contentHeight - viewportHeight)) + (numberOfItems*.0002f);
+        float normalizedPosition = 1.0f - (targetPosition / (contentHeight - viewportHeight)) + (numberOfItems*listStartOffset);
 
         // Clamp the normalized position between 0 and 1
         normalizedPosition = Mathf.Clamp(normalizedPosition, 0.0f, 1.0f);

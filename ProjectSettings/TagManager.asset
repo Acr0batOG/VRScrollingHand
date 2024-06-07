@@ -17,6 +17,8 @@ TagManager:
   - Fingermid
   - LFingertip
   - RFingertip
+  - DataText
+  - SelectionBar
   layers:
   - Default
   - TransparentFX

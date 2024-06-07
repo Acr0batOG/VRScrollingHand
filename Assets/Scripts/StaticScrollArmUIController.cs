@@ -19,14 +19,31 @@ public class StaticScrollArmUIController : ArmUIController{
     {
         menuText.text = "Enter";
         Scroll(other);
+         // Start dwell selection coroutine
+        if (dwellCoroutine == null)
+        {
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
 
     protected void OnTriggerStay(Collider other)
     {
         Scroll(other);
+        // Restart dwell selection coroutine if list position changes significantly
+        if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
     protected void OnTriggerExit(Collider other){
         menuText.text = "Exit";
+        // Stop dwell selection coroutine on exit
+        if (dwellCoroutine != null)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = null;
+        }
     }
 
     protected override void Scroll(Collider collisionInfo){
@@ -68,15 +85,16 @@ public class StaticScrollArmUIController : ArmUIController{
     void AdjustSpeed(){
         switch(areaNum){
             case 1: 
+                staticScrollSpeed*=1.15f;
                 break;
             case 2:
                 staticScrollSpeed*=1.06f;
                 break;
             case 3:
-                staticScrollSpeed*=1.55f;
+                staticScrollSpeed*=5.0f;
                 break;
             case 4:
-                staticScrollSpeed*=1.75f;
+                staticScrollSpeed*=10.0f;
                 break;
         }
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class DynamicScrollArmUIController : ArmUIController
 {
@@ -16,6 +17,8 @@ public class DynamicScrollArmUIController : ArmUIController
     protected new void Start()
     {
         base.Start();
+        AdjustSpeed();
+        
     }
 
     protected void OnTriggerEnter(Collider other)
@@ -23,7 +26,13 @@ public class DynamicScrollArmUIController : ArmUIController
         menuText.text = "Enter";
         // Initialize last contact point but don't scroll yet
         lastContactPoint = other.ClosestPoint(startPoint.position);
+        
         Scroll(other);
+         // Start dwell selection coroutine
+        if (dwellCoroutine == null)
+        {
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
 
     protected void OnTriggerStay(Collider other)
@@ -32,6 +41,12 @@ public class DynamicScrollArmUIController : ArmUIController
         {
             Scroll(other);
         }
+        // Restart dwell selection coroutine if list position changes significantly
+        if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
         
     }
 
@@ -39,6 +54,12 @@ public class DynamicScrollArmUIController : ArmUIController
     {
         stoppedDetector = 0; //Reset on exit
         menuText.text = "Exit";
+        // Stop dwell selection coroutine on exit
+        if (dwellCoroutine != null)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = null;
+        }
     }
 
     protected override void Scroll(Collider collisionInfo)
@@ -47,7 +68,7 @@ public class DynamicScrollArmUIController : ArmUIController
         
          //42 Frames in a similar or stopped location and greater than 1 second since last pause
         
-        if (stoppedDetector > 42)
+        if (stoppedDetector > 48)
         {
             if (currentTime - lastPauseTime > 1.0f)
             {
@@ -76,9 +97,23 @@ public class DynamicScrollArmUIController : ArmUIController
             return;
         }
         
-
+        float deltaPosition = 0;
         // Calculate the difference in contact point position
-        float deltaPosition = currentContactPoint.z - lastContactPoint.z;
+        switch(areaNum){
+            case 1:
+                deltaPosition = currentContactPoint.z - lastContactPoint.z;
+                break;
+            case 2:
+                deltaPosition = currentContactPoint.z - lastContactPoint.z;
+                break;
+            case 3:
+                deltaPosition = currentContactPoint.x - lastContactPoint.x;
+                break;
+            case 4:
+                deltaPosition = currentContactPoint.x - lastContactPoint.x;
+                break;
+        }
+        
 
         // Get the content height and the viewport height
         float contentHeight = scrollableList.content.sizeDelta.y;
@@ -102,6 +137,18 @@ public class DynamicScrollArmUIController : ArmUIController
 
         // Update the last contact point
         lastContactPoint = currentContactPoint;
+    }
+    void AdjustSpeed(){
+        switch(areaNum){
+            case 3:
+                scrollSpeed *= 2.1f; //Increase scroll speed for finger
+                slowMovementThreshold = .0005f; //Decrease slow threshold
+                break;
+            case 4:
+                scrollSpeed *= 3.0f;
+                slowMovementThreshold = .00025f;
+                break;
+        }
     }
 
     private IEnumerator PauseForSelectionCoroutine()

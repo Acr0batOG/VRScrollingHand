@@ -9,8 +9,8 @@ public class PointScrollArmUIController : ArmUIController
     // Constants for offset percentages and divisors
     protected float startOffsetPercentage = 0.22f; //Default offset position
     protected float endOffsetPercentage = 1.22f; // End of arm, used for 11 inch forearms. Will be replaced in GameManager
-    protected float armDivisor = 2.0f; // Used to convert user's arm length to the ending point on their arm
-    protected float handDivisor = 2.30f; // Used to convert user's hand length from their arm length to the ending point on their hand
+    protected float armDivisor = 1.85f; // Used to convert user's arm length to the ending point on their arm
+    protected float handDivisor = 2.0f; // Used to convert user's hand length from their arm length to the ending point on their hand
     protected float fingerDivisor = 2.60f; // Used to convert user's finger length
     protected float fingertipDivisor = 2.90f; // Used to convert user's fingertip length
     protected float handDivisorAdjustment = .08f;
@@ -27,16 +27,32 @@ public class PointScrollArmUIController : ArmUIController
         LengthCheck(); // Check arm length
         menuText.text = "Enter"; // Update menu text
         Scroll(other); // Scroll through the content
+        if (dwellCoroutine == null)
+        {
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
         Scroll(other); // Scroll through the content
+        // Restart dwell selection coroutine if list position changes significantly
+        if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         menuText.text = "Exit"; // Update menu text
+        // Stop dwell selection coroutine on exit
+        if (dwellCoroutine != null)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = null;
+        }
     }
 
     protected override void Scroll(Collider collisionInfo)
@@ -50,9 +66,9 @@ public class PointScrollArmUIController : ArmUIController
         int totalBins = gameManager.NumberOfItems; // Total number of bins for scrolling
 
         // Calculate arm length and offsets
-        float armLength = (endPoint.position - startPoint.position).magnitude;
-        float startOffset = startOffsetPercentage * armLength;
-        float endOffset = endOffsetPercentage * armLength;
+        float length = (endPoint.position - startPoint.position).magnitude;
+        float startOffset = startOffsetPercentage * length;
+        float endOffset = endOffsetPercentage * length;
 
         // Calculate contact and adjusted contact positions
         float contactPosition = (contactPoint - startPoint.position).magnitude;
@@ -76,21 +92,24 @@ public class PointScrollArmUIController : ArmUIController
     // Check arm length and adjust offsets accordingly
     void LengthCheck()
     {
-        userPointHeight = gameManager.UserHeight; // Get arm length from GameManager
+        userPointHeight = gameManager.UserHeight; // Get height from GameManager
         int areaNum = gameManager.AreaNumber; // Check the area number
 
         switch(areaNum){
             case 1: 
                 endOffsetPercentage = userPointHeight / armDivisor + armDivisorAdjustment; //Arm being used for scrolling, different size
+                startOffsetPercentage = .26f;
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users
                 break;
             case 3:
-                endOffsetPercentage = userHeight / fingerDivisor - armDivisorAdjustment;  //Needs to be changed
+                endOffsetPercentage = userHeight / fingerDivisor + handDivisorAdjustment;  //Needs to be changed
+                startOffsetPercentage = .32f;
                 break;
             case 4:
-                endOffsetPercentage = userHeight / fingertipDivisor - armDivisorAdjustment; 
+                endOffsetPercentage = .85f; //userHeight / fingertipDivisor - armDivisorAdjustment; 
+                startOffsetPercentage = .18f;
                 break;
         }
     }

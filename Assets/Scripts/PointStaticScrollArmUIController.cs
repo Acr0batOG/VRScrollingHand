@@ -17,6 +17,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
 
         base.Start();
         LengthCheck(); // Check arm length
+        SpeedControl();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,15 +25,26 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         LengthCheck(); // Check arm length
         menuText.text = "Enter"; // Update menu text
         Scroll(other); // Scroll through the content
+         // Start dwell selection coroutine
+        if (dwellCoroutine == null)
+        {
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (triggerTimer<15){
+        if (triggerTimer<8){
              Scroll(other);
         }else { //After collision give appx 800ms to make selection then switch to Static scroll
             
             StaticScroll(other, collisionPoint);
+        }
+        // Restart dwell selection coroutine if list position changes significantly
+        if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = StartCoroutine(DwellSelection());
         }
     }
 
@@ -40,6 +52,12 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
     {
         triggerTimer = 0; //Only reset to other method if collision done
         menuText.text = "Exit"; // Update menu text
+        // Stop dwell selection coroutine on exit
+        if (dwellCoroutine != null)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = null;
+        }
     }
 
     protected override void Scroll(Collider collisionInfo)
@@ -120,16 +138,32 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users
-                staticScrollSpeed *= 1.06f;
                 break;
             case 3:
                 endOffsetPercentage = userHeight / fingerDivisor - armDivisorAdjustment;  //Needs to be changed
-                staticScrollSpeed *= 1.55f;
                 break;
             case 4:
                 endOffsetPercentage = userHeight / fingertipDivisor - armDivisorAdjustment; 
+                break;
+        }
+    }
+    void SpeedControl(){
+        int areaNum = gameManager.AreaNumber; // Check the area number
+
+        switch(areaNum){
+            case 1: 
+                 staticScrollSpeed *= 1.1f;
+                break;
+            case 2:
+                staticScrollSpeed *= 1.06f;
+                break;
+            case 3:
+                 staticScrollSpeed *= 1.55f;
+                break;
+            case 4:
                 staticScrollSpeed *= 1.75f;
                 break;
         }
+        
     }
 }
