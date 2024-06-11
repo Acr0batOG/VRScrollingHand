@@ -12,8 +12,6 @@ public class DynamicScrollArmUIController : ArmUIController
     private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
     private float fingerScrollMultiplier = 2.1f;
     private float fingertipScrollMultiplier = 3.0f;
-    private float fingerMovementThreshold = .0005f;
-    private float fingertipMovementThreshold = .00025f;
     private bool isPaused = false; // Flag to track if scrolling is paused
     
 

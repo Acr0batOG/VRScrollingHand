@@ -37,6 +37,7 @@ public class GameStart : MonoBehaviour
     int currentUserId;
     int previousBlockId;
     int previousUserId;
+    int previousNumberOfItems;
     float pauseTime = 2.2f;
      bool isCoroutineRunning = false; // Flag to indicate if the coroutine is running
     public bool isCorrect;
@@ -66,7 +67,7 @@ public class GameStart : MonoBehaviour
         stopwatch = new Stopwatch(); //Create a stopwatch object for timing
         FillArray(numberArray); // Fill the selection array
         Shuffle(numberArray); // Shuffle the array for selection
-
+        previousNumberOfItems = gameManager.NumberOfItems;
         currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
         currentUserId = firebaseGame.UserId;
         previousBlockId = currentBlockId; // Set previous value to have an on change in the update
@@ -102,8 +103,9 @@ public class GameStart : MonoBehaviour
             currentUserId = firebaseGame.UserId; //Update user data if changed
             previousUserId = currentUserId;
         }
-        if(firebaseGame.LoadData==true){//Reset game settings, check for update from firebase class
+        if(firebaseGame.LoadData==true||gameManager.NumberOfItems!=previousNumberOfItems){//Reset game settings, check for update from firebase class
             stopwatch = new Stopwatch();
+            previousNumberOfItems = gameManager.NumberOfItems;
             RemoveArray(numberArray); //Reset the array to no elements
             FillArray(numberArray); // Fill the selection array
             Shuffle(numberArray); // Shuffle the array for selection
