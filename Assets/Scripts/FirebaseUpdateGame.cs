@@ -3,9 +3,10 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Auth;
 using Firebase.Extensions;
-using TMPro; // For ContinueWithOnMainThread
+using TMPro;
+using System; // For ContinueWithOnMainThread
 
-public class FirebaseUpdateGame : MonoBehaviour
+public class FirebaseUpdateGame : Singleton<FirebaseUpdateGame>
 {
     [SerializeField] protected int userId;
     [SerializeField] protected int blockId;
@@ -17,9 +18,29 @@ public class FirebaseUpdateGame : MonoBehaviour
     protected int areaNumber;
     protected int techniqueNumber;
     protected bool bodyVisibility;
+    //Property for UserId
+    public int UserId
+    {
+        get { return userId; }
+        set { userId = value; }
+    }
 
+    // Property for BlockId
+    public int BlockId
+    {
+        get { return blockId; }
+        set { blockId = value; }
+    }
+    //Property for LoadData
+    public bool LoadData
+    {
+        get { return loadData; }
+        set { loadData = value; }
+    }
     void Start()
     {
+        // Get the reference to GameManager
+        gameManager = GameManager.instance;
         // Initialize Firebase and authenticate the user
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -54,11 +75,7 @@ public class FirebaseUpdateGame : MonoBehaviour
                 Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
                 return;
             }
-
-            
-
-            // Get the reference to GameManager
-            gameManager = GameManager.instance;
+  
         });
     }
 
@@ -78,19 +95,23 @@ public class FirebaseUpdateGame : MonoBehaviour
 
     void RetrieveAndSetUserData()
     {
-        reference.Child("Game").Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
+        reference.Child("Game").Child("Users").Child(userId.ToString()).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
-                foreach (DataSnapshot childSnapshot in snapshot.Children)
+                if (snapshot.Exists)
                 {
                     // Retrieve user data
-                    string name = childSnapshot.Child("name").Value.ToString();
-                    float userHeight = float.Parse(childSnapshot.Child("userHeight").Value.ToString());
+                    string name = snapshot.Child("name").Value.ToString();
+                    float userHeight = float.Parse(snapshot.Child("userHeight").Value.ToString());
 
                     // Update GameManager with retrieved user data
                     gameManager.UserHeight = userHeight;
+                }
+                else
+                {
+                    Debug.LogError("User data does not exist for userId: " + userId);
                 }
             }
             else
@@ -113,8 +134,8 @@ public class FirebaseUpdateGame : MonoBehaviour
                 areaNumber = int.Parse(snapshot.Child("areaNumber").Value.ToString());
                 techniqueNumber = int.Parse(snapshot.Child("techniqueNumber").Value.ToString());
                 bodyVisibility = bool.Parse(snapshot.Child("bodyVisibility").Value.ToString());
-
-                dataText.text = "User Id: " + userId + "\n Area Number: " + areaNumber + " (1 = Arm, 2 = Hand)\n Technique Number: " + techniqueNumber + " \n(1 = Rate, 2 = Select, 3 = Dynamic)\n Body Visibility: " + bodyVisibility;
+                //Load the block data into the game. Changing Area and Technique based on block 
+                dataText.text = "User Id: " + userId + "\n Area Number: " + areaNumber + "\n (1 = Arm, 2 = Hand, 3 = Finger,\n 4 = Fingertip)\n Technique Number: " + techniqueNumber + " \n(1 = Rate, 2 = Select, 3 = Dynamic,\n 4 = Select-> Rate, 5 = Select -> Dynamic)\n";
 
                 // Update GameManager with retrieved block data
                 gameManager.AreaNumber = areaNumber;
@@ -127,4 +148,5 @@ public class FirebaseUpdateGame : MonoBehaviour
             }
         });
     }
+    
 }

@@ -8,29 +8,31 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
     private const int TriggerTimeMax = 8;
     private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
     private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
+    private float fingerScrollMultiplier = 2.1f;
+    private float fingertipScrollMultiplier = 3.0f;
     private int triggerTimer = 0;
-    private float multiplier = 1550;
+    private float multiplier = 1550; //To speed up dynamic scrolling
     private Coroutine pauseCoroutine; // Coroutine for the pause
 
     protected new void Start()
     {
         base.Start();
         LengthCheck(); // Check arm length
-        AdjustSpeed();
+        AdjustSpeed(); // Update speed based on point used to scroll
     }
 
     private void OnTriggerEnter(Collider other)
     {
         LengthCheck(); // Check arm length
         menuText.text = "Enter"; // Update menu text
-        lastContactPoint = other.ClosestPoint(startPoint.position);
-        if (triggerTimer < TriggerTimeMax) 
+        lastContactPoint = other.ClosestPoint(startPoint.position); //Set new contact position
+        if (triggerTimer < TriggerTimeMax) //Give user 8 frames on collision enter to use Point scroll type
         {
             Scroll(other);
         }
         else 
         {
-            // After collision, give approx 500ms or 26 frames to make selection then switch to dynamic scroll
+            // After collision, give approx 8 or 160ms to make selection then switch to dynamic scroll
             DynamicScroll(other);
         }
 
@@ -40,7 +42,7 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
             StopCoroutine(pauseCoroutine);
             pauseCoroutine = null;
         }
-        if (dwellCoroutine == null)
+        if (dwellCoroutine == null) //Ised for selection.
         {
             dwellCoroutine = StartCoroutine(DwellSelection());
         }
@@ -48,19 +50,19 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
 
     private void OnTriggerStay(Collider other)
     {
-        if (triggerTimer < TriggerTimeMax) 
-        {
+        if (triggerTimer < TriggerTimeMax) //Give user 8 frames after enter to use Point scroll type then switch
+        { 
             Scroll(other);
         }
         else
         {
-            // After collision, give approx 500ms or 26 frames to make selection then switch to dynamic scroll
+            // After collision, give approx 160ms then dynamic scrolling
             DynamicScroll(other);
         }
         
         if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
         {
-            StopCoroutine(dwellCoroutine);
+            StopCoroutine(dwellCoroutine); //If too much movement, reset dwell selection as scrolling is happening
             dwellCoroutine = StartCoroutine(DwellSelection());
         }
     }
@@ -72,12 +74,12 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
         // Start the pause coroutine
         if (pauseCoroutine != null)
         {
-            StopCoroutine(pauseCoroutine);
+            StopCoroutine(pauseCoroutine); //On exit: Keep dynamic scrolling for 1.8 seconds, reset to point if exceeded 
         }
         pauseCoroutine = StartCoroutine(PauseBeforeResetCoroutine());
         if (dwellCoroutine != null)
         {
-            StopCoroutine(dwellCoroutine);
+            StopCoroutine(dwellCoroutine); //Also reset dwell selection on exit
             dwellCoroutine = null;
         }
     }
@@ -112,7 +114,7 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
         Vector2 newScrollPosition = new Vector2(scrollableList.content.anchoredPosition.x, newScrollPositionY);
         scrollableList.content.anchoredPosition = newScrollPosition;
 
-        triggerTimer++; // 800 ms given to select point or 42 frames
+        triggerTimer++; // 160ms or 8 frames of this scroll type 
 
         // Update distance text
         distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
@@ -121,7 +123,7 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
     protected void DynamicScroll(Collider collisionInfo)
     {
         //float currentTime = Time.time;
-
+        // Was used as a pause for dynamic scrolling type but I found it better without it 
         // 26 Frames in a similar or stopped location and greater than 1 second since last pause
         // if (stoppedDetector > 48)
         // {
@@ -141,7 +143,8 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
         if ((lastContactPoint == Vector3.zero) || Vector3.Distance(lastContactPoint, currentContactPoint) < (slowMovementThreshold * .36f)) // If no movement or very small movement
         {
             //stoppedDetector++;
-            lastContactPoint = currentContactPoint;
+            lastContactPoint = currentContactPoint; //Small or no movement add to stopped detector (not currently needed)
+            //use if you wish add to a pause in dynamic scrolling
             return;
         }
 
@@ -181,6 +184,7 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
 
     // private IEnumerator PauseForSelectionCoroutine()
     // {
+    //  Also used for dynamic scrolling pause
     //     isPaused = true; // Set the pause flag to true
     //     yield return new WaitForSeconds(1); // Don't allow scrolling for 1 second
     //     isPaused = false; // Reset the pause flag to false
@@ -188,10 +192,9 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
 
     private IEnumerator PauseBeforeResetCoroutine()
     {
-        //Debug.Log("Timer Started");
         yield return new WaitForSeconds(1.8f); // Pause for 1.8 seconds before resetting
-        //Debug.Log("Timer Finished: Reseting Scrolling");
-        triggerTimer = 0; // Reset trigger timer after 1.8 seconds
+        //Used to continue dynamic scrolling for 1.8s after exit, reset if exceeded
+        triggerTimer = 0; // Reset trigger timer after 1.8 seconds for back to static scrolling
     }
 
     // Check arm length and adjust offsets accordingly
@@ -223,12 +226,12 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
         switch (areaNum)
         {
             case 3:
-                scrollSpeed *= 2.1f; // Increase scroll speed for finger
-                slowMovementThreshold /= 2; // Decrease slow threshold
+                scrollSpeed *= fingerScrollMultiplier; // Increase scroll speed for finger
+                slowMovementThreshold /= 2; // Decrease slow threshold by 1/2
                 break;
             case 4:
-                scrollSpeed *= 3.0f;
-                slowMovementThreshold /= 4;
+                scrollSpeed *= fingertipScrollMultiplier; //Increase for fingertip
+                slowMovementThreshold /= 4; //Decrease threshold by 1/4
                 break;
         }
     }

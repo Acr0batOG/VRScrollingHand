@@ -8,11 +8,12 @@ public class PointScrollArmUIController : ArmUIController
 
     // Constants for offset percentages and divisors
     protected float startOffsetPercentage = 0.22f; //Default offset position
+    protected float startOffsetChange = 0.04f; //Default offset position
     protected float endOffsetPercentage = 1.22f; // End of arm, used for 11 inch forearms. Will be replaced in GameManager
     protected float armDivisor = 1.85f; // Used to convert user's arm length to the ending point on their arm
     protected float handDivisor = 2.0f; // Used to convert user's hand length from their arm length to the ending point on their hand
-    protected float fingerDivisor = 2.60f; // Used to convert user's finger length
-    protected float fingertipDivisor = 2.90f; // Used to convert user's fingertip length
+    protected float fingerDivisor = 2.30f; // Used to convert user's finger length
+    protected float fingertipDivisor = 2.6f; // Used to convert user's fingertip length
     protected float handDivisorAdjustment = .08f;
     protected float armDivisorAdjustment =.05f;
     // Start is called before the first frame update
@@ -29,7 +30,7 @@ public class PointScrollArmUIController : ArmUIController
         Scroll(other); // Scroll through the content
         if (dwellCoroutine == null)
         {
-            dwellCoroutine = StartCoroutine(DwellSelection());
+            dwellCoroutine = StartCoroutine(DwellSelection()); //Used for selection (in superclass)
         }
     }
 
@@ -39,7 +40,7 @@ public class PointScrollArmUIController : ArmUIController
         // Restart dwell selection coroutine if list position changes significantly
         if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
         {
-            StopCoroutine(dwellCoroutine);
+            StopCoroutine(dwellCoroutine); //If too much movement, reset dwell Selection
             dwellCoroutine = StartCoroutine(DwellSelection());
         }
     }
@@ -50,7 +51,7 @@ public class PointScrollArmUIController : ArmUIController
         // Stop dwell selection coroutine on exit
         if (dwellCoroutine != null)
         {
-            StopCoroutine(dwellCoroutine);
+            StopCoroutine(dwellCoroutine); //Reset dwell selection on exit
             dwellCoroutine = null;
         }
     }
@@ -98,18 +99,19 @@ public class PointScrollArmUIController : ArmUIController
         switch(areaNum){
             case 1: 
                 endOffsetPercentage = userPointHeight / armDivisor + armDivisorAdjustment; //Arm being used for scrolling, different size
-                startOffsetPercentage = .26f;
+                startOffsetPercentage += startOffsetChange; //.26
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users
+                //.22
                 break;
             case 3:
-                endOffsetPercentage = userHeight / fingerDivisor + handDivisorAdjustment;  //Needs to be changed
-                startOffsetPercentage = .32f;
+                endOffsetPercentage = userHeight / fingerDivisor;  //Test this
+                startOffsetPercentage += startOffsetChange*2; //.32
                 break;
             case 4:
-                endOffsetPercentage = .85f; //userHeight / fingertipDivisor - armDivisorAdjustment; 
-                startOffsetPercentage = .18f;
+                endOffsetPercentage = userHeight /fingertipDivisor ; //appx.85 with 2.2 arm length
+                startOffsetPercentage -= startOffsetChange;
                 break;
         }
     }

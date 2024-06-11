@@ -14,7 +14,7 @@ public class ArmUIController : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI menuText;
     protected GameManager gameManager;
     protected Slider selectionBar;
-    protected TextMeshPro dataText;
+    protected TextMeshPro selectText;
     protected float userHeight; 
     protected int areaNum;
     protected int selectedItem;
@@ -171,7 +171,7 @@ public class ArmUIController : MonoBehaviour
 
     protected void SelectItem()
     {
-        GameObject dataTextObject = GameObject.FindWithTag("DataText"); //Get item to show selection
+        GameObject selectTextObject = GameObject.FindWithTag("ItemSelect"); //Get item to show selection
         float viewportHeight = scrollableList.viewport.rect.height;
 
         // Calculate the total height of the list content
@@ -198,16 +198,16 @@ public class ArmUIController : MonoBehaviour
         gameManager.SelectedItem = selectedItem;
         // Calculate the selected item index based on the scroll position and item height
         // Check if the GameObject was found
-        if (dataTextObject != null)
+        if (selectTextObject != null)
         {
             // Get the TextMeshProUGUI component from the GameObject
-            dataText = dataTextObject.GetComponent<TextMeshPro>();
+            selectText = selectTextObject.GetComponent<TextMeshPro>();
 
             // Check if the component was found
-            if (dataText != null)
+            if (selectText != null)
             {
                 // Set text to the item selected
-                dataText.text = "Item Selected: " + selectedItem;
+                selectText.text = "Item Selected: " + selectedItem;
             }
         }
     }

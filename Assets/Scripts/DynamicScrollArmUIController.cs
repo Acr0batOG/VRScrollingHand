@@ -10,6 +10,10 @@ public class DynamicScrollArmUIController : ArmUIController
     private float multiplier = 1550;
     private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
     private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
+    private float fingerScrollMultiplier = 2.1f;
+    private float fingertipScrollMultiplier = 3.0f;
+    private float fingerMovementThreshold = .0005f;
+    private float fingertipMovementThreshold = .00025f;
     private bool isPaused = false; // Flag to track if scrolling is paused
     
 
@@ -61,11 +65,16 @@ public class DynamicScrollArmUIController : ArmUIController
         }
     }
 
-    protected override void Scroll(Collider collisionInfo)
-    {
+        protected override void Scroll(Collider collisionInfo)
+        {
 
         // Determine the current contact point
         Vector3 currentContactPoint = collisionInfo.ClosestPoint(startPoint.position);
+          
+
+            // Convert the current contact point from world space to local space
+            //Vector3 currentContactPoint = transform.InverseTransformPoint(currentContactPointWorld); Needed but not sure how yet!
+
 
         // If the last contact point is not initialized, skip the first scroll to avoid jump
         if ((lastContactPoint == Vector3.zero)||Vector3.Distance(lastContactPoint, currentContactPoint) < (slowMovementThreshold*.36f)) //If no movement or very small movement
@@ -85,7 +94,7 @@ public class DynamicScrollArmUIController : ArmUIController
         // Calculate the difference in contact point position
         switch(areaNum){
             case 1:
-                deltaPosition = currentContactPoint.z - lastContactPoint.z;
+                deltaPosition = currentContactPoint.z - lastContactPoint.z; //World position. Need to convert to local position
                 break;
             case 2:
                 deltaPosition = currentContactPoint.z - lastContactPoint.z;
@@ -117,7 +126,7 @@ public class DynamicScrollArmUIController : ArmUIController
         scrollableList.content.anchoredPosition = newScrollPosition;
 
         // Update the distance text
-        distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} ";
+        distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentContactPoint.z}";
 
         // Update the last contact point
         lastContactPoint = currentContactPoint;
@@ -125,12 +134,12 @@ public class DynamicScrollArmUIController : ArmUIController
     void AdjustSpeed(){
         switch(areaNum){
             case 3:
-                scrollSpeed *= 2.1f; //Increase scroll speed for finger
-                slowMovementThreshold = .0005f; //Decrease slow threshold
+                scrollSpeed *= fingerScrollMultiplier; //Increase scroll speed for finger
+                slowMovementThreshold /= 2; //Decrease slow threshold
                 break;
             case 4:
-                scrollSpeed *= 3.0f;
-                slowMovementThreshold = .00025f;
+                scrollSpeed *= fingertipScrollMultiplier; //Increase speed for fingertip scroll
+                slowMovementThreshold /= 4;
                 break;
         }
     }

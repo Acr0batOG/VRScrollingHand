@@ -19,6 +19,7 @@ TagManager:
   - RFingertip
   - DataText
   - SelectionBar
+  - ItemSelect
   layers:
   - Default
   - TransparentFX

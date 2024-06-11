@@ -2,24 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trial {
+public class Trial { //Object for database insertion
     public int blockId; //Which user is being tested in what block; used as key
     public int trialId; //Id of trial, multiple per user
-    public int numOfTrials;
     public float timeToComplete; //During trial time to take and proper selection
     public bool correctSelection;
     public int userId;
- 
+    public int areaNumber;
+    public int techniqueNumber;
     public Trial() {
     }
 
-    public Trial(int blockId, int trialId, int numOfTrials, float timeToComplete, bool correctSelection, int userId) {
+    public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber) {
+        this.userId = userId;
         this.blockId = blockId;
         this.trialId = trialId;
-        this.numOfTrials = numOfTrials;
         this.timeToComplete = timeToComplete;
-        this.correctSelection = correctSelection;
-        this.userId = userId;
+        this.correctSelection = correctSelection;  
+        this.areaNumber = areaNumber;
+        this.techniqueNumber = techniqueNumber;
     }
 }
 

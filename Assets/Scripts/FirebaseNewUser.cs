@@ -16,15 +16,12 @@ public class FirebaseNewUser : MonoBehaviour
     int techniqueNumber;
     int areaNumber;
     bool bodyVisibility;
-
     // Previous values of userName and userHeight
     string previousUserName;
     float previousUserHeight;
-
-    // Delay in seconds after typing stops
+    // Delay in seconds after typing stops for inserting new user
     float insertionDelay = 3.6f;
     Coroutine insertCoroutine;
-
     void Start()
     {
         previousUserName = userName;
@@ -120,7 +117,7 @@ public class FirebaseNewUser : MonoBehaviour
 
                     if (name == userName && height == userHeight)
                     {
-                        userExists = true;
+                        userExists = true; //If user exists, don't insert. Output message
                         break;
                     }
                 }
@@ -185,7 +182,7 @@ public class FirebaseNewUser : MonoBehaviour
 
                 // Insert blocks for the new user
                 // Commented out as no study is happening now and this is bound to change
-                //InsertBlocksForUser(user.userId); 
+                InsertBlocksForUser(user.userId); 
             }
             else
             {
@@ -197,34 +194,35 @@ public class FirebaseNewUser : MonoBehaviour
     void InsertBlocksForUser(int userId)
     {
         int k = 0;
+        //Loop through each block combination the user will need to be tested on, and insert each user possiblity
         for (int area = 1; area <= 4; area++)
         {
             for (int technique = 1; technique <= 5; technique++)
             {
-                for (int visibility = 0; visibility <= 1; visibility++)
-                {
-                    k++;
-                    int blockId = k;
+                
+                k++;
+                int blockId = k;
 
-                    // Set the values for the current combination
-                    techniqueNumber = technique;
-                    areaNumber = area;
-                    bodyVisibility = visibility == 1;
-
-                    // Retrieve the last blockId and then insert a new block
-                    InsertBlock(new Block(blockId, userId, techniqueNumber, areaNumber, bodyVisibility));
-                }
+                // Set the values for the current combination
+                techniqueNumber = technique;
+                areaNumber = area;
+                bodyVisibility = true;
+                
+                // Retrieve the last blockId and then insert a new block
+                InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber, bodyVisibility));
+                
             }
         }
     }
+
 
     void InsertBlock(Block block)
     {
         // Convert blockId to string to use it as a key
         string blockIdStr = block.blockId.ToString();
-
+        string userIdStr = block.userId.ToString();
         // Check if the user exists
-        reference.Child("Game").Child("Users").Child(userId.ToString()).GetValueAsync().ContinueWithOnMainThread(task =>
+        reference.Child("Game").Child("Users").Child(userIdStr).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -232,10 +230,11 @@ public class FirebaseNewUser : MonoBehaviour
                 if (userSnapshot.Exists)
                 {
                     // User exists, proceed with inserting the block
-                    reference.Child("Game").Child("Users").Child(userId.ToString()).Child("Blocks").Child(blockIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(task =>
+                    reference.Child("Game").Child("Users").Child(userIdStr).Child("Blocks").Child(blockIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(task =>
                     {
                         if (task.IsCompleted)
                         {
+                            //Insert block data
                             Debug.Log("Block data inserted successfully.");
                         }
                         else

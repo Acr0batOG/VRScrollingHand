@@ -19,16 +19,16 @@ public class ScrollableListPopulator : MonoBehaviour
     void Start()
     {   
         gameManager = GameManager.instance;
-        numberOfItems = gameManager.NumberOfItems;
+        numberOfItems = gameManager.NumberOfItems; //Get number of items
         previousNumberOfItems = numberOfItems;
-        PopulateList();
+        PopulateList();  //Populate the list
         SetScrollPositionToMidpoint();
     }
     
     void Update(){
         numberOfItems = gameManager.NumberOfItems;
-        if(previousNumberOfItems!=numberOfItems){
-        RemoveListItems();
+        if(previousNumberOfItems!=numberOfItems){ //If change in the number of items reset list
+        RemoveListItems(); 
         PopulateList();
         SetScrollPositionToMidpoint();
         previousNumberOfItems = numberOfItems;}
@@ -36,6 +36,7 @@ public class ScrollableListPopulator : MonoBehaviour
 
     private void PopulateList()
     {
+        //Add the items  to the list
         for (int i = 0; i < numberOfItems; i++)
         {
             // Instantiate a new list item and set its parent to the content transform
@@ -98,6 +99,7 @@ public class ScrollableListPopulator : MonoBehaviour
     private void RemoveListItems(){
         foreach (Transform child in content)
         {
+            //Remove all items from the list
             Destroy(child.gameObject);
         }
     }

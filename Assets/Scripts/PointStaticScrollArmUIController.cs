@@ -10,6 +10,10 @@ using Vector3 = UnityEngine.Vector3;
 public class PointStaticScrollArmUIController : PointScrollArmUIController
 {
     [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
+    private const int TriggerTimeMax = 8;
+    protected float handSpeed = 1.06f;
+    protected float fingerSpeed = 5.0f;
+    protected float fingertipSpeed = 10.0f;
     private int triggerTimer = 0;
     Vector3 collisionPoint;
     protected new void Start()
@@ -28,15 +32,15 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
          // Start dwell selection coroutine
         if (dwellCoroutine == null)
         {
-            dwellCoroutine = StartCoroutine(DwellSelection());
+            dwellCoroutine = StartCoroutine(DwellSelection()); //Used for selection (in superclass)
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (triggerTimer<15){
+        if (triggerTimer<TriggerTimeMax){
              Scroll(other);
-        }else { //After collision give appx 800ms to make selection then switch to Static scroll
+        }else { //After collision give appx 160ms to make selection then switch to Static scroll
             
             StaticScroll(other, collisionPoint);
         }
@@ -44,7 +48,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
         {
             StopCoroutine(dwellCoroutine);
-            dwellCoroutine = StartCoroutine(DwellSelection());
+            dwellCoroutine = StartCoroutine(DwellSelection()); //Reset the selection if too much movement 
         }
     }
 
@@ -55,7 +59,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         // Stop dwell selection coroutine on exit
         if (dwellCoroutine != null)
         {
-            StopCoroutine(dwellCoroutine);
+            StopCoroutine(dwellCoroutine); //Reset selection on exit
             dwellCoroutine = null;
         }
     }
@@ -96,9 +100,10 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
     }
     protected void StaticScroll(Collider collisionInfo, Vector3 collisionPoint){
         Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
-
+        //Set middle of static scroll to point of initial collision
         Vector3 middlePoint = collisionPoint;
-        float threshold = capsuleCollider.height/180.0f;
+        //Set the width of the deadzone for selection
+        float threshold = capsuleCollider.height/165f;
 
         // Determine the polarity based on which end the contact point is closer to
         int polarity = contactPoint.magnitude > middlePoint.magnitude ? -1 : 1;
@@ -132,18 +137,22 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         userPointHeight = gameManager.UserHeight; // Get arm length from GameManager
         int areaNum = gameManager.AreaNumber; // Check the area number
 
-        switch(areaNum){
+       switch(areaNum){
             case 1: 
                 endOffsetPercentage = userPointHeight / armDivisor + armDivisorAdjustment; //Arm being used for scrolling, different size
+                startOffsetPercentage += startOffsetChange; //.26
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users
+                //.22
                 break;
             case 3:
-                endOffsetPercentage = userHeight / fingerDivisor - armDivisorAdjustment;  //Needs to be changed
+                endOffsetPercentage = userHeight / fingerDivisor;  //Test this
+                startOffsetPercentage += startOffsetChange*2; //.32
                 break;
             case 4:
-                endOffsetPercentage = userHeight / fingertipDivisor - armDivisorAdjustment; 
+                endOffsetPercentage = userHeight /fingertipDivisor ; //appx.85 with 2.2 arm length
+                startOffsetPercentage -= startOffsetChange;
                 break;
         }
     }
@@ -152,16 +161,15 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
 
         switch(areaNum){
             case 1: 
-                 staticScrollSpeed *= 1.1f;
                 break;
             case 2:
-                staticScrollSpeed *= 1.06f;
+                staticScrollSpeed *= handSpeed; //Increase speed for each type
                 break;
             case 3:
-                 staticScrollSpeed *= 1.55f;
+                 staticScrollSpeed *= fingerSpeed;
                 break;
             case 4:
-                staticScrollSpeed *= 1.75f;
+                staticScrollSpeed *= fingertipSpeed;
                 break;
         }
         

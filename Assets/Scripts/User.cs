@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class User {
+public class User { //Object for database insertion
     public int userId;
     public string name;
     public float userHeight;

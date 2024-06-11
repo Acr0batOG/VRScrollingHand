@@ -11,12 +11,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private bool bodyVisibility = true;
     [SerializeField] private float userHeight = 1.8f; 
     [SerializeField] private int numberOfItems = 50; // Number of items to populate
-
-    private int previousTechnique = -1;
     private int selectedItem = 0;
+    private int previousTechnique = -1;
     private int previousArea = -1;
     private bool previousBodyVisibility = true;
-    
     private GameObject handMesh; //Used to change the visibility of the hand mesh
     private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
 
@@ -60,12 +58,12 @@ public class GameManager : Singleton<GameManager>
         set{ selectedItem = value; }
     }
 
-    // Start is called before the first frame update
+
     void Start()
     {
         Disable();
         SetCollider();
-        handMesh = GameObject.Find("Hand_ply");
+        handMesh = GameObject.Find("Hand_ply"); //Get hand and body mesh: For changing visibility
         upperBodyMesh = GameObject.Find("upper_body_ply");
 
         if (handMesh == null || upperBodyMesh == null)
@@ -84,8 +82,8 @@ public class GameManager : Singleton<GameManager>
             int compositeValue = areaNumber * 10 + techniqueNumber;
 
             // Dictionary to map composite values to their corresponding UI controller index
-            Dictionary<int, int> compositeToIndex = new Dictionary<int, int>
-            {
+            Dictionary<int, int> compositeToIndex = new Dictionary<int, int> 
+            { //Area is the first number 1-4 (Arm, Hand, Finger, Fingertip). Technique is next number 1-5 (Static, Point, Dynamic, Point -> Static, Point -> Dynamic)
                 { 11, 0 }, { 12, 1 }, { 13, 2 }, { 14, 3 }, { 15, 4 },
                 { 21, 5 }, { 22, 6 }, { 23, 7 }, { 24, 8 }, { 25, 9 },
                 { 31, 10 }, { 32, 11 }, { 33, 12 }, { 34, 13 }, { 35, 14 },
@@ -95,32 +93,34 @@ public class GameManager : Singleton<GameManager>
             // Check if the composite value exists in the dictionary
             if (compositeToIndex.TryGetValue(compositeValue, out int index))
             {
-                Disable();
-                armUIControllers[index].gameObject.SetActive(true);
+                Disable(); //Disable all other scroll objects
+                armUIControllers[index].gameObject.SetActive(true); //Set the item selected active
             }
+            //Set the proper collider.
             SetCollider();
-
+            //Update technique and area for comparison
             previousTechnique = techniqueNumber;
             previousArea = areaNumber;
         }
 
-
         if (bodyVisibility != previousBodyVisibility)
         {
-            UpdateVisibility();
+            UpdateVisibility(); //Used to update body visibility
             previousBodyVisibility = bodyVisibility;
         }
-                    
     }
 
     void Disable()
-    {
+    {   
+        //Disable every arm controller each time it's called
         for (int i = 0; i < armUIControllers.Count; i++)
         {
             armUIControllers[i].gameObject.SetActive(false);
         }
     }
+
     void SetCollider(){
+        //Used for different types of scrolling. Thumb and finger collision for Finger and Fingertip. And Finger and arm/hand collision for Arm and Hand
         if(areaNumber<=2){
             armUIDetectors[1].gameObject.SetActive(false); //Disable the thumb collider when scrolling on right hand
             armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
@@ -132,6 +132,7 @@ public class GameManager : Singleton<GameManager>
 
     void UpdateVisibility()
     {
+        //Used to set body visibility
         bool isVisible = bodyVisibility == true;
         SetMeshVisibility(handMesh, isVisible); //Set visibility of hand and arm
         SetMeshVisibility(upperBodyMesh, isVisible);
@@ -151,17 +152,16 @@ public class GameManager : Singleton<GameManager>
 
     void NotifyHeightChange()
     {
-        UpdateHeight();
-        
+        UpdateHeight(); //When user height changes, update body height and change collider size
     }
 
     // Called when the script is loaded or a value changes
     private void OnValidate()
     {
-        NotifyHeightChange(); //When height value changes, update value
+        NotifyHeightChange(); //When height value changes, update value in other classes
     }
     private void UpdateHeight(){
         BodyTrackingCalibrationInfo calibrationInfo; //On height change. Update body height info
-        calibrationInfo.BodyHeight = userHeight; //Update body height
+        calibrationInfo.BodyHeight = userHeight; //Update body height on the character itself
     }
 }

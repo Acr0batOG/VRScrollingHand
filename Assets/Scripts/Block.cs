@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block {
+public class Block { //Object for database insertion
     public int blockId; //Which user is being tested in what block; used as key
     public int userId; //Id of trial, multiple per user
     public int areaNumber;
