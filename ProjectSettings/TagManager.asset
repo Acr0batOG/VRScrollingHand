@@ -9,6 +9,16 @@ TagManager:
   - Detector
   - DistText
   - MenuText
+  - Wrist
+  - Elbow
+  - WristOther
+  - Fingerbase
+  - Fingertip
+  - Fingermid
+  - LFingertip
+  - RFingertip
+  - DataText
+  - SelectionBar
   layers:
   - Default
   - TransparentFX

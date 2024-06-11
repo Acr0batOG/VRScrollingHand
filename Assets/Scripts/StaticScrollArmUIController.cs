@@ -7,25 +7,43 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 
 public class StaticScrollArmUIController : ArmUIController{
-    [SerializeField] private float staticScrollSpeed = 50f; //Speed multiplier for static scrolling
-    [SerializeField] private float threshold = .0108f; //Used to create a center "dead zone" for on arm scrolling when the user wants select or stop at a certain selection 
-
-    protected void Start()
+    [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling 
+    
+    protected new void Start()
     {
         base.Start();
+        AdjustSpeed();
+        
     }
     protected void OnTriggerEnter(Collider other)
     {
         menuText.text = "Enter";
         Scroll(other);
+         // Start dwell selection coroutine
+        if (dwellCoroutine == null)
+        {
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
 
     protected void OnTriggerStay(Collider other)
     {
         Scroll(other);
+        // Restart dwell selection coroutine if list position changes significantly
+        if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
     protected void OnTriggerExit(Collider other){
         menuText.text = "Exit";
+        // Stop dwell selection coroutine on exit
+        if (dwellCoroutine != null)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = null;
+        }
     }
 
     protected override void Scroll(Collider collisionInfo){
@@ -33,6 +51,8 @@ public class StaticScrollArmUIController : ArmUIController{
 
         // Calculate the middle point between startPoint and endPoint
         Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
+
+        float threshold = capsuleCollider.height/180f; //Determine threshold size base on collision object
 
         // Calculate the distance from the contact point to the start and end points
         float distanceFromStart = (contactPoint - startPoint.position).magnitude;
@@ -61,5 +81,21 @@ public class StaticScrollArmUIController : ArmUIController{
 
         // Update the distance text
         distText.text = "Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString();
+    }
+    void AdjustSpeed(){
+        switch(areaNum){
+            case 1: 
+                staticScrollSpeed*=1.15f;
+                break;
+            case 2:
+                staticScrollSpeed*=1.06f;
+                break;
+            case 3:
+                staticScrollSpeed*=5.0f;
+                break;
+            case 4:
+                staticScrollSpeed*=10.0f;
+                break;
+        }
     }
 }

@@ -1,20 +1,23 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class DynamicScrollArmUIController : ArmUIController
 {
-    [SerializeField] private float scrollSpeed = 50f; // Speed multiplier for scrolling
-    private float multiplier = 1650;
+    [SerializeField] private float scrollSpeed = 2f; // Speed multiplier for scrolling
+    private float multiplier = 1550;
     private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
     private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
+    private bool isPaused = false; // Flag to track if scrolling is paused
+    
 
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
+        AdjustSpeed();
+        
     }
 
     protected void OnTriggerEnter(Collider other)
@@ -22,25 +25,50 @@ public class DynamicScrollArmUIController : ArmUIController
         menuText.text = "Enter";
         // Initialize last contact point but don't scroll yet
         lastContactPoint = other.ClosestPoint(startPoint.position);
+        
+        Scroll(other);
+         // Start dwell selection coroutine
+        if (dwellCoroutine == null)
+        {
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
     }
 
     protected void OnTriggerStay(Collider other)
-    {
-        Scroll(other);
+    {   
+        if (!isPaused) // Only call Scroll if not paused
+        {
+            Scroll(other);
+        }
+        // Restart dwell selection coroutine if list position changes significantly
+        if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = StartCoroutine(DwellSelection());
+        }
+        
     }
 
     protected void OnTriggerExit(Collider other)
     {
+
         menuText.text = "Exit";
+        // Stop dwell selection coroutine on exit
+        if (dwellCoroutine != null)
+        {
+            StopCoroutine(dwellCoroutine);
+            dwellCoroutine = null;
+        }
     }
 
     protected override void Scroll(Collider collisionInfo)
     {
+
         // Determine the current contact point
         Vector3 currentContactPoint = collisionInfo.ClosestPoint(startPoint.position);
 
         // If the last contact point is not initialized, skip the first scroll to avoid jump
-        if (lastContactPoint == Vector3.zero)
+        if ((lastContactPoint == Vector3.zero)||Vector3.Distance(lastContactPoint, currentContactPoint) < (slowMovementThreshold*.36f)) //If no movement or very small movement
         {
             lastContactPoint = currentContactPoint;
             return;
@@ -52,9 +80,24 @@ public class DynamicScrollArmUIController : ArmUIController
             lastContactPoint = currentContactPoint;
             return;
         }
-
+        
+        float deltaPosition = 0;
         // Calculate the difference in contact point position
-        float deltaPosition = currentContactPoint.z - lastContactPoint.z;
+        switch(areaNum){
+            case 1:
+                deltaPosition = currentContactPoint.z - lastContactPoint.z;
+                break;
+            case 2:
+                deltaPosition = currentContactPoint.z - lastContactPoint.z;
+                break;
+            case 3:
+                deltaPosition = currentContactPoint.x - lastContactPoint.x;
+                break;
+            case 4:
+                deltaPosition = currentContactPoint.x - lastContactPoint.x;
+                break;
+        }
+        
 
         // Get the content height and the viewport height
         float contentHeight = scrollableList.content.sizeDelta.y;
@@ -74,9 +117,23 @@ public class DynamicScrollArmUIController : ArmUIController
         scrollableList.content.anchoredPosition = newScrollPosition;
 
         // Update the distance text
-        distText.text = $"Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Distance for speed: {Vector3.Distance(lastContactPoint, currentContactPoint)}";
+        distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} ";
 
         // Update the last contact point
         lastContactPoint = currentContactPoint;
     }
+    void AdjustSpeed(){
+        switch(areaNum){
+            case 3:
+                scrollSpeed *= 2.1f; //Increase scroll speed for finger
+                slowMovementThreshold = .0005f; //Decrease slow threshold
+                break;
+            case 4:
+                scrollSpeed *= 3.0f;
+                slowMovementThreshold = .00025f;
+                break;
+        }
+    }
+
+    
 }

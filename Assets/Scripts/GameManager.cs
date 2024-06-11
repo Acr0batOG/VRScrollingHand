@@ -1,66 +1,167 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
+using static OVRPlugin;
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] List<ArmUIController> armUIControllers;
+    [SerializeField] List<CapsuleCollider> armUIDetectors;
     [SerializeField] private int techniqueNumber = -1;
     [SerializeField] private int areaNumber = -1;
+    [SerializeField] private bool bodyVisibility = true;
+    [SerializeField] private float userHeight = 1.8f; 
+    [SerializeField] private int numberOfItems = 50; // Number of items to populate
 
     private int previousTechnique = -1;
-
+    private int selectedItem = 0;
+    private int previousArea = -1;
+    private bool previousBodyVisibility = true;
+    
+    private GameObject handMesh; //Used to change the visibility of the hand mesh
+    private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
 
     // Property for techniqueNumber
     public int TechniqueNumber
     {
         get { return techniqueNumber; }
+        set { techniqueNumber = value; }
     }
 
     // Property for areaNumber
     public int AreaNumber
     {
         get { return areaNumber; }
+        set { areaNumber = value; }
+    }
+
+    // Property for bodyVisibility
+    public bool BodyVisibility
+    {
+        get { return bodyVisibility; }
+        set { bodyVisibility = value; }
+    }
+
+    // Property for userHeight with notification logic
+    public float UserHeight
+    {
+        get { return userHeight; }
+        set {
+                userHeight = value;
+                NotifyHeightChange();
+            }
+    }
+    public int NumberOfItems
+    {
+        get { return numberOfItems; }
+        set { numberOfItems = value; }
+    }
+    public int SelectedItem{
+        get{ return selectedItem; }
+        set{ selectedItem = value; }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //Set all collision detection objects as disabled
         Disable();
-        
+        SetCollider();
+        handMesh = GameObject.Find("Hand_ply");
+        upperBodyMesh = GameObject.Find("upper_body_ply");
+
+        if (handMesh == null || upperBodyMesh == null)
+        {
+            return;
+        }
+        UpdateVisibility();
+        UpdateHeight();
     }
 
     // Update is called once per frame
     void Update()
-    {   
-        //Only check change technique number if it has changed from its previous value
-        if(techniqueNumber != previousTechnique){
-           
-        //Update current object selected as enabled, disable the other objects before doing so.
-        switch (techniqueNumber)
+    {
+        if (techniqueNumber != previousTechnique || areaNumber != previousArea)
+        {
+            int compositeValue = areaNumber * 10 + techniqueNumber;
+
+            // Dictionary to map composite values to their corresponding UI controller index
+            Dictionary<int, int> compositeToIndex = new Dictionary<int, int>
             {
-                case 1:
-                    Disable();
-                    armUIControllers[0].gameObject.SetActive(true);
-                    break;
-                case 2:
-                    Disable();
-                    armUIControllers[1].gameObject.SetActive(true);
-                    break;
-                case 3:
-                    Disable();
-                    armUIControllers[2].gameObject.SetActive(true);
-                    break;
+                { 11, 0 }, { 12, 1 }, { 13, 2 }, { 14, 3 }, { 15, 4 },
+                { 21, 5 }, { 22, 6 }, { 23, 7 }, { 24, 8 }, { 25, 9 },
+                { 31, 10 }, { 32, 11 }, { 33, 12 }, { 34, 13 }, { 35, 14 },
+                { 41, 15 }, { 42, 16 }, { 43, 17 }, { 44, 18 }, { 45, 19 }
+            };
+
+            // Check if the composite value exists in the dictionary
+            if (compositeToIndex.TryGetValue(compositeValue, out int index))
+            {
+                Disable();
+                armUIControllers[index].gameObject.SetActive(true);
             }
-            //Otherwise assign previous technique to the current technique number
+            SetCollider();
+
             previousTechnique = techniqueNumber;
+            previousArea = areaNumber;
         }
+
+
+        if (bodyVisibility != previousBodyVisibility)
+        {
+            UpdateVisibility();
+            previousBodyVisibility = bodyVisibility;
+        }
+                    
     }
-    void Disable(){
-        for(int i = 0; i < 3; i++){
+
+    void Disable()
+    {
+        for (int i = 0; i < armUIControllers.Count; i++)
+        {
             armUIControllers[i].gameObject.SetActive(false);
         }
     }
-}
+    void SetCollider(){
+        if(areaNumber<=2){
+            armUIDetectors[1].gameObject.SetActive(false); //Disable the thumb collider when scrolling on right hand
+            armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
+        }else{
+            armUIDetectors[0].gameObject.SetActive(false); //Disable the fingertip collider when scrolling on right hand
+            armUIDetectors[1].gameObject.SetActive(true); //Enable the thumb collider
+        }
+    }
 
+    void UpdateVisibility()
+    {
+        bool isVisible = bodyVisibility == true;
+        SetMeshVisibility(handMesh, isVisible); //Set visibility of hand and arm
+        SetMeshVisibility(upperBodyMesh, isVisible);
+    }
+
+    void SetMeshVisibility(GameObject meshObject, bool isVisible)
+    {
+        if (meshObject != null)
+        {
+            Renderer meshRenderer = meshObject.GetComponent<Renderer>(); //Get component and set visibility
+            if (meshRenderer != null)
+            {
+                meshRenderer.enabled = isVisible;
+            }
+        }
+    }
+
+    void NotifyHeightChange()
+    {
+        UpdateHeight();
+        
+    }
+
+    // Called when the script is loaded or a value changes
+    private void OnValidate()
+    {
+        NotifyHeightChange(); //When height value changes, update value
+    }
+    private void UpdateHeight(){
+        BodyTrackingCalibrationInfo calibrationInfo; //On height change. Update body height info
+        calibrationInfo.BodyHeight = userHeight; //Update body height
+    }
+}

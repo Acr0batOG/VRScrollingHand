@@ -58,3 +58,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Ignore Firebase large files
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_0_0.bundle
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_0_0.so
+
