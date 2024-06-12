@@ -2,8 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
-using System;
-
+using Oculus.Interaction.Input;
+using static OVRProjectConfig;
 public class ArmUIController : MonoBehaviour
 {
     [SerializeField] protected Transform startPoint;
@@ -21,7 +21,7 @@ public class ArmUIController : MonoBehaviour
     protected Coroutine dwellCoroutine; // Coroutine for the dwell selection
     protected float armModify = 4.75f; //Works
     protected float handModify = 4.5f; //Works
-    protected float fingerModify = 5.0f; //Works
+    protected float fingerModify = 4.25f; //Works
     protected float fingertipModify = 7.45f; //Works, except tracking sucks
     protected float itemCountMultiplier = 1.3f; //Multiplier for items
     protected float itemHeight = 55f; //Block item height
@@ -58,6 +58,7 @@ public class ArmUIController : MonoBehaviour
                 break;
         }
     }
+    
     void Update()
     {
         // Calculate the middle point between startPoint and endPoint
@@ -83,7 +84,7 @@ public class ArmUIController : MonoBehaviour
             case 2: // Hand scrolling
                 OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, handModify);
                 break;
-            case 3: // Finger scrolling
+            case 3: // Finger scrolling. Shift the capsule slightly
                 OrientCollider(capsuleCollider, middlePoint, direction, distance, userHeight, fingerModify);
                 break;
             case 4: // Fingertip scrolling

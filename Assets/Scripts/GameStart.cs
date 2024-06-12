@@ -102,8 +102,8 @@ public class GameStart : MonoBehaviour
         {
             currentUserId = firebaseGame.UserId; //Update user data if changed
             previousUserId = currentUserId;
-        }
-        if(firebaseGame.LoadData==true||gameManager.NumberOfItems!=previousNumberOfItems){//Reset game settings, check for update from firebase class
+        } //Reset if new data, or list change or different technique selected
+        if(firebaseGame.LoadData==true||gameManager.NumberOfItems!=previousNumberOfItems||gameManager.TechniqueNumber!=gameManager.PreviousTechnique||gameManager.AreaNumber!=gameManager.PreviousArea){//Reset game settings, check for update from firebase class
             stopwatch = new Stopwatch();
             previousNumberOfItems = gameManager.NumberOfItems;
             RemoveArray(numberArray); //Reset the array to no elements

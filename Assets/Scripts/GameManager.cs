@@ -53,9 +53,20 @@ public class GameManager : Singleton<GameManager>
         get { return numberOfItems; }
         set { numberOfItems = value; }
     }
-    public int SelectedItem{
+    public int SelectedItem
+    {
         get{ return selectedItem; }
         set{ selectedItem = value; }
+    }
+    public int PreviousArea
+    {
+        get{ return previousArea; }
+        set{ previousArea = value; }
+    }
+    public int PreviousTechnique
+    {
+        get{ return previousTechnique; }
+        set{ previousTechnique = value; }
     }
 
 
