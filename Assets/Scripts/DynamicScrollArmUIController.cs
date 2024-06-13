@@ -79,16 +79,20 @@ public class DynamicScrollArmUIController : ArmUIController
             lastContactPoint = currentContactPoint;
             return;
         }
-        float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(wristPivot.position,
-            elbowPivot.position, fingerCollider.transform.position);
+        float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(wristPivot.position, elbowPivot.position, fingerCollider.transform.position);
         Debug.Log("current value: " + normalisedPosition);
-        float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(wristPivot.position,
-            elbowPivot.position, lastContactPoint);
+        float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(wristPivot.position, elbowPivot.position, lastContactPoint);
         float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
-         float deltaY = normalisedPositionDifference * scrollSpeed * multiplier;
-         Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
-         newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down
-         newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
+        float deltaY = normalisedPositionDifference * scrollSpeed * multiplier;
+        Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
+        newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down
+        newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
+        scrollableList.content.anchoredPosition = newScrollPosition;
+        // Update the distance text
+        distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentContactPoint.z}";
+        
+        // Update the last contact point
+        lastContactPoint = currentContactPoint;
         
         // // Determine the current contact point
         // Vector3 currentContactPoint = fingerCollider.ClosestPoint(transform.position)
