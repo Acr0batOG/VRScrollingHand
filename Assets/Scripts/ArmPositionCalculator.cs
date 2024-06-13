@@ -11,12 +11,12 @@ public static class ArmPositionCalculator
     /// <param name="elbowPivot">current world position of elbow</param>
     /// <param name="fingerPosition">current world position of finger</param>
     /// <returns>normalised distance value of finger on arm</returns>
-    public static float GetNormalisedPositionOnArm(Vector3 wristPivot, Vector3 elbowPivot, Vector3 fingerPosition, float offset)
+    public static float GetNormalisedPositionOnArm(Vector3 wristPivot, Vector3 elbowPivot, Vector3 fingerPosition)
     {
         Vector3 elbowToWrist = wristPivot - elbowPivot;
         Vector3 elbowToFinger = fingerPosition - elbowPivot;
         Vector3 elbowToFingerOnArm = Vector3.Project(elbowToFinger, elbowToWrist);
-        float normalisedPositionOnArm = (elbowToFingerOnArm.magnitude / elbowToWrist.magnitude) + offset;
+        float normalisedPositionOnArm = (elbowToFingerOnArm.magnitude / elbowToWrist.magnitude);
         return Mathf.Clamp(normalisedPositionOnArm, 0f, 1f);
     }
 }

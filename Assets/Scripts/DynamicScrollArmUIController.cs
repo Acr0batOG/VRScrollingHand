@@ -20,13 +20,15 @@ public class DynamicScrollArmUIController : ArmUIController
     private float fingerScrollMultiplier = 2.1f;
     private float fingertipScrollMultiplier = 3.0f;
     private bool isPaused = false; // Flag to track if scrolling is paused
-    float contentHeight;    
+    float contentHeight;
+    float viewportHeight;
     
     protected new void Start()
     {
         base.Start();
         AdjustSpeed();
         contentHeight = scrollableList.content.sizeDelta.y;
+        viewportHeight = scrollableList.viewport.rect.height;
     }
 
     protected void OnTriggerEnter(Collider other)
@@ -50,12 +52,11 @@ public class DynamicScrollArmUIController : ArmUIController
             Scroll(other);
         }
         // Restart dwell selection coroutine if list position changes significantly
-        if (dwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) > dwellThreshold)
-        {
-            StopCoroutine(dwellCoroutine);
-            dwellCoroutine = StartCoroutine(DwellSelection());
-        }
-        
+        if (dwellCoroutine == null || !(Mathf.Abs(scrollableList.content.anchoredPosition.y - previousScrollPosition) >
+                                        dwellThreshold)) return;
+        StopCoroutine(dwellCoroutine);
+        dwellCoroutine = StartCoroutine(DwellSelection());
+
     }
 
     protected void OnTriggerExit(Collider other)
@@ -72,20 +73,25 @@ public class DynamicScrollArmUIController : ArmUIController
 
     protected override void Scroll(Collider fingerCollider)
     {
+        Vector3 currentContactPoint = fingerCollider.ClosestPoint(startPoint.position);
+        if (Vector3.Distance(lastContactPoint, currentContactPoint) < slowMovementThreshold)
+        {
+            lastContactPoint = currentContactPoint;
+            return;
+        }
         float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(wristPivot.position,
-            elbowPivot.position, fingerCollider.transform.position, -normalisedOffset);
-        Debug.Log("current value: "+normalisedPosition);
-        float newScrollPosition = contentHeight * normalisedPosition;
-        scrollableList.content.anchoredPosition =
-            new Vector2(scrollableList.content.anchoredPosition.x, newScrollPosition);
-
-        
-        
-        
+            elbowPivot.position, fingerCollider.transform.position);
+        Debug.Log("current value: " + normalisedPosition);
+        float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(wristPivot.position,
+            elbowPivot.position, lastContactPoint);
+        float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
+         float deltaY = normalisedPositionDifference * scrollSpeed * multiplier;
+         Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
+         newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down
+         newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
         
         // // Determine the current contact point
-        // Vector3 currentContactPoint = fingerCollider.ClosestPoint(transform.position);
-        // currentContactPoint = transform.InverseTransformDirection(currentContactPoint);
+        // Vector3 currentContactPoint = fingerCollider.ClosestPoint(transform.position)
         //
         //     // Convert the current contact point from world space to local space
         //     //Vector3 currentContactPoint = transform.InverseTransformPoint(currentContactPointWorld); Needed but not sure how yet!
@@ -98,12 +104,8 @@ public class DynamicScrollArmUIController : ArmUIController
         //     return;
         // }
         //
-        // // Check if the movement is below the threshold to avoid small jitters
-        // if (Vector3.Distance(lastContactPoint, currentContactPoint) < slowMovementThreshold)
-        // {
-        //     lastContactPoint = currentContactPoint;
-        //     return;
-        // }
+        // Check if the movement is below the threshold to avoid small jitters
+        
         //
         // float deltaPosition = 0;
         // // Calculate the difference in contact point position
