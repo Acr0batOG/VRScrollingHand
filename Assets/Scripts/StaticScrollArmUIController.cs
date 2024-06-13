@@ -11,6 +11,10 @@ public class StaticScrollArmUIController : ArmUIController{
     protected float handSpeed = 1.06f;
     protected float fingerSpeed = 5.0f;
     protected float fingertipSpeed = 10.0f;
+    protected float armThreshold = 150f;
+    protected float handThreshold = 125f;
+    protected float fingerThreshold = 75f;
+    protected float fingertipThreshold = 40f;
     
     protected new void Start()
     {
@@ -55,7 +59,8 @@ public class StaticScrollArmUIController : ArmUIController{
         // Calculate the middle point between startPoint and endPoint
         Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
 
-        float threshold = capsuleCollider.height/165f; //Determine threshold size base on collision object
+        float threshold = GetThreshold(); //Determine threshold size base on collision object
+        
 
         // Calculate the distance from the contact point to the start and end points
         float distanceFromStart = (contactPoint - startPoint.position).magnitude;
@@ -70,8 +75,14 @@ public class StaticScrollArmUIController : ArmUIController{
 
         // Calculate the new scroll position based on the distance from the middle point
         float deltaY = (contactPoint - middlePoint).magnitude * polarity * staticScrollSpeed;
-        if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
-            return; //Middle dead zone for no scrolling
+        CheckThreshold(contactPoint, middlePoint, threshold);
+        if(areaNum==2||areaNum==1){
+            if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
+                return; //Middle dead zone for no scrolling
+        }else if(areaNum==3||areaNum==4){
+            if (Math.Abs(contactPoint.x - middlePoint.x) <= threshold)
+                return; //Middle dead zone for no scrolling
+        }
         // Update the new scroll position
         Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
         newScrollPosition.y += deltaY;
@@ -84,6 +95,25 @@ public class StaticScrollArmUIController : ArmUIController{
 
         // Update the distance text
         distText.text = "Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString();
+    }
+    float GetThreshold(){
+        switch(areaNum){//Update speed for area postion for scroll
+                case 1: 
+                    return capsuleCollider.height/armThreshold; //Arm Threshold - 165f
+                case 2:
+                    return capsuleCollider.height/handThreshold; //Hand Threshold - 150f
+                case 3:
+                    return capsuleCollider.height/fingerThreshold; //Finger Threshold - 100f
+                case 4:
+                    return capsuleCollider.height/fingertipThreshold; //Fingertip Threshold - 50f
+                default:
+                    return capsuleCollider.height/165f;
+            }
+    }
+    void CheckThreshold(Vector3 contactPoint, Vector3 middlePoint, float threshold){
+        
+        if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
+            return; //Middle dead zone for no scrolling
     }
     void AdjustSpeed(){
         switch(areaNum){//Update speed for area postion for scroll

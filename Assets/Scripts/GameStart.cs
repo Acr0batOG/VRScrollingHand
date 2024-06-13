@@ -105,17 +105,8 @@ public class GameStart : MonoBehaviour
         } //Reset if new data, or list change or different technique selected
         if(firebaseGame.LoadData==true||gameManager.NumberOfItems!=previousNumberOfItems||gameManager.TechniqueNumber!=gameManager.PreviousTechnique||gameManager.AreaNumber!=gameManager.PreviousArea){//Reset game settings, check for update from firebase class
             stopwatch = new Stopwatch();
-            previousNumberOfItems = gameManager.NumberOfItems;
-            RemoveArray(numberArray); //Reset the array to no elements
-            FillArray(numberArray); // Fill the selection array
-            Shuffle(numberArray); // Shuffle the array for selection
-            numberArrayIndex = 0; //Set array index back to 0
-            currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
-            currentUserId = firebaseGame.UserId;
-            previousBlockId = currentBlockId; // Set previous value to have an on change in the update
-            previousUserId = currentUserId;
-            correctText.text = ""; //Reset correct text 
-            SetGameStart();
+            ResetGame(); //Resets the game
+            SetGameStart(); //Setup for starting the game
         }
         if(!testMode)
             SelectionChange(); //Not in test mode just start the array
@@ -123,6 +114,18 @@ public class GameStart : MonoBehaviour
         {
             StartCoroutine(TestSelectionChange()); //In test mode, check we are not waiting for a delay and the number has changed
         }
+    }
+    void ResetGame(){
+        previousNumberOfItems = gameManager.NumberOfItems;
+        RemoveArray(numberArray); //Reset the array to no elements
+        FillArray(numberArray); // Fill the selection array
+        Shuffle(numberArray); // Shuffle the array for selection
+        numberArrayIndex = 0; //Set array index back to 0
+        currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
+        currentUserId = firebaseGame.UserId;
+        previousBlockId = currentBlockId; // Set previous value to have an on change in the update
+        previousUserId = currentUserId;
+        correctText.text = ""; //Reset correct text
     }
 
     void FillArray(List<int> array)

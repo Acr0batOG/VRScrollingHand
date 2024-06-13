@@ -63,12 +63,12 @@ public class DynamicScrollArmUIController : ArmUIController
         }
     }
 
-        protected override void Scroll(Collider collisionInfo)
-        {
+    protected override void Scroll(Collider collisionInfo)
+    {
 
         // Determine the current contact point
-        Vector3 currentContactPoint = collisionInfo.ClosestPoint(startPoint.position);
-          
+        Vector3 currentContactPoint = collisionInfo.ClosestPoint(transform.position);
+        currentContactPoint = transform.InverseTransformDirection(currentContactPoint);
 
             // Convert the current contact point from world space to local space
             //Vector3 currentContactPoint = transform.InverseTransformPoint(currentContactPointWorld); Needed but not sure how yet!
@@ -129,6 +129,7 @@ public class DynamicScrollArmUIController : ArmUIController
         // Update the last contact point
         lastContactPoint = currentContactPoint;
     }
+    
     void AdjustSpeed(){
         switch(areaNum){
             case 3:
@@ -141,6 +142,4 @@ public class DynamicScrollArmUIController : ArmUIController
                 break;
         }
     }
-
-    
 }

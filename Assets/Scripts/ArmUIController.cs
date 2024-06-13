@@ -12,6 +12,7 @@ public class ArmUIController : MonoBehaviour
     [SerializeField] protected CapsuleCollider capsuleCollider;
     [SerializeField] protected TextMeshPro distText;
     [SerializeField] protected TextMeshProUGUI menuText;
+    
     protected GameManager gameManager;
     protected Slider selectionBar;
     protected TextMeshPro selectText;
@@ -20,9 +21,9 @@ public class ArmUIController : MonoBehaviour
     protected int selectedItem;
     protected Coroutine dwellCoroutine; // Coroutine for the dwell selection
     protected float armModify = 4.75f; //Works
-    protected float handModify = 4.5f; //Works
-    protected float fingerModify = 4.25f; //Works
-    protected float fingertipModify = 7.45f; //Works, except tracking sucks
+    protected float handModify = 4.75f; //Works
+    protected float fingerModify = 5.0f; //Works
+    protected float fingertipModify = 7.5f; //Works, except tracking sucks
     protected float itemCountMultiplier = 1.3f; //Multiplier for items
     protected float itemHeight = 55f; //Block item height
     protected float previousScrollPosition; // Previous scroll position for dwell check
@@ -68,12 +69,9 @@ public class ArmUIController : MonoBehaviour
         userHeight = gameManager.UserHeight; // Get height of character
         int previousArea = areaNum;
         areaNum = gameManager.AreaNumber;
-        if(selectedItem != gameManager.SelectedItem){
-            selectedItem = gameManager.SelectedItem;
-        }
-        if(itemCount!=gameManager.NumberOfItems){
-            itemCount = gameManager.NumberOfItems; //Replace itemCount if NumberOfItems ever changes
-        }
+        selectedItem = gameManager.SelectedItem;
+        itemCount = gameManager.NumberOfItems; //Replace itemCount if NumberOfItems ever changes
+        
         AreaCheck(previousArea, areaNum); //Check if area has changed
        
         switch (areaNum) // Switch to set the start and end points
@@ -130,7 +128,6 @@ public class ArmUIController : MonoBehaviour
         }
         }
     } 
- 
 
     protected virtual void Scroll(Collider collisionInfo)
     {

@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1797983977578907792, guid: 566315f3a83d28341a878d894d4feca3, type: 3}
       propertyPath: m_TagString
-      value: LFingertip
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2061263398344273555, guid: 566315f3a83d28341a878d894d4feca3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -395,6 +395,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4076173765156699471, guid: 566315f3a83d28341a878d894d4feca3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1937802064}
+    - targetCorrespondingSourceObject: {fileID: 7621523073098970929, guid: 566315f3a83d28341a878d894d4feca3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1691551771}
     - targetCorrespondingSourceObject: {fileID: 4334606384895601631, guid: 566315f3a83d28341a878d894d4feca3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 542151911}
@@ -2004,7 +2007,7 @@ MonoBehaviour:
   armUIDetectors:
   - {fileID: 1647782371}
   - {fileID: 1393538920}
-  techniqueNumber: 1
+  techniqueNumber: 3
   areaNumber: 1
   bodyVisibility: 1
   userHeight: 1.8
@@ -4455,7 +4458,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.09
+  m_Radius: 0.105
   m_Height: 0.5
   m_Direction: 1
   m_Center: {x: 0.1095539, y: 0.07372213, z: 0.08233224}
@@ -8852,6 +8855,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687495639}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1691551770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1691551771}
+  m_Layer: 10
+  m_Name: LFingertip
+  m_TagString: LFingertip
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1691551771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691551770}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0065, y: -0.0007, z: -0.0012}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 991801929}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1698992020
 PrefabInstance:
   m_ObjectHideFlags: 0

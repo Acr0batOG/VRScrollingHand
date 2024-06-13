@@ -99,7 +99,6 @@ public class PointScrollArmUIController : ArmUIController
         switch(areaNum){
             case 1: 
                 endOffsetPercentage = userPointHeight / armDivisor + armDivisorAdjustment; //Arm being used for scrolling, different size
-                startOffsetPercentage += startOffsetChange; //.26
                 break;
             case 2:
                 endOffsetPercentage = userHeight / handDivisor - handDivisorAdjustment; //Different divisor to set hand size for users
