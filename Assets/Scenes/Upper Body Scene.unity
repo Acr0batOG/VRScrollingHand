@@ -4095,6 +4095,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   scrollSpeed: 2
+  elbowPivot: {fileID: 14389141}
+  wristPivot: {fileID: 1711130656}
 --- !u!1 &849904394
 GameObject:
   m_ObjectHideFlags: 0
@@ -4808,6 +4810,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   scrollSpeed: 2
+  elbowPivot: {fileID: 0}
+  wristPivot: {fileID: 0}
 --- !u!54 &909413930
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5038,6 +5042,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   scrollSpeed: 2
+  elbowPivot: {fileID: 0}
+  wristPivot: {fileID: 0}
 --- !u!54 &961019809
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9879,6 +9885,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   scrollSpeed: 2
+  elbowPivot: {fileID: 0}
+  wristPivot: {fileID: 0}
 --- !u!54 &1838582043
 Rigidbody:
   m_ObjectHideFlags: 0

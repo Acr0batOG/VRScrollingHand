@@ -129,7 +129,7 @@ public class ArmUIController : MonoBehaviour
         }
     } 
 
-    protected virtual void Scroll(Collider collisionInfo)
+    protected virtual void Scroll(Collider fingerCollider)
     {
         //Just to be inherited
     }

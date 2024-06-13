@@ -53,8 +53,8 @@ public class StaticScrollArmUIController : ArmUIController{
         }
     }
 
-    protected override void Scroll(Collider collisionInfo){
-        Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
+    protected override void Scroll(Collider fingerCollider){
+        Vector3 contactPoint = fingerCollider.ClosestPoint(startPoint.position);
 
         // Calculate the middle point between startPoint and endPoint
         Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;

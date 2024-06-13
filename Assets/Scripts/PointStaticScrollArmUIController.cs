@@ -64,9 +64,9 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         }
     }
 
-    protected override void Scroll(Collider collisionInfo)
+    protected override void Scroll(Collider fingerCollider)
     {
-        Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position); // Get the closest contact point
+        Vector3 contactPoint = fingerCollider.ClosestPoint(startPoint.position); // Get the closest contact point
 
         // Calculate content and viewport height
         float contentHeight = scrollableList.content.sizeDelta.y;
@@ -95,7 +95,7 @@ public class PointStaticScrollArmUIController : PointScrollArmUIController
         scrollableList.content.anchoredPosition = newScrollPosition;
         triggerTimer++;  
         
-        collisionPoint = collisionInfo.ClosestPoint(startPoint.position); //Set middle point to location where last point selection was made
+        collisionPoint = fingerCollider.ClosestPoint(startPoint.position); //Set middle point to location where last point selection was made
         distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
     }
     protected void StaticScroll(Collider collisionInfo, Vector3 collisionPoint){

@@ -56,9 +56,9 @@ public class PointScrollArmUIController : ArmUIController
         }
     }
 
-    protected override void Scroll(Collider collisionInfo)
+    protected override void Scroll(Collider fingerCollider)
     {
-        Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position); // Get the closest contact point
+        Vector3 contactPoint = fingerCollider.ClosestPoint(startPoint.position); // Get the closest contact point
 
         // Calculate content and viewport height
         float contentHeight = scrollableList.content.sizeDelta.y;
