@@ -17,7 +17,7 @@ public class ArmUIController : MonoBehaviour
     protected float armLengthModify = 1.36f;
     protected float handModifyRadius = 1.65f;
 
-    protected void Start()
+    protected virtual void Start()
     {
         gameManager = GameManager.instance;
         areaNum = gameManager.AreaNumber; //Get area being used

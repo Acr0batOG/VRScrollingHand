@@ -1,16 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using Unity.VisualScripting;
 
 public class StaticScrollArmUIController : ArmUIController{
     [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
     [SerializeField] private float threshold = .0105f; //Used to create a center "dead zone" for on arm scrolling when the user wants select or stop at a certain selection 
     
-    protected new void Start()
+    protected override void Start()
     {
         base.Start();
         handCollider = GetComponent<CapsuleCollider>();

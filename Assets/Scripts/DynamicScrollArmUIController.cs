@@ -7,12 +7,11 @@ using UnityEngine.UI;
 
 public class DynamicScrollArmUIController : ArmUIController
 {
-    [SerializeField] private float scrollSpeed = 2f; // Speed multiplier for scrolling
-    private float multiplier = 1550;
+    [SerializeField] private float scrollSpeed = 3100f; // Speed multiplier for scrolling
     private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
     private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
 
-    protected new void Start()
+    protected override void Start()
     {
         base.Start();
     }
@@ -61,7 +60,7 @@ public class DynamicScrollArmUIController : ArmUIController
         float viewportHeight = scrollableList.viewport.rect.height;
 
         // Calculate the new scroll position based on the difference in contact point position
-        float deltaY = deltaPosition * scrollSpeed * multiplier;
+        float deltaY = deltaPosition * scrollSpeed;
 
         // Update the new scroll position
         Vector2 newScrollPosition = scrollableList.content.anchoredPosition;

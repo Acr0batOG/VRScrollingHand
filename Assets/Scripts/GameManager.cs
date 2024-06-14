@@ -121,7 +121,7 @@ public class GameManager : Singleton<GameManager>
 
     void UpdateVisibility()
     {
-        bool isVisible = bodyVisibility == true;
+        bool isVisible = bodyVisibility;
         SetMeshVisibility(handMesh, isVisible); //Set visibility of hand and arm
         SetMeshVisibility(upperBodyMesh, isVisible);
     }
