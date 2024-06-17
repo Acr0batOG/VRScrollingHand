@@ -6,21 +6,19 @@ using Firebase.Database;
 using Firebase.Extensions;
 using TMPro;
 using System;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Data.Common;
-using Unity.VisualScripting;
 using Firebase.Auth;
 using System.Diagnostics;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public class GameStart : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI selectNumber; // Number to be selected by user.
     [SerializeField] TextMeshProUGUI correctText;
-    [SerializeField] bool testMode = false;
+    [SerializeField] bool testMode;
     [SerializeField] bool saveData = true;
-    [SerializeField] int selectedNumber = 0;
+    [SerializeField] int selectedNumber;
+    [SerializeField] protected ScrollRect scrollableList;
     [SerializeField] AudioSource correctAudioSource;
     [SerializeField] AudioSource incorrectAudioSource;
     protected GameManager gameManager;
@@ -29,19 +27,27 @@ public class GameStart : MonoBehaviour
     protected FirebaseAuth auth;
     protected Stopwatch stopwatch;
     List<int> numberArray = new(); // Array to hold numbers the user will select, will be shuffled each time
-    int numberArrayIndex = 0;
-    int previousSelectedItem = 0;
-    int previousSelectedNumber = 0;
+    private float[] arr = new float [50];
+    int numberArrayIndex;
+    int previousSelectedItem;
+    private int previousSelectedNumber;
     int selectedItem;
     int currentBlockId;
     int currentUserId;
     int previousBlockId;
     int previousUserId;
     int previousNumberOfItems;
+    private float distanceToItem;
     float pauseTime = 2.2f;
-     bool isCoroutineRunning = false; // Flag to indicate if the coroutine is running
+    private float itemHeight = 55f;
+    private float itemDistanceInit = (2454.621f/49f);
+    private float itemLocation;
+    bool isCoroutineRunning; // Flag to indicate if the coroutine is running
     public bool isCorrect;
     public float completionTime;
+
+    public int itemSelected;
+    
     // Only 10 values will be read for each trial. But different every time and non-repeating
     void Start()
     {
@@ -64,6 +70,11 @@ public class GameStart : MonoBehaviour
                 Debug.LogError(System.String.Format("Could not resolve all Firebase dependencies: {0}", task.Result));
             }
         });
+        for (int i = 0; i < 50; i++)
+        {
+            arr[i] = i * itemDistanceInit;
+            Debug.Log("arr[" + i + "] = " + arr[i]);
+        }
         stopwatch = new Stopwatch(); //Create a stopwatch object for timing
         FillArray(numberArray); // Fill the selection array
         Shuffle(numberArray); // Shuffle the array for selection
@@ -150,9 +161,7 @@ public class GameStart : MonoBehaviour
         {
             int j = random.Next(0, i + 1); // Random index from 0 to i
             // Swap array[i] with the element at random index
-            int temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
+            (array[i], array[j]) = (array[j], array[i]);
         } 
         // Trim the list to contain only 10 items after shuffling. 10 items selected for each block
         if (array.Count > 10)
@@ -166,7 +175,7 @@ public class GameStart : MonoBehaviour
         selectNumber.text = "Select Any Number to Begin"; //Start text displayed to begin
     }
 
-    void SelectionChange()
+    private void SelectionChange()
     {   
         selectedItem = gameManager.SelectedItem;
         if (selectedItem != previousSelectedItem)
@@ -174,7 +183,7 @@ public class GameStart : MonoBehaviour
             previousSelectedItem = selectedItem;
             if (numberArrayIndex > 0) // Only check correctness after the first selection
             {
-                CheckCorrect(selectedItem); //Check if selection is correc 
+                CheckCorrect(selectedItem); //Check if selection is correct 
             }
             SetNumber(); //Set next item
         }
@@ -197,6 +206,16 @@ public class GameStart : MonoBehaviour
     {
         if (numberArrayIndex < numberArray.Count)
         {
+            if (numberArrayIndex > 0)
+            {
+                // Debug.Log(numberArray[numberArrayIndex - 1]);
+                // Debug.Log("Actual Position " + scrollableList.content.anchoredPosition.y);
+                // Debug.Log("Array Number " + arr[numberArray[numberArrayIndex-1]-1]);
+                itemLocation = arr[numberArray[numberArrayIndex - 1] - 1];
+                distanceToItem =  scrollableList.content.anchoredPosition.y - itemLocation;
+                // Debug.Log(distanceToItem);
+            }
+
             //When items are left to select
             stopwatch.Start(); //Start time
             //Display item to be selected
@@ -234,6 +253,7 @@ public class GameStart : MonoBehaviour
         }
         SetTrialData();
     }
+    // ReSharper disable Unity.PerformanceAnalysis
     protected void SetTrialData()
     {
         // Query trial data based on the user ID
@@ -250,7 +270,7 @@ public class GameStart : MonoBehaviour
                 float timeToComplete = completionTime;
                 if(saveData){
                 // Insert a new trial with the incremented trialId
-                InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber));
+                InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, numberArray[numberArrayIndex-2], itemLocation, distanceToItem));
                 }
             }
             else
@@ -282,8 +302,7 @@ public class GameStart : MonoBehaviour
 
     void InsertTrial(Trial trial)
     {
-        // Convert blockId, trialId, and userId to strings to use them as keys
-        string blockIdStr = trial.blockId.ToString();
+        // Convert blockId, trialId, and userId to strings to use them as key
         string trialIdStr = trial.trialId.ToString();
         string userIdStr = trial.userId.ToString();
 

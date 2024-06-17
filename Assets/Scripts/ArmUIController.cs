@@ -136,6 +136,8 @@ public class ArmUIController : MonoBehaviour
     protected IEnumerator DwellSelection()
 {
     float initialPosition = scrollableList.content.anchoredPosition.y;
+    //Very first selection get distance from selected object
+    
     previousScrollPosition = initialPosition;
     float startTime = Time.time;
     //Debug.Log("Selection Starting");
@@ -187,6 +189,7 @@ public class ArmUIController : MonoBehaviour
         //Debug.Log(relativeScrollPosition * itemCount + 1);
         if (halfwayHeight < relativeScrollPosition)
         {
+            
             selectedItem = Mathf.Clamp(Mathf.RoundToInt(relativeScrollPosition * itemCount + 1), 1, itemCount); //Get item selected
         }
         else
@@ -196,13 +199,13 @@ public class ArmUIController : MonoBehaviour
         gameManager.SelectedItem = selectedItem;
         // Calculate the selected item index based on the scroll position and item height
         // Check if the GameObject was found
-        if (selectTextObject != null)
+        if (selectTextObject)
         {
             // Get the TextMeshProUGUI component from the GameObject
             selectText = selectTextObject.GetComponent<TextMeshPro>();
 
             // Check if the component was found
-            if (selectText != null)
+            if (selectText)
             {
                 // Set text to the item selected
                 selectText.text = "Item Selected: " + selectedItem;

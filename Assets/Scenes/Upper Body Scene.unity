@@ -577,10 +577,12 @@ MonoBehaviour:
   testMode: 0
   saveData: 0
   selectedNumber: 0
+  scrollableList: {fileID: 679323135}
   correctAudioSource: {fileID: 438998793}
   incorrectAudioSource: {fileID: 1636637039}
   isCorrect: 0
   completionTime: 0
+  itemSelected: 0
 --- !u!1001 &28004364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1860,6 +1862,37 @@ RectTransform:
   m_AnchoredPosition: {x: 1.569, y: 0}
   m_SizeDelta: {x: 800, y: 411.65787}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &319006598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319006599}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &319006599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319006598}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.14359298, y: 2.5750663, z: -0.16395323}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &324206702
 GameObject:
   m_ObjectHideFlags: 0
@@ -4095,6 +4128,7 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   scrollSpeed: 2
+  normalisedOffset: 0.15
   elbowPivot: {fileID: 14389141}
   wristPivot: {fileID: 1711130656}
 --- !u!1 &849904394
@@ -4810,6 +4844,7 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   scrollSpeed: 2
+  normalisedOffset: 0.15
   elbowPivot: {fileID: 0}
   wristPivot: {fileID: 0}
 --- !u!54 &909413930
@@ -5042,6 +5077,7 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   scrollSpeed: 2
+  normalisedOffset: 0.15
   elbowPivot: {fileID: 0}
   wristPivot: {fileID: 0}
 --- !u!54 &961019809
@@ -9885,6 +9921,7 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   scrollSpeed: 2
+  normalisedOffset: 0.15
   elbowPivot: {fileID: 0}
   wristPivot: {fileID: 0}
 --- !u!54 &1838582043
@@ -11234,3 +11271,4 @@ SceneRoots:
   - {fileID: 1543071697}
   - {fileID: 1883185551}
   - {fileID: 180253012}
+  - {fileID: 319006599}
