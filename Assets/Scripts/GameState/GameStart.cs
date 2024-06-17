@@ -16,7 +16,7 @@ public class GameStart : MonoBehaviour
     [SerializeField] TextMeshProUGUI selectNumber; // Number to be selected by user.
     [SerializeField] TextMeshProUGUI correctText;
     [SerializeField] bool testMode;
-    [SerializeField] bool saveData = true;
+    [SerializeField] bool saveData;
     [SerializeField] int selectedNumber;
     [SerializeField] protected ScrollRect scrollableList;
     [SerializeField] AudioSource correctAudioSource;
@@ -51,6 +51,7 @@ public class GameStart : MonoBehaviour
     // Only 10 values will be read for each trial. But different every time and non-repeating
     void Start()
     {
+        saveData = true;
         gameManager = GameManager.instance; //Game manager instance 
         firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
          // Initialize Firebase and authenticate the user
@@ -190,11 +191,11 @@ public class GameStart : MonoBehaviour
     }
     //This only used for test mode, when I'm too lazy to use the VR headset
     IEnumerator TestSelectionChange()
-    {   
+    {
         isCoroutineRunning = true; // Set the flag to indicate the coroutine is running
         yield return new WaitForSeconds(pauseTime); // Add a delay before checking correctness
         if (numberArrayIndex > 0) // Only check correctness after the first selection
-        {
+        {   
             CheckCorrect(selectedNumber); // Using selectedNumber to check correctness
         }
         SetNumber(); //Set next number
@@ -229,7 +230,8 @@ public class GameStart : MonoBehaviour
     }
     //Check if answer is correct
    void CheckCorrect(int selectedItem)
-    {
+   {
+       gameManager.SelectedItem = selectedItem;
         stopwatch.Stop(); //Stop the timer
         TimeSpan elapsedTime = stopwatch.Elapsed; //Save elapsed time
         stopwatch.Reset(); //Reset stopwatch to 0

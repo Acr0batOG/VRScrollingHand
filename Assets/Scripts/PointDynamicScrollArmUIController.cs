@@ -13,12 +13,16 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
     private int triggerTimer = 0;
     private float multiplier = 1550; //To speed up dynamic scrolling
     private Coroutine pauseCoroutine; // Coroutine for the pause
+    float contentHeight;
+    float viewportHeight;
 
     protected new void Start()
     {
         base.Start();
         LengthCheck(); // Check arm length
         AdjustSpeed(); // Update speed based on point used to scroll
+        contentHeight = scrollableList.content.sizeDelta.y;
+        viewportHeight = scrollableList.viewport.rect.height;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -120,7 +124,7 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
         distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
     }
 
-    protected void DynamicScroll(Collider collisionInfo)
+    protected void DynamicScroll(Collider fingerCollider)
     {
         //float currentTime = Time.time;
         // Was used as a pause for dynamic scrolling type but I found it better without it 
@@ -135,51 +139,74 @@ public class PointDynamicScrollArmUIController : PointScrollArmUIController //In
         //     stoppedDetector = 0;
         //     return;
         // }
-
-        // Determine the current contact point
-        Vector3 currentContactPoint = collisionInfo.ClosestPoint(startPoint.position);
-
-        // If the last contact point is not initialized, skip the first scroll to avoid jump
-        if ((lastContactPoint == Vector3.zero) || Vector3.Distance(lastContactPoint, currentContactPoint) < (slowMovementThreshold * .36f)) // If no movement or very small movement
-        {
-            //stoppedDetector++;
-            lastContactPoint = currentContactPoint; //Small or no movement add to stopped detector (not currently needed)
-            //use if you wish add to a pause in dynamic scrolling
-            return;
-        }
-
-        // Check if the movement is below the threshold to avoid small jitters
+        
+        Vector3 currentContactPoint = fingerCollider.ClosestPoint(startPoint.position);
         if (Vector3.Distance(lastContactPoint, currentContactPoint) < slowMovementThreshold)
         {
             lastContactPoint = currentContactPoint;
             return;
         }
 
-        // Calculate the difference in contact point position
-        float deltaPosition = currentContactPoint.z - lastContactPoint.z;
-
-        // Get the content height and the viewport height
-        float contentHeight = scrollableList.content.sizeDelta.y;
-        float viewportHeight = scrollableList.viewport.rect.height;
-
-        // Calculate the new scroll position based on the difference in contact point position
-        float deltaY = deltaPosition * scrollSpeed * multiplier;
-
-        // Update the new scroll position
+        float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, fingerCollider.transform.position);
+        Debug.Log("Current normalized position: " + normalisedPosition);
+        float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
+        float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
+        float deltaY = normalisedPositionDifference * scrollSpeed;
+        
         Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
         newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down
-
-        // Clamp the new scroll position within the scrollable area
         newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
-
-        // Set the new anchored position for the scroll content
         scrollableList.content.anchoredPosition = newScrollPosition;
 
         // Update the distance text
-        distText.text = $"Dynamic Scroll Point: Position {currentContactPoint} Scroll Position {newScrollPosition.y}";
+        distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentContactPoint.z}";
 
         // Update the last contact point
         lastContactPoint = currentContactPoint;
+        // // Determine the current contact point
+        // Vector3 currentContactPoint = collisionInfo.ClosestPoint(startPoint.position);
+        //
+        // // If the last contact point is not initialized, skip the first scroll to avoid jump
+        // if ((lastContactPoint == Vector3.zero) || Vector3.Distance(lastContactPoint, currentContactPoint) < (slowMovementThreshold * .36f)) // If no movement or very small movement
+        // {
+        //     //stoppedDetector++;
+        //     lastContactPoint = currentContactPoint; //Small or no movement add to stopped detector (not currently needed)
+        //     //use if you wish add to a pause in dynamic scrolling
+        //     return;
+        // }
+        //
+        // // Check if the movement is below the threshold to avoid small jitters
+        // if (Vector3.Distance(lastContactPoint, currentContactPoint) < slowMovementThreshold)
+        // {
+        //     lastContactPoint = currentContactPoint;
+        //     return;
+        // }
+        //
+        // // Calculate the difference in contact point position
+        // float deltaPosition = currentContactPoint.z - lastContactPoint.z;
+        //
+        // // Get the content height and the viewport height
+        // float contentHeight = scrollableList.content.sizeDelta.y;
+        // float viewportHeight = scrollableList.viewport.rect.height;
+        //
+        // // Calculate the new scroll position based on the difference in contact point position
+        // float deltaY = deltaPosition * scrollSpeed * multiplier;
+        //
+        // // Update the new scroll position
+        // Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
+        // newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down
+        //
+        // // Clamp the new scroll position within the scrollable area
+        // newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
+        //
+        // // Set the new anchored position for the scroll content
+        // scrollableList.content.anchoredPosition = newScrollPosition;
+        //
+        // // Update the distance text
+        // distText.text = $"Dynamic Scroll Point: Position {currentContactPoint} Scroll Position {newScrollPosition.y}";
+        //
+        // // Update the last contact point
+        // lastContactPoint = currentContactPoint;
     }
 
     // private IEnumerator PauseForSelectionCoroutine()

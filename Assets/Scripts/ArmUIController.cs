@@ -2,8 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
-using Oculus.Interaction.Input;
-using static OVRProjectConfig;
+
 public class ArmUIController : MonoBehaviour
 {
     [SerializeField] protected Transform startPoint;

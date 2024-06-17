@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static OVRPlugin;
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] List<ArmUIController> armUIControllers;
     [SerializeField] List<CapsuleCollider> armUIDetectors;
+    [SerializeField] ScrollRect scrollRect;
     [SerializeField] private int techniqueNumber = -1;
     [SerializeField] private int areaNumber = -1;
     [SerializeField] private bool bodyVisibility = true;
     [SerializeField] private float userHeight = 1.8f; 
     [SerializeField] private int numberOfItems = 50; // Number of items to populate
-    private int selectedItem = 0;
+    private int selectedItem;
     private int previousTechnique = -1;
     private int previousArea = -1;
     private bool previousBodyVisibility = true;
@@ -23,6 +25,10 @@ public class GameManager : Singleton<GameManager>
     {
         get { return techniqueNumber; }
         set { techniqueNumber = value; }
+    }
+    public ScrollRect ScrollRect
+    {
+        get { return scrollRect; }
     }
 
     // Property for areaNumber

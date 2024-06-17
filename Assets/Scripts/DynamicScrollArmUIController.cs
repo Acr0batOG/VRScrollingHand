@@ -7,14 +7,13 @@ using Unity.VisualScripting;
 public class DynamicScrollArmUIController : ArmUIController
 {
     [Header("Modifiers")]
-    [SerializeField] private float scrollSpeed = 2f; // Speed multiplier for scrolling
+    [SerializeField] private float scrollSpeed = 3100f; // Speed multiplier for scrolling
     [Range(0f, 0.5f), SerializeField] private float normalisedOffset = 0.15f;
     
     [Header("Pivots")] 
     [SerializeField] private Transform elbowPivot;
     [SerializeField] private Transform wristPivot;
     
-    private float multiplier = 1550;
     private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
     private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
     private float fingerScrollMultiplier = 2.1f;
@@ -79,20 +78,24 @@ public class DynamicScrollArmUIController : ArmUIController
             lastContactPoint = currentContactPoint;
             return;
         }
+
         float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(wristPivot.position, elbowPivot.position, fingerCollider.transform.position);
-        Debug.Log("current value: " + normalisedPosition);
+        Debug.Log("Current normalized position: " + normalisedPosition);
         float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(wristPivot.position, elbowPivot.position, lastContactPoint);
         float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
-        float deltaY = normalisedPositionDifference * scrollSpeed * multiplier;
+        float deltaY = normalisedPositionDifference * scrollSpeed;
+        
         Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
         newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down
         newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
         scrollableList.content.anchoredPosition = newScrollPosition;
+
         // Update the distance text
         distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentContactPoint.z}";
-        
+
         // Update the last contact point
         lastContactPoint = currentContactPoint;
+    }
         
         // // Determine the current contact point
         // Vector3 currentContactPoint = fingerCollider.ClosestPoint(transform.position)
@@ -151,7 +154,7 @@ public class DynamicScrollArmUIController : ArmUIController
         //
         // // Update the last contact point
         // lastContactPoint = currentContactPoint;
-    }
+    
     
     void AdjustSpeed(){
         switch(areaNum){
