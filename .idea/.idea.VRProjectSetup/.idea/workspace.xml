@@ -5,34 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/ScrollBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/ScrollBase.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ArmPositionCalculator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ShowClosestPoint.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/ArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArmUIController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/ArmUIController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Database Objects/Block.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Database Objects/Block.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Database Objects/Trial.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Database Objects/Trial.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Database Objects/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Database Objects/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DynamicScrollArmUIController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Firebase/FirebaseNewUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Firebase/FirebaseNewUser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameState/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameState/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameState/GameStart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PointDynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PointDynamicScrollArmUIController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PointScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PointScrollArmUIController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointScrollArmUIController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PointStaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PointStaticScrollArmUIController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Interface/IScrollable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Interface/IScrollable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Upper Body Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Upper Body Scene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArmPositionCalculator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArmPositionCalculator.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ArmPositionCalculator.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/DynamicScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/DynamicScrolling.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointDynamicScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointDynamicScrolling.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointScrolling.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointStaticScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointStaticScrolling.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/StaticScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/StaticScrolling.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/StaticScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StaticScrollArmUIController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/StaticScrollArmUIController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ShowClosestPoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ShowClosestPoint.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ShowClosestPoint.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,6 +128,7 @@
       <workItem from="1718666207976" duration="57000" />
       <workItem from="1718729506477" duration="729000" />
       <workItem from="1718730257743" duration="4887000" />
+      <workItem from="1718746652120" duration="217000" />
     </task>
     <servers />
   </component>

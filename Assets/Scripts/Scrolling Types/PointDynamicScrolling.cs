@@ -1,4 +1,5 @@
 using System.Collections;
+using Calculators;
 using Scrolling_Interface;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -161,7 +162,8 @@ namespace Scrolling_Types
 
             // Update the distance text
             distText.text =
-                $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentContactPoint.z}";
+                $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta " +
+                $"Position  {currentContactPoint.z}";
 
             // Update the last contact point
             lastContactPoint = currentContactPoint;
