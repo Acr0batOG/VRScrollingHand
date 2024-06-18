@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Database_Objects;
 using UnityEngine;
 using Firebase;
 using Firebase.Database;
@@ -172,7 +173,7 @@ public class FirebaseNewUser : MonoBehaviour
     void InsertUser(User user)
     {
         // Convert userId to string to use it as a key
-        string userIdStr = user.userId.ToString();
+        string userIdStr = user.UserId.ToString();
         // Insert the user data into the "games" node in the database
         reference.Child("Game").Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).ContinueWithOnMainThread(task =>
         {
@@ -182,7 +183,7 @@ public class FirebaseNewUser : MonoBehaviour
 
                 // Insert blocks for the new user
                 // Commented out as no study is happening now and this is bound to change
-                InsertBlocksForUser(user.userId); 
+                InsertBlocksForUser(user.UserId); 
             }
             else
             {
@@ -219,8 +220,8 @@ public class FirebaseNewUser : MonoBehaviour
     void InsertBlock(Block block)
     {
         // Convert blockId to string to use it as a key
-        string blockIdStr = block.blockId.ToString();
-        string userIdStr = block.userId.ToString();
+        string blockIdStr = block.BlockId.ToString();
+        string userIdStr = block.UserId.ToString();
         // Check if the user exists
         reference.Child("Game").Child("Users").Child(userIdStr).GetValueAsync().ContinueWithOnMainThread(task =>
         {
@@ -245,7 +246,7 @@ public class FirebaseNewUser : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("User with ID " + block.userId + " does not exist.");
+                    Debug.LogError("User with ID " + block.UserId + " does not exist.");
                 }
             }
             else

@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using Firebase.Auth;
 using System.Diagnostics;
+using Database_Objects;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
@@ -272,7 +273,7 @@ public class GameStart : MonoBehaviour
                 float timeToComplete = completionTime;
                 if(saveData){
                 // Insert a new trial with the incremented trialId
-                InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, numberArray[numberArrayIndex-2], itemLocation, distanceToItem));
+                //InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, numberArray[numberArrayIndex-2], itemLocation, distanceToItem));
                 }
             }
             else
@@ -305,8 +306,8 @@ public class GameStart : MonoBehaviour
     void InsertTrial(Trial trial)
     {
         // Convert blockId, trialId, and userId to strings to use them as key
-        string trialIdStr = trial.trialId.ToString();
-        string userIdStr = trial.userId.ToString();
+        string trialIdStr = trial.TrialId.ToString();
+        string userIdStr = trial.UserId.ToString();
 
         // Form the reference path for inserting the trial data
         DatabaseReference trialReference = reference.Child("Game").Child("Trials").Child("User" + userIdStr).Child(trialIdStr);

@@ -1,35 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+namespace Database_Objects
+{
+    public class Trial { //Object for database insertion
+        public int BlockId; //Which user is being tested in what block; used as key
+        public int TrialId; //Id of trial, multiple per user
+        public float TimeToComplete; //During trial time to take and proper selection
+        public bool CorrectSelection;
+        public int UserId;
+        public int AreaNumber;
+        public int TechniqueNumber;
+        public int SelectedItem;
+        public int CorrectItem;
+        public float ItemLocation;
+        public float DistanceFromItem;
+        public float DistanceTravelled;
+        public Trial() {
+        }
 
-public class Trial { //Object for database insertion
-    public int blockId; //Which user is being tested in what block; used as key
-    public int trialId; //Id of trial, multiple per user
-    public float timeToComplete; //During trial time to take and proper selection
-    public bool correctSelection;
-    public int userId;
-    public int areaNumber;
-    public int techniqueNumber;
-    public int selectedItem;
-    public int correctItem;
-    public float itemLocation;
-    public float distanceFromItem;
-    public Trial() {
-    }
+        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled) {
+            this.UserId = userId;
+            this.BlockId = blockId;
+            this.TrialId = trialId;
+            this.TimeToComplete = timeToComplete;
+            this.CorrectSelection = correctSelection;  
+            this.AreaNumber = areaNumber;
+            this.TechniqueNumber = techniqueNumber;
+            this.SelectedItem = selectedItem;
+            this.CorrectItem = correctItem;
+            this.ItemLocation = itemLocation;
+            this.DistanceFromItem = distanceFromItem;
+            this.DistanceTravelled = distanceTravelled;
 
-    public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem) {
-        this.userId = userId;
-        this.blockId = blockId;
-        this.trialId = trialId;
-        this.timeToComplete = timeToComplete;
-        this.correctSelection = correctSelection;  
-        this.areaNumber = areaNumber;
-        this.techniqueNumber = techniqueNumber;
-        this.selectedItem = selectedItem;
-        this.correctItem = correctItem;
-        this.itemLocation = itemLocation;
-        this.distanceFromItem = distanceFromItem;
-
+        }
     }
 }
 

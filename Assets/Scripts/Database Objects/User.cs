@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class User { //Object for database insertion
-    public int userId;
-    public string name;
-    public float userHeight;
+namespace Database_Objects
+{
+    public class User { //Object for database insertion
+        public int UserId;
+        public string Name;
+        public float UserHeight;
  
-    public User() {
-    }
+        public User() {
+        }
 
-    public User(int userId, string name, float userHeight) {
-        this.userId = userId;
-        this.name = name;
-        this.userHeight = userHeight;
+        public User(int userId, string name, float userHeight) {
+            this.UserId = userId;
+            this.Name = name;
+            this.UserHeight = userHeight;
+        }
     }
 }
