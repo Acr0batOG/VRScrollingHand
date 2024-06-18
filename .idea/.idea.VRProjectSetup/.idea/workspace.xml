@@ -5,19 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ArmPositionCalculator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ShowClosestPoint.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Upper Body Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Upper Body Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArmPositionCalculator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ArmPositionCalculator.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ArmPositionCalculator.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Firebase/FirebaseNewUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Firebase/FirebaseNewUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Firebase/FirebaseUpdateGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Firebase/FirebaseUpdateGame.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameState/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameState/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameState/GameStart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ListPopulator/ScrollableListPopulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ListPopulator/ScrollableListPopulator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/ArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/ArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/DynamicScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/DynamicScrolling.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointDynamicScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointDynamicScrolling.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ShowClosestPoint.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ShowClosestPoint.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ShowClosestPoint.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointScrolling.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointStaticScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/PointStaticScrolling.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/ScrollBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/ScrollBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/StaticScrolling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scrolling Types/StaticScrolling.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +54,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;do_not_show_Android_plugin_suggestion&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;interfaceScrolling&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;newScrollingType&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -128,7 +132,8 @@
       <workItem from="1718666207976" duration="57000" />
       <workItem from="1718729506477" duration="729000" />
       <workItem from="1718730257743" duration="4887000" />
-      <workItem from="1718746652120" duration="217000" />
+      <workItem from="1718746652120" duration="3401000" />
+      <workItem from="1718750206744" duration="1763000" />
     </task>
     <servers />
   </component>

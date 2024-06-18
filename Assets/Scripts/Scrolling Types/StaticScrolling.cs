@@ -10,7 +10,7 @@ namespace Scrolling_Types
         protected float handThreshold = 125f;
         protected float fingerThreshold = 75f;
         protected float fingertipThreshold = 40f; 
-        protected void Start()
+        public override void Start()
         {
             UIScrollSpeed = 75f;
         }

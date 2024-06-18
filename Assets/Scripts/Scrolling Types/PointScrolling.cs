@@ -5,9 +5,9 @@ namespace Scrolling_Types
 {
     public class PointScrolling : ScrollBase, IScrollable
     {
-    protected void Start()
+    public override void Start()
     {
-        
+        base.Start();
     }
      public void Setup()
      {

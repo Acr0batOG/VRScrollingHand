@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using GameState;
 using Oculus.Interaction.Body.Input;
 using Unity.VisualScripting;
 

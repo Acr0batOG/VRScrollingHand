@@ -12,8 +12,9 @@ namespace Scrolling_Types
         private int triggerTimer;
         private Vector3 collisionPoint;
 
-        protected void Start()
+        public override void Start()
         {
+            base.Start();
             UIScrollSpeed = 75f;
         }
         public void Setup()

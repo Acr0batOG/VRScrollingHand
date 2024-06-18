@@ -1,4 +1,5 @@
 using System.Collections;
+using GameState;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,4 +1,5 @@
 using System.Collections;
+using GameState;
 using Scrolling_Interface;
 using TMPro;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace Scrolling_Types
         protected Coroutine dwellCoroutine; 
         protected float previousScrollPosition;
 
-        public void Start()
+        public virtual void Start()
         {
             gameManager = GameManager.instance;
             itemCount = gameManager.NumberOfItems;

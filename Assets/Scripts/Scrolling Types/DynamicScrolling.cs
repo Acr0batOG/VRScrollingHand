@@ -7,15 +7,13 @@ namespace Scrolling_Types
 {
     public class DynamicScrolling : ScrollBase, IScrollable
     { 
-        [Range(0f, 0.5f), SerializeField] private float normalisedOffset = 0.15f;
-        
         private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
-        private float fingertipScrollMultiplier = 3.0f;
+        //private float fingertipScrollMultiplier = 3.0f;
         protected new void Start()
         {
-            contentHeight = scrollableList.content.sizeDelta.y;
-            viewportHeight = scrollableList.viewport.rect.height;
+            // contentHeight = scrollableList.content.sizeDelta.y;
+            // viewportHeight = scrollableList.viewport.rect.height;
         }
         public void Setup()
         {

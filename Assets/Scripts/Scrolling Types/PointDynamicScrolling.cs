@@ -16,8 +16,9 @@ namespace Scrolling_Types
         private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
         
         
-        protected void Start()
+        public override void Start()
         {
+            base.Start();
             // LengthCheck(); // Check arm length
             // AdjustSpeed(); // Update speed based on point used to scroll
             contentHeight = scrollableList.content.sizeDelta.y;
