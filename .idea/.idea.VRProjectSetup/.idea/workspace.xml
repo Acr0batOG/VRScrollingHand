@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Upper Body Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Upper Body Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Calculators/ArmPositionCalculator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Calculators/ArmPositionCalculator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Firebase/FirebaseNewUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Firebase/FirebaseNewUser.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +119,7 @@
       <workItem from="1718730257743" duration="4887000" />
       <workItem from="1718746652120" duration="3401000" />
       <workItem from="1718750206744" duration="2595000" />
-      <workItem from="1718818752714" duration="3517000" />
+      <workItem from="1718818752714" duration="4273000" />
     </task>
     <servers />
   </component>

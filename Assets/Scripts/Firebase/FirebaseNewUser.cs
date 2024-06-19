@@ -115,8 +115,8 @@ namespace Firebase
                     // Iterate through all users to check if a user with the same name and height exists
                     foreach (DataSnapshot childSnapshot in snapshot.Children)
                     {
-                        string name = childSnapshot.Child("name").Value.ToString();
-                        float height = float.Parse(childSnapshot.Child("userHeight").Value.ToString());
+                        string name = childSnapshot.Child("Name").Value.ToString();
+                        float height = float.Parse(childSnapshot.Child("UserHeight").Value.ToString());
 
                         if (name == userName && height == userHeight)
                         {
