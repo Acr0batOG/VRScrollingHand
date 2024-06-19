@@ -4518,7 +4518,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 839943954}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
-  scrollSpeed: 2
+  scrollSpeed: 100
 --- !u!1 &849904394
 GameObject:
   m_ObjectHideFlags: 0

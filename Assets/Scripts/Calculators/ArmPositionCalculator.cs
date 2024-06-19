@@ -19,7 +19,7 @@ namespace Calculators
             Vector3 elbowToFinger = fingerPosition - elbowPivot;
             Vector3 elbowToFingerOnArm = Vector3.Project(elbowToFinger, elbowToWrist);
             float normalisedPositionOnArm = (elbowToFingerOnArm.magnitude / elbowToWrist.magnitude);
-            return Mathf.Clamp(normalisedPositionOnArm, 0f, 1f);
+            return normalisedPositionOnArm;
         }
     }
 }

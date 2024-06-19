@@ -6,7 +6,7 @@ namespace OldScrollingTypes
 {
     public class PointDynamicScrollArmUIController : PointScrollArmUIController //Inherit from PointScrollAnyways
     {
-        [SerializeField] private float scrollSpeed = 3100f; // Speed multiplier for scrolling
+        [SerializeField] private float scrollSpeed = 500f; // Speed multiplier for scrolling
         private const int TriggerTimeMax = 8;
         private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
@@ -125,33 +125,28 @@ namespace OldScrollingTypes
             distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString() + " " + endOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
         }
 
-        protected void DynamicScroll(Collider fingerCollider)
+        protected void DynamicScroll(Collider colliderInfo)
         {
-
-            Vector3 currentContactPoint = fingerCollider.ClosestPoint(startPoint.position);
+            Vector3 currentContactPoint = colliderInfo.ClosestPoint(startPoint.position);
             if (Vector3.Distance(lastContactPoint, currentContactPoint) < slowMovementThreshold)
             {
                 lastContactPoint = currentContactPoint;
                 return;
             }
-
-            float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position,
-                startPoint.position, fingerCollider.transform.position);
-            Debug.Log("Current normalized position: " + normalisedPosition);
-            float previousNormalizedPosition =
-                ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position,
-                    lastContactPoint);
+            float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
+            float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
             float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
             float deltaY = normalisedPositionDifference * scrollSpeed;
+            
 
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
             newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down
+
             newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
             scrollableList.content.anchoredPosition = newScrollPosition;
 
             // Update the distance text
-            distText.text =
-                $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentContactPoint.z}";
+            distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {deltaY}";
 
             // Update the last contact point
             lastContactPoint = currentContactPoint;
