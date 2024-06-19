@@ -227,7 +227,6 @@ namespace GameState
                 //When items are left to select
                 stopwatch.Start(); //Start time
                 previousScrollPosition = scrollableList.content.anchoredPosition.y;
-                Debug.Log("Previous" + previousScrollPosition);
                 //Display item to be selected
                 selectNumber.text = "Item #" + (numberArrayIndex + 1) + ", Please Select: " + numberArray[numberArrayIndex].ToString(); // Set the number the user will be retrieving
                 numberArrayIndex++; //Update the array index to select next item
@@ -264,7 +263,6 @@ namespace GameState
             }
 
             currentScrollPosition = scrollableList.content.anchoredPosition.y;
-            Debug.Log("Current" + currentScrollPosition);
             distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
             SetTrialData();
         }
