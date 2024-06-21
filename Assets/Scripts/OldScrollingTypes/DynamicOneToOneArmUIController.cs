@@ -72,9 +72,7 @@ namespace OldScrollingTypes
             float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
             float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
             float deltaY = normalisedPositionDifference * scrollSpeed;
-
-            Debug.Log("Normalized Position Difference: " + normalisedPositionDifference);
-            Debug.Log("Delta Y: " + deltaY);
+            
 
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
             newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down

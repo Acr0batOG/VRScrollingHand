@@ -98,7 +98,8 @@ namespace Firebase
 
         void RetrieveAndSetUserData()
         {
-            reference.Child("Game").Child("Users").Child(userId.ToString()).GetValueAsync().ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Users").Child(userId.ToString()).GetValueAsync().ContinueWithOnMainThread(
+                task =>
             {
                 
                 if (task.IsCompleted)
@@ -130,7 +131,8 @@ namespace Firebase
         void RetrieveAndSetBlockData()
         {
             // Query block data based on the blockId under the specified user ID
-            reference.Child("Game").Child("Users").Child(userId.ToString()).Child("Blocks").Child(blockId.ToString()).GetValueAsync().ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Users").Child(userId.ToString()).Child("Blocks").Child(blockId.ToString()).
+                GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 
                 if (task.IsCompleted)
@@ -144,11 +146,8 @@ namespace Firebase
                         techniqueNumber = int.Parse(snapshot.Child("TechniqueNumber").Value.ToString());
                         bodyVisibility = bool.Parse(snapshot.Child("BodyVisibility").Value.ToString());
                         //Load the block data into the game. Changing Area and Technique based on block 
-                        dataText.text = "User Id: " + userId + "\n Area Number: " + areaNumber + "\n " +
-                                        "(1 = Arm, 2 = Hand, 3 = Finger,\n 4 = Fingertip)\n Technique Number: "
-                                        + techniqueNumber +
-                                        " \n(1 = Rate, 2 = Select, 3 = Dynamic,\n 4 = Select-> Rate, " +
-                                        "5 = Select -> Dynamic, 6 Dynamic One to One)\n";
+                        dataText.text = "User Id: " + userId + "\n Area Number: " + areaNumber + "\n Technique Number: "
+                                        + techniqueNumber +" \n";
 
                         // Update GameManager with retrieved block data
                         gameManager.AreaNumber = areaNumber;

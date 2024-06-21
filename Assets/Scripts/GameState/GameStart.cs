@@ -120,7 +120,8 @@ namespace GameState
                 currentUserId = firebaseGame.UserId; //Update user data if changed
                 previousUserId = currentUserId;
             } //Reset if new data, or list change or different technique selected
-            if(firebaseGame.LoadData==true||gameManager.NumberOfItems!=previousNumberOfItems||gameManager.TechniqueNumber!=gameManager.PreviousTechnique||gameManager.AreaNumber!=gameManager.PreviousArea){//Reset game settings, check for update from firebase class
+            if(firebaseGame.LoadData==true||gameManager.NumberOfItems!=previousNumberOfItems||
+               gameManager.TechniqueNumber!=gameManager.PreviousTechnique||gameManager.AreaNumber!=gameManager.PreviousArea){//Reset game settings, check for update from firebase class
                 stopwatch = new Stopwatch();
                 ResetGame(); //Resets the game
                 SetGameStart(); //Setup for starting the game
@@ -271,7 +272,8 @@ namespace GameState
         {
             // Query trial data based on the user ID
             string userIdStr = firebaseGame.UserId.ToString();
-            reference.Child("Game").Child("Trials").Child("User" + userIdStr).OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Trials").Child("User" + userIdStr).OrderByKey().LimitToLast(1).GetValueAsync().
+                ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -284,7 +286,9 @@ namespace GameState
                     
                     if(saveData){
                         // Insert a new trial with the incremented trialId
-                        InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, numberArray[numberArrayIndex-2], itemLocation, distanceToItem, distanceTravelled));
+                        InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, 
+                            correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 
+                            numberArray[numberArrayIndex-2], itemLocation, distanceToItem, distanceTravelled));
                     }
                 }
                 else

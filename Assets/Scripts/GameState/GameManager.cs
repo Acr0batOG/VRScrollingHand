@@ -141,7 +141,8 @@ namespace GameState
         }
 
         void SetCollider(){
-            //Used for different types of scrolling. Thumb and finger collision for Finger and Fingertip. And Finger and arm/hand collision for Arm and Hand
+            //Used for different types of scrolling. Thumb and finger collision for Finger and Fingertip. And Finger
+            //and arm/hand collision for Arm and Hand
             if(areaNumber<=2){
                 armUIDetectors[1].gameObject.SetActive(false); //Disable the thumb collider when scrolling on right hand
                 armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider

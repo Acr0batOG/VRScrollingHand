@@ -144,7 +144,8 @@ namespace Firebase
 
         void GetLastUserIdAndInsertUser()
         {
-            reference.Child("Game").Child("Users").OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Users").OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(
+                task =>
             {
                 if (task.IsCompleted)
                 {
@@ -177,7 +178,8 @@ namespace Firebase
             // Convert userId to string to use it as a key
             string userIdStr = user.UserId.ToString();
             // Insert the user data into the "games" node in the database
-            reference.Child("Game").Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).
+                ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -233,7 +235,8 @@ namespace Firebase
                     if (userSnapshot.Exists)
                     {
                         // User exists, proceed with inserting the block
-                        reference.Child("Game").Child("Users").Child(userIdStr).Child("Blocks").Child(blockIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(task =>
+                        reference.Child("Game").Child("Users").Child(userIdStr).Child("Blocks").Child(blockIdStr).
+                            SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(task =>
                         {
                             if (task.IsCompleted)
                             {
