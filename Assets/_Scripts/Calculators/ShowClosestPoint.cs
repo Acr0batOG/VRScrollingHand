@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Calculators
+namespace _Scripts.Calculators
 {
     public class ShowClosestPoint : MonoBehaviour
     {

@@ -1,11 +1,10 @@
 using System.Collections;
-using GameState;
-using Scrolling_Interface;
+using _Scripts.GameState;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scrolling_Types
+namespace _Scripts.Scrolling_Types
 {
     public class ScrollBase : MonoBehaviour
     {

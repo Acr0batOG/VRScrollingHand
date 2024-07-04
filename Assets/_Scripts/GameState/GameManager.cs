@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using OldScrollingTypes;
+using _Scripts.OldScrollingTypes;
 using UnityEngine;
 using UnityEngine.UI;
 using static OVRPlugin;
 
-namespace GameState
+namespace _Scripts.GameState
 {
     public class GameManager : Singleton<GameManager>
     {

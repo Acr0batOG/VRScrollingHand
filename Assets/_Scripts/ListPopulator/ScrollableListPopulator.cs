@@ -1,9 +1,9 @@
-using GameState;
+using _Scripts.GameState;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ListPopulator
+namespace _Scripts.ListPopulator
 {
     public class ScrollableListPopulator : MonoBehaviour
     {

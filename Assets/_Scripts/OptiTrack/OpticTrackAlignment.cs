@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace OptiTrack
+namespace _Scripts.OptiTrack
 {
     public class OpticTrackAlignment : MonoBehaviour
     {

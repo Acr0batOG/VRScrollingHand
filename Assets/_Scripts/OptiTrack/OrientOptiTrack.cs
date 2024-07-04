@@ -1,4 +1,4 @@
-using GameState;
+using _Scripts.GameState;
 using UnityEngine;
 
 namespace _Scripts.OptiTrack

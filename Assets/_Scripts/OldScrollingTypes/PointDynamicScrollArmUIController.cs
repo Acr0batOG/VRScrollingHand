@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Globalization;
-using Calculators;
-using OldScrollingTypes;
+using _Scripts.Calculators;
 using UnityEngine;
 
 namespace _Scripts.OldScrollingTypes

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace OldScrollingTypes
+namespace _Scripts.OldScrollingTypes
 {
     public class StaticScrollArmUIController : ArmUIController{
         [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling 

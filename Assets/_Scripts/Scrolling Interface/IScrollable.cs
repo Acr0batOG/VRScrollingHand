@@ -1,8 +1,6 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Scrolling_Interface
+namespace _Scripts.Scrolling_Interface
 {
     public interface IScrollable
     {

@@ -1,10 +1,9 @@
 using System.Collections;
-using Calculators;
-using Scrolling_Interface;
+using _Scripts.Calculators;
+using _Scripts.Scrolling_Interface;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Scrolling_Types
+namespace _Scripts.Scrolling_Types
 {
     public class PointDynamicScrolling : ScrollBase, IScrollable
     {

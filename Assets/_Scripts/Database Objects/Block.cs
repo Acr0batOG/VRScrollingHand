@@ -1,4 +1,4 @@
-namespace Database_Objects
+namespace _Scripts.Database_Objects
 {
     public class Block { //Object for database insertion
         public int BlockId; //Which user is being tested in what block; used as key

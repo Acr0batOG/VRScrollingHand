@@ -1,7 +1,8 @@
+using System.Collections;
 using System.Globalization;
 using UnityEngine;
 
-namespace OldScrollingTypes
+namespace _Scripts.OldScrollingTypes
 {
     public class PointScrollArmUIController : ArmUIController
     {
@@ -17,6 +18,9 @@ namespace OldScrollingTypes
         protected const float FingertipDivisor = 2.6f; // Used to convert user's fingertip length
         protected readonly float HandDivisorAdjustment = .08f;
         protected readonly float ARMDivisorAdjustment =.05f;
+        private Coroutine hoverCoroutine = null;
+        private int hoveredBinIndex = -1;
+        private bool isExpanded = false;
         // Start is called before the first frame update
         protected new void Start()
         {
@@ -75,7 +79,22 @@ namespace OldScrollingTypes
 
             // Calculate bin index based on adjusted contact position
             int binIndex = Mathf.Clamp(Mathf.RoundToInt((1 - (adjustedContactPosition / (endOffset - startOffset))) * (totalBins - 1)), 0, totalBins - 1) + 1;
+            
+            if (hoveredBinIndex != binIndex)
+            {
+                hoveredBinIndex = binIndex;
 
+                // Stop any existing hover coroutine
+                if (hoverCoroutine != null)
+                {
+                    StopCoroutine(hoverCoroutine);
+                    hoverCoroutine = null;
+                    ResetBinHeight();
+                }
+
+                // Start a new hover coroutine
+                hoverCoroutine = StartCoroutine(HoverOverBin(binIndex));
+            }
             // Calculate bin height and new scroll position
             float binHeight = (contentHeight - viewportHeight) / (totalBins - 1);
             float newScrollPositionY = (binIndex - 1) * binHeight;
@@ -111,6 +130,37 @@ namespace OldScrollingTypes
                     EndOffsetPercentage = UserHeight /FingertipDivisor ; //appx.85 with 2.2 arm length
                     StartOffsetPercentage = .14f;
                     break;
+            }
+        }
+        private IEnumerator HoverOverBin(int binIndex)
+        {
+            // Wait for 500ms
+            yield return new WaitForSeconds(0.5f);
+
+            // Expand the bin height
+            ExpandBinHeight(binIndex);
+        }
+
+        private void ExpandBinHeight(int binIndex)
+        {
+            // Logic to expand the bin height
+            if (!isExpanded)
+            {
+                // Find the bin using binIndex and modify its height
+                RectTransform bin = scrollableList.content.GetChild(binIndex).GetComponent<RectTransform>();
+                bin.sizeDelta = new Vector2(bin.sizeDelta.x, bin.sizeDelta.y * 2.0f); // Example: Increase height by 100%
+                isExpanded = true;
+            }
+        }
+
+        private void ResetBinHeight()
+        {
+            if (isExpanded)
+            {
+                // Find the previously hovered bin and reset its height
+                RectTransform bin = scrollableList.content.GetChild(hoveredBinIndex).GetComponent<RectTransform>();
+                bin.sizeDelta = new Vector2(bin.sizeDelta.x, bin.sizeDelta.y / 2.0f); // Reset height to original
+                isExpanded = false;
             }
         }
     }

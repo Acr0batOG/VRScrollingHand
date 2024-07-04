@@ -1,4 +1,4 @@
-namespace Database_Objects
+namespace _Scripts.Database_Objects
 {
     public class User { //Object for database insertion
         public int UserId;

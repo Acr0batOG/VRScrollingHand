@@ -1,7 +1,7 @@
-using Calculators;
+using _Scripts.Calculators;
 using UnityEngine;
 
-namespace OldScrollingTypes
+namespace _Scripts.OldScrollingTypes
 {
     public class DynamicScrollArmUIController : ArmUIController
     {

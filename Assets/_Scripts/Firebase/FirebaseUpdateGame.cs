@@ -1,8 +1,8 @@
+using _Scripts.GameState;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
-using GameState;
 using TMPro;
 using UnityEngine;
 

@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using _Scripts.Database_Objects;
 using _Scripts.Firebase;
-using Database_Objects;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
-namespace GameState
+namespace _Scripts.GameState
 {
     public class GameStart : MonoBehaviour
     {

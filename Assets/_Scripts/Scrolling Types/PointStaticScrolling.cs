@@ -1,7 +1,7 @@
-using Scrolling_Interface;
+using _Scripts.Scrolling_Interface;
 using UnityEngine;
 
-namespace Scrolling_Types
+namespace _Scripts.Scrolling_Types
 {
     public class PointStaticScrolling : ScrollBase, IScrollable
     {

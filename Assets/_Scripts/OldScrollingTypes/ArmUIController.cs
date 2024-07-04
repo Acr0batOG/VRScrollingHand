@@ -1,11 +1,10 @@
 using System.Collections;
-using Firebase;
-using GameState;
+using _Scripts.GameState;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OldScrollingTypes
+namespace _Scripts.OldScrollingTypes
 {
     public class ArmUIController : MonoBehaviour
     {

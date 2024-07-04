@@ -1,5 +1,6 @@
 using System.Collections;
-using Database_Objects;
+using _Scripts.Database_Objects;
+using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 // For ContinueWithOnMainThread
 
-namespace Firebase
+namespace _Scripts.Firebase
 {
     public class FirebaseNewUser : MonoBehaviour
     {
