@@ -30,6 +30,7 @@ namespace _Scripts.OldScrollingTypes
         protected float PreviousScrollPosition; // Previous scroll position for dwell check
         protected float DwellThreshold = 10f; // Threshold for movement to cancel dwell
         protected float DwellTime = 2.2f; // Time required to dwell on an item
+        protected float ContentSize;
         protected int ItemCount;
 
         protected void Start()
@@ -40,6 +41,7 @@ namespace _Scripts.OldScrollingTypes
             SelectionBar = GameObject.FindWithTag("SelectionBar").GetComponent<Slider>();
             SelectionBar.value = 0f;
             ItemCount = GameManager.NumberOfItems;
+            
             // switch (AreaNum) // Switch to set the start and end points
             // {
             //     case 1:
@@ -181,13 +183,13 @@ namespace _Scripts.OldScrollingTypes
                 float viewportHeight = scrollableList.viewport.rect.height;
 
                 // Calculate the total height of the list content
-                float contentHeight = ItemHeight * ItemCount;
+                ContentSize = ItemHeight * ItemCount;
                 float relativeScrollPosition =
                     scrollableList.content.anchoredPosition.y /
-                    (contentHeight - viewportHeight); //CUrrent scroll psoition of current list 
+                    (ContentSize - viewportHeight); //CUrrent scroll psoition of current list 
                 // Calculate the relative scroll position within the content
                 float halfwayHeight =
-                    (contentHeight - viewportHeight) / 2f; //Halfway point to see if we meed to add an adjustment factor
+                    (ContentSize - viewportHeight) / 2f; //Halfway point to see if we meed to add an adjustment factor
 
                 int targetValue = 1; //Target for distance calculations
                 float distanceFromTarget =

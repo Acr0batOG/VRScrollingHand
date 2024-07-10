@@ -31,7 +31,8 @@ namespace _Scripts.GameState
         private FirebaseAuth auth;
         private Stopwatch stopwatch;
         List<int> numberArray = new(); // Array to hold numbers the user will select, will be shuffled each time
-        private float[] arr = new float [50];
+        private float[] distanceArray = new float [50];
+        private float[] colorArray = new float [51];
         int numberArrayIndex;
         int previousSelectedItem;
         private int previousSelectedNumber;
@@ -51,6 +52,15 @@ namespace _Scripts.GameState
         bool isCoroutineRunning; // Flag to indicate if the coroutine is running
         public bool isCorrect;
         public float completionTime;
+        private Color originalColor1;
+        private Color originalColor2;
+        private Graphic graphic1;
+        private Graphic graphic2;
+        private Color highlightColor1 = new Color(0.85f, 0f, 0f); // Highlighted color
+        private Color highlightColor2 = new Color(0.9f, 0.9f, 0.9f); // Highlighted color (light gray)
+
+        private int currentColorIndex = -1; // Index of the current highlighted color
+        private int previousColorIndex = -1; // Index of the previous highlighted color
 
         public int itemSelected;
     
@@ -77,11 +87,6 @@ namespace _Scripts.GameState
                     Debug.LogError($"Could not resolve all Firebase dependencies: {task.Result}");
                 }
             });
-            for (int i = 0; i < 50; i++)
-            {
-                arr[i] = i * itemDistanceInit;
-                // Debug.Log("arr[" + i + "] = " + arr[i]);
-            }
             stopwatch = new Stopwatch(); //Create a stopwatch object for timing
             FillArray(numberArray); // Fill the selection array
             Shuffle(numberArray); // Shuffle the array for selection
@@ -91,6 +96,14 @@ namespace _Scripts.GameState
             previousBlockId = currentBlockId; // Set previous value to have an on change in the update
             previousUserId = currentUserId;
             SetGameStart(); //Start up the game
+            StartCoroutine(WaitBeforeGetColor());
+            for (int i = 0; i < 50; i++)
+            {
+                distanceArray[i] = i * itemDistanceInit;
+                //Debug.Log("arr[" + i + "] = " + distanceArray[i]);
+                colorArray[i] = i * itemDistanceInit - 25f;
+            }
+            colorArray[50] = 50 * itemDistanceInit - 25f;
         }
         void SignInUser()
         {
@@ -104,13 +117,50 @@ namespace _Scripts.GameState
                 if (task.IsFaulted)
                 {
                     Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
-                    return;
+                   
                 }
-  
             });
         }
-        void Update()
+
+        IEnumerator WaitBeforeGetColor()
         {
+            yield return new WaitForSeconds(1.5f);
+            RectTransform[] rect = scrollableList.content.GetChild(0).GetComponentsInChildren<RectTransform>();
+            graphic1 = rect[0].GetComponent<Graphic>(); // Border
+            originalColor1 = graphic1.color;
+            graphic2 = rect[1].GetComponent<Graphic>(); // White interior
+            originalColor2 = graphic2.color;
+        }
+        void Update()
+        {   
+            float currentPositionY = scrollableList.content.anchoredPosition.y;
+
+            // Find the index of the color range that currentPositionY is within
+            for (int i = 0; i < colorArray.Length - 1; i++)
+            {
+                if (currentPositionY >= colorArray[i] && currentPositionY <= colorArray[i + 1])
+                {
+                    previousColorIndex = currentColorIndex; // Update previousColorIndex
+                    currentColorIndex = i; // Update currentColorIndex
+                    break;
+                }
+            }
+
+            // If currentPositionY is within a different color range, change colors
+            if (currentColorIndex != previousColorIndex)
+            {
+                // Reset previous highlighted item to original colors
+                if (previousColorIndex >= 0 && previousColorIndex < scrollableList.content.childCount)
+                {
+                    ResetColors(previousColorIndex);
+                }
+
+                // Highlight current item with new colors
+                if (currentColorIndex >= 0 && currentColorIndex < scrollableList.content.childCount)
+                {
+                    HighlightColors(currentColorIndex);
+                }
+            }
             if (previousBlockId != currentBlockId)
             {
                 currentBlockId = firebaseGame.BlockId; //Update block data if changed
@@ -121,7 +171,7 @@ namespace _Scripts.GameState
                 currentUserId = firebaseGame.UserId; //Update user data if changed
                 previousUserId = currentUserId;
             } //Reset if new data, or list change or different technique selected
-            if(firebaseGame.LoadData==true||gameManager.NumberOfItems!=previousNumberOfItems||
+            if(firebaseGame.LoadData||gameManager.NumberOfItems!=previousNumberOfItems||
                gameManager.TechniqueNumber!=gameManager.PreviousTechnique||gameManager.AreaNumber!=gameManager.PreviousArea){//Reset game settings, check for update from firebase class
                 stopwatch = new Stopwatch();
                 ResetGame(); //Resets the game
@@ -133,6 +183,23 @@ namespace _Scripts.GameState
             {
                 StartCoroutine(TestSelectionChange()); //In test mode, check we are not waiting for a delay and the number has changed
             }
+        }
+        void HighlightColors(int index)
+        {
+            RectTransform[] rect = scrollableList.content.GetChild(index).GetComponentsInChildren<RectTransform>();
+            graphic1 = rect[0].GetComponent<Graphic>(); // Border
+            graphic1.color = highlightColor1;
+            graphic2 = rect[1].GetComponent<Graphic>(); // White interior
+            graphic2.color = highlightColor2;
+        }
+
+        void ResetColors(int index)
+        {
+            RectTransform[] rect = scrollableList.content.GetChild(index).GetComponentsInChildren<RectTransform>();
+            graphic1 = rect[0].GetComponent<Graphic>(); // Border
+            graphic1.color = originalColor1;
+            graphic2 = rect[1].GetComponent<Graphic>(); // White interior
+            graphic2.color = originalColor2;
         }
         void ResetGame(){
             previousNumberOfItems = gameManager.NumberOfItems;
@@ -167,7 +234,7 @@ namespace _Scripts.GameState
             int n = array.Count; // Use Count instead of Capacity
             for (int i = n - 1; i > 0; i--)
             {
-                int j = random.Next(0, i + 1); // Random index from 0 to i
+                int j = random.Next(0, i + 1); // Random index from 0 to I
                 // Swap array[i] with the element at random index
                 (array[i], array[j]) = (array[j], array[i]);
             } 
@@ -181,6 +248,7 @@ namespace _Scripts.GameState
         void SetGameStart()
         {
             selectNumber.text = "Select Any Number to Begin"; //Start text displayed to begin
+            
         }
 
         private void SelectionChange()
@@ -224,7 +292,7 @@ namespace _Scripts.GameState
                     // Debug.Log(numberArray[numberArrayIndex - 1]);
                     // Debug.Log("Actual Position " + scrollableList.content.anchoredPosition.y);
                     // Debug.Log("Array Number " + arr[numberArray[numberArrayIndex-1]-1]);
-                    itemLocation = arr[numberArray[numberArrayIndex - 1] - 1];
+                    itemLocation = distanceArray[numberArray[numberArrayIndex - 1] - 1];
                     distanceToItem =  Math.Abs(scrollableList.content.anchoredPosition.y - itemLocation);
                     // Debug.Log(distanceToItem);
                 }
@@ -255,6 +323,13 @@ namespace _Scripts.GameState
             stopwatch.Reset(); //Reset stopwatch to 0
             //Get completion time as a float
             completionTime = (float)elapsedTime.TotalSeconds;
+             RectTransform[] rect = scrollableList.content.GetChild(checkedSelectedItem-1).GetComponentsInChildren<RectTransform>();
+             Graphic selectGraphic1 = rect[0].GetComponent<Graphic>(); //border
+             selectGraphic1.color = new Color(1f, .1f, 1f); // Red color 
+             Graphic selectGraphic2 = rect[1].GetComponent<Graphic>(); //White interior
+             selectGraphic2.color = new Color(1f, .95f, 1f); 
+            StartCoroutine(ResetColorsAfterDelay(selectGraphic1, selectGraphic2, 1.2f, checkedSelectedItem));
+
             if (checkedSelectedItem == numberArray[numberArrayIndex - 1]) //Used to check if answer is correct
             {
                 //Answer is correct, set correct to true. Play sound and display green text
@@ -276,12 +351,21 @@ namespace _Scripts.GameState
             distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
             SetTrialData();
         }
-        // ReSharper disable Unity.PerformanceAnalysis
-        protected void SetTrialData()
+        IEnumerator ResetColorsAfterDelay(Graphic resetGraphic1, Graphic resetGraphic2, float delay, int checkedSelectedItem)
+        {
+            yield return new WaitForSeconds(delay);
+        
+            // Reset colors to original
+            resetGraphic1.color = originalColor1;
+            resetGraphic2.color = originalColor2;
+            previousColorIndex = checkedSelectedItem-1;
+            HighlightColors(previousColorIndex);
+        }
+        private void SetTrialData()
         {
             // Query trial data based on the user ID
             string userIdStr = firebaseGame.UserId.ToString();
-            reference.Child("Game").Child("Trials").Child("User" + userIdStr).OrderByKey().LimitToLast(1).GetValueAsync().
+            reference.Child("Game").Child("Study1").Child("Trials").Child("User" + userIdStr).OrderByKey().LimitToLast(1).GetValueAsync().
                 ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
@@ -334,7 +418,7 @@ namespace _Scripts.GameState
             string userIdStr = trial.UserId.ToString();
 
             // Form the reference path for inserting the trial data
-            DatabaseReference trialReference = reference.Child("Game").Child("Trials").Child("User" + userIdStr).Child(trialIdStr);
+            DatabaseReference trialReference = reference.Child("Game").Child("Study1").Child("Trials").Child("User" + userIdStr).Child(trialIdStr);
 
             // Insert the trial data into the firebase
             trialReference.SetRawJsonValueAsync(JsonUtility.ToJson(trial)).ContinueWithOnMainThread(task =>

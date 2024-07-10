@@ -104,7 +104,7 @@ namespace _Scripts.Firebase
 
         void RetrieveAndSetUserData()
         {
-            reference.Child("Game").Child("Users").Child(userId.ToString()).GetValueAsync().ContinueWithOnMainThread(
+            reference.Child("Game").Child("Study1").Child("Users").Child(userId.ToString()).GetValueAsync().ContinueWithOnMainThread(
                 task =>
             {
                 
@@ -136,7 +136,7 @@ namespace _Scripts.Firebase
         void RetrieveAndSetBlockData()
         {
             // Query block data based on the blockId under the specified user ID
-            reference.Child("Game").Child("Users").Child(userId.ToString()).Child("Blocks").Child(blockId.ToString()).
+            reference.Child("Game").Child("Study1").Child("Users").Child(userId.ToString()).Child("Blocks").Child(blockId.ToString()).
                 GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 

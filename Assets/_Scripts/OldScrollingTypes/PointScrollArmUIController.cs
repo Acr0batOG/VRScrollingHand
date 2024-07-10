@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Globalization;
 using UnityEngine;
 
@@ -17,15 +16,17 @@ namespace _Scripts.OldScrollingTypes
         protected readonly float FingerDivisor = 2.30f; // Used to convert user's finger length
         protected const float FingertipDivisor = 2.6f; // Used to convert user's fingertip length
         protected readonly float HandDivisorAdjustment = .08f;
-        protected readonly float ARMDivisorAdjustment =.05f;
-        private Coroutine hoverCoroutine = null;
-        private int hoveredBinIndex = -1;
-        private bool isExpanded = false;
+        // protected readonly float ARMDivisorAdjustment =.05f;
+        // protected readonly float imagesizeMultiplier = 1.36f;
+        // protected readonly float fontsizeMultiplier = 1.1f;
+        // private Coroutine hoverCoroutine = null;
+        // private int hoveredBinIndex = -1;
+        // private bool isExpanded = false;
         // Start is called before the first frame update
         protected new void Start()
         {
             base.Start();
-            LengthCheck(); // Check arm length
+            LengthCheck(); // Check arm length  
         }
 
         private void OnTriggerEnter(Collider other)
@@ -79,22 +80,21 @@ namespace _Scripts.OldScrollingTypes
 
             // Calculate bin index based on adjusted contact position
             int binIndex = Mathf.Clamp(Mathf.RoundToInt((1 - (adjustedContactPosition / (endOffset - startOffset))) * (totalBins - 1)), 0, totalBins - 1) + 1;
-            
-            if (hoveredBinIndex != binIndex)
-            {
-                hoveredBinIndex = binIndex;
-
-                // Stop any existing hover coroutine
-                if (hoverCoroutine != null)
-                {
-                    StopCoroutine(hoverCoroutine);
-                    hoverCoroutine = null;
-                    ResetBinHeight();
-                }
-
-                // Start a new hover coroutine
-                hoverCoroutine = StartCoroutine(HoverOverBin(binIndex));
-            }
+            // if (hoveredBinIndex != binIndex)
+            // {
+            //     hoveredBinIndex = binIndex;
+            //
+            //     // Stop any existing hover coroutine
+            //     if (hoverCoroutine != null)
+            //     {
+            //         StopCoroutine(hoverCoroutine);
+            //         hoverCoroutine = null;
+            //         ResetBinHeight(binIndex);
+            //     }
+            //
+            //     // Start a new hover coroutine
+            //     hoverCoroutine = StartCoroutine(HoverOverBin(binIndex));
+            // }
             // Calculate bin height and new scroll position
             float binHeight = (contentHeight - viewportHeight) / (totalBins - 1);
             float newScrollPositionY = (binIndex - 1) * binHeight;
@@ -132,36 +132,60 @@ namespace _Scripts.OldScrollingTypes
                     break;
             }
         }
-        private IEnumerator HoverOverBin(int binIndex)
-        {
-            // Wait for 500ms
-            yield return new WaitForSeconds(0.5f);
-
-            // Expand the bin height
-            ExpandBinHeight(binIndex);
-        }
-
-        private void ExpandBinHeight(int binIndex)
-        {
-            // Logic to expand the bin height
-            if (!isExpanded)
-            {
-                // Find the bin using binIndex and modify its height
-                RectTransform bin = scrollableList.content.GetChild(binIndex).GetComponent<RectTransform>();
-                bin.sizeDelta = new Vector2(bin.sizeDelta.x, bin.sizeDelta.y * 2.0f); // Example: Increase height by 100%
-                isExpanded = true;
-            }
-        }
-
-        private void ResetBinHeight()
-        {
-            if (isExpanded)
-            {
-                // Find the previously hovered bin and reset its height
-                RectTransform bin = scrollableList.content.GetChild(hoveredBinIndex).GetComponent<RectTransform>();
-                bin.sizeDelta = new Vector2(bin.sizeDelta.x, bin.sizeDelta.y / 2.0f); // Reset height to original
-                isExpanded = false;
-            }
-        }
+        // private IEnumerator HoverOverBin(int binIndex)
+        // {
+        //     // Wait for 500ms
+        //     yield return new WaitForSeconds(0.5f);
+        //
+        //     // Expand the bin height
+        //     ExpandBinHeight(binIndex);
+        // }
+        
+        // private void ExpandBinHeight(int binIndex)
+        // {
+        //     // Logic to expand the bin height
+        //     if (!isExpanded)
+        //     {
+        //         binIndex = Mathf.Clamp(binIndex, 0, 49);
+        //         
+        //         // Find the bin using binIndex and modify its height
+        //         var image = scrollableList.content.GetChild(binIndex).GetComponentsInChildren<RectTransform>();
+        //         foreach (RectTransform img in image)
+        //         {
+        //             img.sizeDelta = new Vector2(img.sizeDelta.x, img.sizeDelta.y * imagesizeMultiplier); // Increase height by 50% 
+        //         }
+        //         var text = scrollableList.content.GetChild(binIndex).GetComponentInChildren<TextMeshProUGUI>(); 
+        //         text.fontSize = Mathf.RoundToInt(text.fontSize * fontsizeMultiplier); // Increase font size by 50%
+        //
+        //         isExpanded = true;
+        //         // Expand the array selector values as well
+        //         contentHeight = ItemHeight * (ItemCount - 1) + ItemHeight * imagesizeMultiplier;
+        //         //55*49 + 55 * 1.36 = new total content height
+        //         scrollableList.content.sizeDelta = new Vector2(scrollableList.content.sizeDelta.x,
+        //             scrollableList.content.sizeDelta.y + 18f);
+        //     }
+        // }
+        //
+        // private void ResetBinHeight(int binIndex)
+        // {
+        //     if (isExpanded)
+        //     {
+        //         // Find the bin using binIndex and modify its height
+        //         var image = scrollableList.content.GetChild(binIndex).GetComponentsInChildren<RectTransform>();
+        //         foreach (RectTransform img in image)
+        //         {
+        //             img.sizeDelta = new Vector2(img.sizeDelta.x, img.sizeDelta.y / imagesizeMultiplier); // Increase height by 50% 
+        //         }
+        //         var text = scrollableList.content.GetChild(binIndex).GetComponentInChildren<TextMeshProUGUI>(); 
+        //         
+        //         text.fontSize = Mathf.RoundToInt(text.fontSize / fontsizeMultiplier); // Increase font size by 50%
+        //
+        //         isExpanded = false;
+        //         //Set content height back to normal
+        //         contentHeight = ItemHeight * ItemCount;
+        //         scrollableList.content.sizeDelta = new Vector2(scrollableList.content.sizeDelta.x,
+        //             scrollableList.content.sizeDelta.y - 18f);
+        //     }
+        // }
     }
 }

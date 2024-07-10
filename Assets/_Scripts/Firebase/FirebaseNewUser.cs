@@ -105,7 +105,7 @@ namespace _Scripts.Firebase
 
         void CheckAndInsertUser()
         {
-            reference.Child("Game").Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Study1").Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -144,7 +144,7 @@ namespace _Scripts.Firebase
 
         void GetLastUserIdAndInsertUser()
         {
-            reference.Child("Game").Child("Users").OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(
+            reference.Child("Game").Child("Study1").Child("Users").OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(
                 task =>
             {
                 if (task.IsCompleted)
@@ -177,7 +177,7 @@ namespace _Scripts.Firebase
             // Convert userId to string to use it as a key
             string userIdStr = user.UserId.ToString();
             // Insert the user data into the "games" node in the database
-            reference.Child("Game").Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).
+            reference.Child("Game").Child("Study1").Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).
                 ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
@@ -226,7 +226,7 @@ namespace _Scripts.Firebase
             string blockIdStr = block.BlockId.ToString();
             string userIdStr = block.UserId.ToString();
             // Check if the user exists
-            reference.Child("Game").Child("Users").Child(userIdStr).GetValueAsync().ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Study1").Child("Users").Child(userIdStr).GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -234,7 +234,7 @@ namespace _Scripts.Firebase
                     if (userSnapshot.Exists)
                     {
                         // User exists, proceed with inserting the block
-                        reference.Child("Game").Child("Users").Child(userIdStr).Child("Blocks").Child(blockIdStr).
+                        reference.Child("Game").Child("Study1").Child("Users").Child(userIdStr).Child("Blocks").Child(blockIdStr).
                             SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(blockInsertionTask =>
                         {
                             if (blockInsertionTask.IsCompleted)
