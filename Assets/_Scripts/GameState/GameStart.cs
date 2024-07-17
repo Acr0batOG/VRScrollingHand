@@ -36,6 +36,7 @@ namespace _Scripts.GameState
         int numberArrayIndex;
         int previousSelectedItem;
         private int previousSelectedNumber;
+        private bool stopGame; //Used to stop game once all items selected
         int selectedItem;
         int currentBlockId;
         int currentUserId;
@@ -56,8 +57,8 @@ namespace _Scripts.GameState
         private Color originalColor2;
         private Graphic graphic1;
         private Graphic graphic2;
-        private Color highlightColor1 = new Color(0.85f, 0f, 0f); // Highlighted color
-        private Color highlightColor2 = new Color(0.9f, 0.9f, 0.9f); // Highlighted color (light gray)
+        private readonly Color highlightColor1 = new Color(0.85f, 0f, 0f); // Highlighted color
+        private readonly Color highlightColor2 = new Color(0.9f, 0.9f, 0.9f); // Highlighted color (light gray)
 
         private int currentColorIndex = -1; // Index of the current highlighted color
         private int previousColorIndex = -1; // Index of the previous highlighted color
@@ -87,6 +88,7 @@ namespace _Scripts.GameState
                     Debug.LogError($"Could not resolve all Firebase dependencies: {task.Result}");
                 }
             });
+            
             stopwatch = new Stopwatch(); //Create a stopwatch object for timing
             FillArray(numberArray); // Fill the selection array
             Shuffle(numberArray); // Shuffle the array for selection
@@ -97,13 +99,13 @@ namespace _Scripts.GameState
             previousUserId = currentUserId;
             SetGameStart(); //Start up the game
             StartCoroutine(WaitBeforeGetColor());
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i <= 50; i++)
             {
-                distanceArray[i] = i * itemDistanceInit;
+                if(i < 50)
+                    distanceArray[i] = i * itemDistanceInit;
                 //Debug.Log("arr[" + i + "] = " + distanceArray[i]);
                 colorArray[i] = i * itemDistanceInit - 25f;
             }
-            colorArray[50] = 50 * itemDistanceInit - 25f;
         }
         void SignInUser()
         {
@@ -145,7 +147,7 @@ namespace _Scripts.GameState
                     break;
                 }
             }
-
+            
             // If currentPositionY is within a different color range, change colors
             if (currentColorIndex != previousColorIndex)
             {
@@ -154,7 +156,7 @@ namespace _Scripts.GameState
                 {
                     ResetColors(previousColorIndex);
                 }
-
+            
                 // Highlight current item with new colors
                 if (currentColorIndex >= 0 && currentColorIndex < scrollableList.content.childCount)
                 {
@@ -212,6 +214,7 @@ namespace _Scripts.GameState
             previousBlockId = currentBlockId; // Set previous value to have an on change in the update
             previousUserId = currentUserId;
             correctText.text = ""; //Reset correct text
+            stopGame = false; //Reset stop game to allow selections again.
         }
 
         void FillArray(List<int> array)
@@ -256,14 +259,15 @@ namespace _Scripts.GameState
             if (firebaseGame.StartGame)
             {
                 selectedItem = gameManager.SelectedItem;
-                if (selectedItem != previousSelectedItem)
+                if (selectedItem != previousSelectedItem) //Massive fucking bug right here!
+                //Doesn't work if user tries to select the same number twice, but I don't know how to fix it
                 {
                     previousSelectedItem = selectedItem;
                     if (numberArrayIndex > 0) // Only check correctness after the first selection
                     {
                         CheckCorrect(selectedItem); //Check if selection is correct 
                     }
-
+                    
                     SetNumber(); //Set next item
                 }
             }
@@ -301,7 +305,8 @@ namespace _Scripts.GameState
                 stopwatch.Start(); //Start time
                 previousScrollPosition = scrollableList.content.anchoredPosition.y;
                 //Display item to be selected
-                if (selectedItem == numberArray[numberArrayIndex])
+                if (selectedItem == numberArray[numberArrayIndex]) //If the previous item selected is supposed to be the
+                //Next item, swap them.
                 {
                     (numberArray[numberArrayIndex], numberArray[numberArrayIndex + 1]) = (numberArray[numberArrayIndex + 1], numberArray[numberArrayIndex]);
                 }
@@ -312,9 +317,11 @@ namespace _Scripts.GameState
             else
             {   //Once all 10 items have been selected
                 selectNumber.text = "No more items to select.";
+                stopGame = true;
             }
         }
         //Check if answer is correct
+        // ReSharper disable Unity.PerformanceAnalysis
         void CheckCorrect(int checkedSelectedItem)
         {
             gameManager.SelectedItem = checkedSelectedItem;
@@ -323,34 +330,52 @@ namespace _Scripts.GameState
             stopwatch.Reset(); //Reset stopwatch to 0
             //Get completion time as a float
             completionTime = (float)elapsedTime.TotalSeconds;
-             RectTransform[] rect = scrollableList.content.GetChild(checkedSelectedItem-1).GetComponentsInChildren<RectTransform>();
-             Graphic selectGraphic1 = rect[0].GetComponent<Graphic>(); //border
-             selectGraphic1.color = new Color(1f, .1f, 1f); // Red color 
-             Graphic selectGraphic2 = rect[1].GetComponent<Graphic>(); //White interior
-             selectGraphic2.color = new Color(1f, .95f, 1f); 
+            try
+            {
+                RectTransform[] rect = scrollableList.content.GetChild(checkedSelectedItem - 1)
+                    .GetComponentsInChildren<RectTransform>();
+                Graphic selectGraphic1 = rect[0].GetComponent<Graphic>(); //border
+                Graphic selectGraphic2 = rect[1].GetComponent<Graphic>(); //White interior
+            
+
             StartCoroutine(ResetColorsAfterDelay(selectGraphic1, selectGraphic2, 1.2f, checkedSelectedItem));
-
-            if (checkedSelectedItem == numberArray[numberArrayIndex - 1]) //Used to check if answer is correct
+            if (!stopGame) //Boolean to check answer
             {
-                //Answer is correct, set correct to true. Play sound and display green text
-                isCorrect = true;
-                correctText.text = "Correct";
-                correctText.color = Color.green; // Set color to green for correct
-                correctAudioSource.Play(); // Play the correct audio clip
-            }
-            else
-            {
-                //Answer is incorrect. Play incorrect noise, set isCorrect to false and display red text
-                isCorrect = false;
-                correctText.text = "Incorrect";
-                correctText.color = Color.red; // Set color to red for incorrect
-                incorrectAudioSource.Play(); // Play the incorrect audio clip
+                if (checkedSelectedItem == numberArray[numberArrayIndex - 1]) //Used to check if answer is correct
+                {
+                    //Answer is correct, set correct to true. Play sound and display green text
+                    isCorrect = true;
+                    correctText.text = "Correct";
+                    correctText.color = Color.green; // Set color to green for correct
+                    correctAudioSource.Play(); // Play the correct audio clip
+                    selectGraphic1.color = originalColor1;
+                    selectGraphic2.color = Color.green;
+
+                }
+                else
+                {
+                    //Answer is incorrect. Play incorrect noise, set isCorrect to false and display red text
+                    isCorrect = false;
+                    correctText.text = "Incorrect";
+                    correctText.color = Color.red; // Set color to red for incorrect
+                    incorrectAudioSource.Play(); // Play the incorrect audio clip
+                    selectGraphic1.color = new Color(0.95f, 0f, 0f);
+                    selectGraphic2.color = new Color(1f, .32f, .32f);
+                }
+
+                currentScrollPosition = scrollableList.content.anchoredPosition.y;
+                distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
+                SetTrialData();
             }
 
-            currentScrollPosition = scrollableList.content.anchoredPosition.y;
-            distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
-            SetTrialData();
+            }catch (Exception e)
+            {
+                Debug.Log(e + " Exception: With checking the answer and changing the color");
+            }
+
+        
         }
+        // ReSharper disable Unity.PerformanceAnalysis
         IEnumerator ResetColorsAfterDelay(Graphic resetGraphic1, Graphic resetGraphic2, float delay, int checkedSelectedItem)
         {
             yield return new WaitForSeconds(delay);
@@ -359,7 +384,7 @@ namespace _Scripts.GameState
             resetGraphic1.color = originalColor1;
             resetGraphic2.color = originalColor2;
             previousColorIndex = checkedSelectedItem-1;
-            HighlightColors(previousColorIndex);
+            ResetColors(previousColorIndex);
         }
         private void SetTrialData()
         {

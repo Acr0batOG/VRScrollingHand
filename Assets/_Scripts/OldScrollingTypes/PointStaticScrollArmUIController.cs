@@ -26,7 +26,12 @@ namespace _Scripts.OldScrollingTypes
         {
             LengthCheck(); // Check arm length
             menuText.text = "Enter"; // Update menu text
-            Scroll(other); // Scroll through the content
+            if(triggerTimer < TriggerTimeMax)
+                Scroll(other); // Scroll through the content
+            else
+            {
+                StaticScroll(other, collisionPoint);
+            }
             // Start dwell selection coroutine
             DwellCoroutine ??= StartCoroutine(DwellSelection());
         }
@@ -91,7 +96,7 @@ namespace _Scripts.OldScrollingTypes
             triggerTimer++;  
         
             collisionPoint = fingerCollider.ClosestPoint(startPoint.position); //Set middle point to location where last point selection was made
-            distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
+            distText.text = "Initial Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
         }
 
         private void StaticScroll(Collider collisionInfo, Vector3 pointStaticCollisionPoint){
@@ -99,12 +104,13 @@ namespace _Scripts.OldScrollingTypes
             //Set middle of static scroll to point of initial collision
             Vector3 middlePoint = pointStaticCollisionPoint;
             //Set the width of the dead zone for selection
-            float threshold = capsuleCollider.height/165f;
+            float threshold = capsuleCollider.height/145f;
 
             // Determine the polarity based on which end the contact point is closer to
             int polarity = contactPoint.magnitude > middlePoint.magnitude ? -1 : 1;
       
 
+            // Get the content height and the viewport height
             // Get the content height and the viewport height
             float contentHeight = scrollableList.content.sizeDelta.y;
             float viewportHeight = scrollableList.viewport.rect.height;

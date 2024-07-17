@@ -1,12 +1,9 @@
-using System.Collections;
 using _Scripts.Database_Objects;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
-
-// For ContinueWithOnMainThread
 
 namespace _Scripts.Firebase
 {
@@ -16,15 +13,12 @@ namespace _Scripts.Firebase
         FirebaseAuth auth;
         [SerializeField] string userName;
         [SerializeField] float userHeight;
+        [SerializeField] private bool insertUser;
         int techniqueNumber;
         int areaNumber;
-        bool bodyVisibility;
         // Previous values of userName and userHeight
         string previousUserName;
-        float previousUserHeight;
-        // Delay in seconds after typing stops for inserting new user
-        private const float InsertionDelay = 3.6f;
-        Coroutine insertCoroutine;
+        private float previousUserHeight;
         void Start()
         {
             previousUserName = userName;
@@ -76,31 +70,18 @@ namespace _Scripts.Firebase
 
         void Update()
         {
+            if (insertUser)
+            {
+                CheckAndInsertUser();
+                insertUser = false;
+            }
             // Check if userName or userHeight has changed
             if (userName != previousUserName || Mathf.Approximately(userHeight, previousUserHeight))
             {
                 // Update previous values
                 previousUserName = userName;
                 previousUserHeight = userHeight;
-
-                // Cancel the previous coroutine if it exists
-                if (insertCoroutine != null)
-                {
-                    StopCoroutine(insertCoroutine);
-                }
-
-                // Start a new coroutine for data insertion after a delay
-                insertCoroutine = StartCoroutine(InsertAfterDelay());
             }
-        }
-
-        IEnumerator InsertAfterDelay()
-        {
-            // Wait for the specified delay
-            yield return new WaitForSeconds(InsertionDelay);
-
-            // Retrieve all users and then check if the new user should be inserted
-            CheckAndInsertUser();
         }
 
         void CheckAndInsertUser()
@@ -198,7 +179,7 @@ namespace _Scripts.Firebase
         void InsertBlocksForUser(int userId)
         {
             int k = 0;
-            //Loop through each block combination the user will need to be tested on, and insert each user possiblity
+            //Loop through each block combination the user will need to be tested on, and insert each user possibility
             for (int area = 1; area <= 2; area++)
             {
                 for (int technique = 1; technique <= 6; technique++)
@@ -210,10 +191,10 @@ namespace _Scripts.Firebase
                     // Set the values for the current combination
                     techniqueNumber = technique;
                     areaNumber = area;
-                    bodyVisibility = true;
+                  
                 
                     // Retrieve the last blockId and then insert a new block
-                    InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber, bodyVisibility));
+                    InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber));
                 
                 }
             }

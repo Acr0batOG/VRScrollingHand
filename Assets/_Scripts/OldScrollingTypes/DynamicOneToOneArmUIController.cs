@@ -78,7 +78,7 @@ namespace _Scripts.OldScrollingTypes
             scrollableList.content.anchoredPosition = newScrollPosition;
 
             // Update the distance text
-            distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {deltaY}";
+            distText.text = $"Dynamic One to One Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {deltaY}";
 
             // Update the last contact point
             lastContactPoint = currentContactPoint;

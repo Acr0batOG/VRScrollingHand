@@ -16,8 +16,7 @@ namespace _Scripts.OldScrollingTypes
         protected new void Start()
         {
             base.Start();
-            AdjustSpeed();
-        
+
         }
         protected void OnTriggerEnter(Collider other)
         {
@@ -112,20 +111,6 @@ namespace _Scripts.OldScrollingTypes
             if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
                 return; //Middle dead zone for no scrolling
         }
-        void AdjustSpeed(){
-            switch(AreaNum){//Update speed for area postion for scroll
-                case 1: 
-                    break;
-                case 2:
-                    staticScrollSpeed*=handSpeed; //*1.06
-                    break;
-                case 3:
-                    staticScrollSpeed*=fingerSpeed; //*5
-                    break;
-                case 4:
-                    staticScrollSpeed*=fingertipSpeed;//*10
-                    break;
-            }
-        }
+        
     }
 }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using _Scripts.OldScrollingTypes;
 using UnityEngine;
 using UnityEngine.UI;
-using static OVRPlugin;
 
 namespace _Scripts.GameState
 {
@@ -68,6 +67,7 @@ namespace _Scripts.GameState
             get{ return selectedItem; }
             set{ selectedItem = value; }
         }
+
         public int PreviousArea
         {
             get{ return previousArea; }
@@ -140,6 +140,7 @@ namespace _Scripts.GameState
 
        
 
+        // ReSharper disable Unity.PerformanceAnalysis
         void UpdateVisibility()
         {
             //Used to set body visibility
@@ -171,8 +172,8 @@ namespace _Scripts.GameState
             NotifyHeightChange(); //When height value changes, update value in other classes
         }
         private void UpdateHeight(){
-        BodyTrackingCalibrationInfo calibrationInfo;
-        calibrationInfo.BodyHeight = userHeight;  //Update body height on the character itself
+        //BodyTrackingCalibrationInfo calibrationInfo;
+        //calibrationInfo.BodyHeight = userHeight;  //Update body height on the character itself
         }
     }
 }

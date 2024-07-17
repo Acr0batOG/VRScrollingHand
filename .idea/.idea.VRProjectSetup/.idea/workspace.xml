@@ -5,24 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/OrientRightHand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/OrientRightHand.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PreFabs/ListNumbers.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PreFabs/ListNumbers.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PreFabs/Prefabs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PreFabs/Prefabs/[BB] Grabbable Cube.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PreFabs/Prefabs/[BB] Grabbable Cube.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PreFabs/Prefabs/[BB] Pointable Cube.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PreFabs/Prefabs/[BB] Pointable Cube.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PreFabs/Prefabs/[BB] Throwable Cube.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PreFabs/Prefabs/[BB] Throwable Cube.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Samples/XR Hands/1.4.1/HandVisualizer/Materials/HandsDefaultMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Samples/XR Hands/1.4.1/HandVisualizer/Materials/HandsDefaultMaterial.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Oculus/OculusProjectConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Oculus/OculusProjectConfig.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/XR/XRGeneralSettingsPerBuildTarget.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/XR/XRGeneralSettingsPerBuildTarget.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Database Objects/Block.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Database Objects/Block.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseNewUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseNewUser.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseUpdateGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseUpdateGame.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/ArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/ArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/StaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/StaticScrollArmUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/HandAlignment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/HandAlignment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/OrientOptiTrack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/OrientOptiTrack.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,6 +60,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Plugin Error&quot;: &quot;Plugins failed to load&quot;,
+    &quot;Notification.DoNotAsk-Plugin Error&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;do_not_show_Android_plugin_suggestion&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;OptiTrackSetup&quot;,
@@ -173,7 +175,17 @@
       <workItem from="1720567911392" duration="213000" />
       <workItem from="1720569070805" duration="704000" />
       <workItem from="1720571562404" duration="758000" />
-      <workItem from="1720634967441" duration="4588000" />
+      <workItem from="1720634967441" duration="4972000" />
+      <workItem from="1720807025401" duration="2822000" />
+      <workItem from="1720809886453" duration="759000" />
+      <workItem from="1720810986984" duration="7462000" />
+      <workItem from="1720821028516" duration="3393000" />
+      <workItem from="1721066802483" duration="6504000" />
+      <workItem from="1721085003026" duration="2606000" />
+      <workItem from="1721151283815" duration="2017000" />
+      <workItem from="1721154875687" duration="3875000" />
+      <workItem from="1721162864529" duration="66000" />
+      <workItem from="1721169499432" duration="1903000" />
     </task>
     <servers />
   </component>

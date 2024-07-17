@@ -116,7 +116,7 @@ namespace _Scripts.OldScrollingTypes
             triggerTimer++; // 160ms or 8 frames of this scroll type 
 
             // Update distance text
-            distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
+            distText.text = "Initial Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
         }
 
         private void DynamicScroll(Collider colliderInfo)
@@ -140,7 +140,7 @@ namespace _Scripts.OldScrollingTypes
             scrollableList.content.anchoredPosition = newScrollPosition;
 
             // Update the distance text
-            distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {deltaY}";
+            distText.text = $"Point Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {deltaY}";
 
             // Update the last contact point
             lastContactPoint = currentContactPoint;
@@ -150,9 +150,9 @@ namespace _Scripts.OldScrollingTypes
 
         private IEnumerator PauseBeforeResetCoroutine()
         {
-            yield return new WaitForSeconds(1.8f); // Pause for 1.8 seconds before resetting
-            //Used to continue dynamic scrolling for 1.8s after exit, reset if exceeded
-            triggerTimer = 0; // Reset trigger timer after 1.8 seconds for back to static scrolling
+            yield return new WaitForSeconds(1.2f); // Pause for 1.2 seconds before resetting
+            //Used to continue dynamic scrolling for 1.2s after exit, reset if exceeded
+            triggerTimer = 0; // Reset trigger timer after 1.2 seconds for back to static scrolling
         }
 
         // Check arm length and adjust offsets accordingly
