@@ -683,6 +683,7 @@ MonoBehaviour:
   startPoint: {fileID: 399341850}
   endPoint: {fileID: 99491779}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 18639795}
   multiplier: 5.25
 --- !u!1 &25307045
@@ -931,6 +932,7 @@ MonoBehaviour:
   startPoint: {fileID: 1850185604}
   endPoint: {fileID: 399341850}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 72451690}
   multiplier: 5.75
 --- !u!114 &72451688
@@ -3878,6 +3880,7 @@ MonoBehaviour:
   startPoint: {fileID: 399341850}
   endPoint: {fileID: 99491779}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 403858441}
   multiplier: 5.25
 --- !u!1 &412035926 stripped
@@ -3947,6 +3950,7 @@ MonoBehaviour:
   startPoint: {fileID: 399341850}
   endPoint: {fileID: 99491779}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 429636887}
   multiplier: 5.25
 --- !u!114 &429636885
@@ -4354,6 +4358,7 @@ MonoBehaviour:
   startPoint: {fileID: 1850185604}
   endPoint: {fileID: 399341850}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 476471343}
   multiplier: 5.75
 --- !u!114 &476471341
@@ -5835,6 +5840,7 @@ MonoBehaviour:
   startPoint: {fileID: 1850185604}
   endPoint: {fileID: 399341850}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 699891135}
   multiplier: 5.75
 --- !u!114 &699891133
@@ -6071,8 +6077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b2fcc1992c4234b165a2329154fb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headsetTransform: {fileID: 1654231037}
-  ovrCameraRig: {fileID: 707065180}
+  headsetTransform: {fileID: 0}
+  ovrCameraRig: {fileID: 0}
 --- !u!1 &711134798
 GameObject:
   m_ObjectHideFlags: 0
@@ -7647,7 +7653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headsetTransform: {fileID: 1654231037}
-  ovrCameraRig: {fileID: 954760193}
+  ovrCameraRig: {fileID: 1272981834}
 --- !u!4 &954760193
 Transform:
   m_ObjectHideFlags: 0
@@ -9226,8 +9232,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252553712}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.08715578, z: 0, w: 0.9961947}
-  m_LocalPosition: {x: -0.021, y: 0, z: -0.01}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9241,7 +9247,7 @@ Transform:
   - {fileID: 327976856}
   - {fileID: 93556882}
   m_Father: {fileID: 1621611456}
-  m_LocalEulerAnglesHint: {x: 0, y: -10, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1260951431
 GameObject:
   m_ObjectHideFlags: 0
@@ -10112,7 +10118,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0.5107, y: 0.346, z: 0.0127}
-  m_LocalScale: {x: 0.055331867, y: 0.10000001, z: 0.04920288}
+  m_LocalScale: {x: 0.055331867, y: 0.22, z: 0.04920288}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1252553713}
@@ -12148,15 +12154,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1621611455}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.9816273, z: -0.19080894, w: 0}
-  m_LocalPosition: {x: -0.25, y: -0.25, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1654231037}
   - {fileID: 1252553713}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 22, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1621611457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12426,6 +12432,7 @@ MonoBehaviour:
   startPoint: {fileID: 399341850}
   endPoint: {fileID: 99491779}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 1627309301}
   multiplier: 5.25
 --- !u!1 &1632106912
@@ -12480,6 +12487,7 @@ MonoBehaviour:
   startPoint: {fileID: 1850185604}
   endPoint: {fileID: 399341850}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 1632106917}
   multiplier: 5.75
 --- !u!114 &1632106915
@@ -15153,6 +15161,7 @@ MonoBehaviour:
   startPoint: {fileID: 399341850}
   endPoint: {fileID: 99491779}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 1844934862}
   multiplier: 5.25
 --- !u!4 &1850185604 stripped
@@ -15190,6 +15199,7 @@ MonoBehaviour:
   startPoint: {fileID: 1850185604}
   endPoint: {fileID: 399341850}
   isHand: 0
+  isVisible: 1
   armCollider: {fileID: 1350262531}
   multiplier: 5.75
 --- !u!1 &1864140032
@@ -15867,6 +15877,7 @@ MonoBehaviour:
   startPoint: {fileID: 1850185604}
   endPoint: {fileID: 399341850}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 1938751691}
   multiplier: 5.75
 --- !u!114 &1938751689
@@ -16370,6 +16381,7 @@ MonoBehaviour:
   startPoint: {fileID: 399341850}
   endPoint: {fileID: 99491779}
   isHand: 1
+  isVisible: 1
   armCollider: {fileID: 93556883}
   multiplier: 5.75
 --- !u!1 &2067329225
@@ -16542,6 +16554,7 @@ MonoBehaviour:
   startPoint: {fileID: 399341850}
   endPoint: {fileID: 99491779}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 2067329229}
   multiplier: 5.25
 --- !u!1 &2070270817
@@ -16596,6 +16609,7 @@ MonoBehaviour:
   startPoint: {fileID: 1850185604}
   endPoint: {fileID: 399341850}
   isHand: 0
+  isVisible: 0
   armCollider: {fileID: 2070270822}
   multiplier: 5.75
 --- !u!114 &2070270820
