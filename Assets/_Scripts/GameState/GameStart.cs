@@ -62,8 +62,7 @@ namespace _Scripts.GameState
 
         private int currentColorIndex = -1; // Index of the current highlighted color
         private int previousColorIndex = -1; // Index of the previous highlighted color
-
-        public int itemSelected;
+        
     
         // Only 10 values will be read for each trial. But different every time and non-repeating
         void Start()
@@ -71,7 +70,16 @@ namespace _Scripts.GameState
             saveData = true;
             gameManager = GameManager.instance; //Game manager instance 
             firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
-            // Initialize Firebase and authenticate the user
+            FirebaseSetup();
+            InitialSetup();
+            SetGameStart(); //Start up the game
+            InitializeArray();
+            StartCoroutine(WaitBeforeGetColor());
+            
+        }
+
+        void FirebaseSetup()
+        {
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.Result == DependencyStatus.Available)
@@ -88,7 +96,20 @@ namespace _Scripts.GameState
                     Debug.LogError($"Could not resolve all Firebase dependencies: {task.Result}");
                 }
             });
-            
+        }
+
+        void InitializeArray()
+        {
+            for (int i = 0; i <= 50; i++)
+            {
+                if(i < 50)
+                    distanceArray[i] = i * itemDistanceInit;
+                //Debug.Log("arr[" + i + "] = " + distanceArray[i]);
+                colorArray[i] = i * itemDistanceInit - 25f;
+            }
+        }
+        void InitialSetup()
+        {
             stopwatch = new Stopwatch(); //Create a stopwatch object for timing
             FillArray(numberArray); // Fill the selection array
             Shuffle(numberArray); // Shuffle the array for selection
@@ -97,15 +118,6 @@ namespace _Scripts.GameState
             currentUserId = firebaseGame.UserId;
             previousBlockId = currentBlockId; // Set previous value to have an on change in the update
             previousUserId = currentUserId;
-            SetGameStart(); //Start up the game
-            StartCoroutine(WaitBeforeGetColor());
-            for (int i = 0; i <= 50; i++)
-            {
-                if(i < 50)
-                    distanceArray[i] = i * itemDistanceInit;
-                //Debug.Log("arr[" + i + "] = " + distanceArray[i]);
-                colorArray[i] = i * itemDistanceInit - 25f;
-            }
         }
         void SignInUser()
         {
@@ -134,7 +146,7 @@ namespace _Scripts.GameState
             originalColor2 = graphic2.color;
         }
         void Update()
-        {   
+        {
             float currentPositionY = scrollableList.content.anchoredPosition.y;
 
             // Find the index of the color range that currentPositionY is within
@@ -142,50 +154,78 @@ namespace _Scripts.GameState
             {
                 if (currentPositionY >= colorArray[i] && currentPositionY <= colorArray[i + 1])
                 {
-                    previousColorIndex = currentColorIndex; // Update previousColorIndex
-                    currentColorIndex = i; // Update currentColorIndex
+                    if (currentColorIndex != i)
+                    {
+                        previousColorIndex = currentColorIndex;
+                        currentColorIndex = i;
+                        UpdateHighlightedColors();
+                    }
                     break;
                 }
             }
-            
-            // If currentPositionY is within a different color range, change colors
-            if (currentColorIndex != previousColorIndex)
+
+            UpdateBlockAndUserId();
+
+            if (NeedsGameReset())
             {
-                // Reset previous highlighted item to original colors
-                if (previousColorIndex >= 0 && previousColorIndex < scrollableList.content.childCount)
-                {
-                    ResetColors(previousColorIndex);
-                }
-            
-                // Highlight current item with new colors
-                if (currentColorIndex >= 0 && currentColorIndex < scrollableList.content.childCount)
-                {
-                    HighlightColors(currentColorIndex);
-                }
+                ResetGameSettings();
             }
-            if (previousBlockId != currentBlockId)
+
+            if (!testMode)
             {
-                currentBlockId = firebaseGame.BlockId; //Update block data if changed
-                previousBlockId = currentBlockId;
+                SelectionChange();
             }
-            if (previousUserId != currentUserId)
+            else if (previousSelectedNumber != selectedNumber && !isCoroutineRunning)
             {
-                currentUserId = firebaseGame.UserId; //Update user data if changed
-                previousUserId = currentUserId;
-            } //Reset if new data, or list change or different technique selected
-            if(firebaseGame.LoadData||gameManager.NumberOfItems!=previousNumberOfItems||
-               gameManager.TechniqueNumber!=gameManager.PreviousTechnique||gameManager.AreaNumber!=gameManager.PreviousArea){//Reset game settings, check for update from firebase class
-                stopwatch = new Stopwatch();
-                ResetGame(); //Resets the game
-                SetGameStart(); //Setup for starting the game
-            }
-            if(!testMode)
-                SelectionChange(); //Not in test mode just start the array
-            else if(previousSelectedNumber != selectedNumber && !isCoroutineRunning)
-            {
-                StartCoroutine(TestSelectionChange()); //In test mode, check we are not waiting for a delay and the number has changed
+                StartCoroutine(TestSelectionChange());
             }
         }
+
+        private void UpdateHighlightedColors()
+        {
+            // Reset previous highlighted item to original colors
+            if (previousColorIndex >= 0 && previousColorIndex < scrollableList.content.childCount)
+            {
+                ResetColors(previousColorIndex);
+            }
+
+            // Highlight current item with new colors
+            if (currentColorIndex >= 0 && currentColorIndex < scrollableList.content.childCount)
+            {
+                HighlightColors(currentColorIndex);
+            }
+        }
+
+        private void UpdateBlockAndUserId()
+        {
+            if (previousBlockId != firebaseGame.BlockId)
+            {
+                currentBlockId = firebaseGame.BlockId;
+                previousBlockId = currentBlockId;
+            }
+
+            if (previousUserId != firebaseGame.UserId)
+            {
+                currentUserId = firebaseGame.UserId;
+                previousUserId = currentUserId;
+            }
+        }
+
+        private bool NeedsGameReset()
+        {
+            return firebaseGame.LoadData || 
+                   gameManager.NumberOfItems != previousNumberOfItems || 
+                   gameManager.TechniqueNumber != gameManager.PreviousTechnique || 
+                   gameManager.AreaNumber != gameManager.PreviousArea;
+        }
+
+        private void ResetGameSettings()
+        {
+            stopwatch = new Stopwatch();
+            ResetGame();
+            SetGameStart();
+        }
+
         void HighlightColors(int index)
         {
             RectTransform[] rect = scrollableList.content.GetChild(index).GetComponentsInChildren<RectTransform>();
@@ -240,12 +280,25 @@ namespace _Scripts.GameState
                 int j = random.Next(0, i + 1); // Random index from 0 to I
                 // Swap array[i] with the element at random index
                 (array[i], array[j]) = (array[j], array[i]);
-            } 
+            }
+
+            // Check for values within 1 of each other and swap if found
+            for (int i = 0; i < array.Count - 1; i++)
+            {
+                if (Math.Abs(array[i] - array[i + 1]) == 1)
+                {
+                    // Swap array[i] with array[array.Count - i - 1]
+                    (array[i], array[array.Count - i - 1]) = (array[array.Count - i - 1], array[i]);
+                }
+            }
+           
             // Trim the list to contain only 10 items after shuffling. 10 items selected for each block
             if (array.Count > 10)
             {
                 array.RemoveRange(10, array.Count - 10); //Trim 50 item array to 10
             }
+             
+            
         }
 
         void SetGameStart()
@@ -317,6 +370,7 @@ namespace _Scripts.GameState
             else
             {   //Once all 10 items have been selected
                 selectNumber.text = "No more items to select.";
+                numberArrayIndex++;
                 stopGame = true;
             }
         }
