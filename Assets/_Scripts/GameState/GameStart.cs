@@ -62,8 +62,6 @@ namespace _Scripts.GameState
 
         private int currentColorIndex = -1; // Index of the current highlighted color
         private int previousColorIndex = -1; // Index of the previous highlighted color
-
-        public int itemSelected;
     
         // Only 10 values will be read for each trial. But different every time and non-repeating
         void Start()
@@ -241,10 +239,10 @@ namespace _Scripts.GameState
                 // Swap array[i] with the element at random index
                 (array[i], array[j]) = (array[j], array[i]);
             } 
-            // Trim the list to contain only 10 items after shuffling. 10 items selected for each block
+            // Trim the list to contain only 11 items after shuffling. 11 items selected for each block
             if (array.Count > 10)
             {
-                array.RemoveRange(10, array.Count - 10); //Trim 50 item array to 10
+                array.RemoveRange(10, array.Count - 10); // Trim array to 11 items
             }
         }
 
@@ -317,7 +315,9 @@ namespace _Scripts.GameState
             else
             {   //Once all 10 items have been selected
                 selectNumber.text = "No more items to select.";
+                numberArrayIndex++;
                 stopGame = true;
+                
             }
         }
         //Check if answer is correct

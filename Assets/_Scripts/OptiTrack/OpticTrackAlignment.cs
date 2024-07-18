@@ -4,25 +4,18 @@ namespace _Scripts.OptiTrack
 {
     public class OpticTrackAlignment : MonoBehaviour
     {
-        [SerializeField] private Transform headsetTransform;
-        [SerializeField] private Transform ovrCameraRig;
-       
-        void Start()
-        {
-            Vector3 headsetVector = headsetTransform.position; //Position of the headset markers
-            ovrCameraRig.position = headsetVector; //Position the camera rig at the headset markers
-        }
+        [SerializeField] private Transform optitrackHMD;
+        [SerializeField] private Transform XRCameraRig;
+
+        [SerializeField] private Transform leftHand;
+
+        private Vector3 xrOptitrackDifference;
         
         void Update()
-         {
-            Vector3 headsetVector = headsetTransform.position; //Position of the headset markers
-            ovrCameraRig.position = headsetVector; //Position the camera rig at the headset marker
-            //Debug.Log(Vector3.Distance(ovrCameraRig.position, headsetTransform.position));
-        }
-
-        private void OnDrawGizmos()
         {
-            Gizmos.DrawSphere(ovrCameraRig.position, 0.1f);
+            xrOptitrackDifference = optitrackHMD.position - XRCameraRig.position;
+            leftHand.position += xrOptitrackDifference;
         }
+        
     }
 }
