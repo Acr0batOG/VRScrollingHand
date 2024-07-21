@@ -1,22 +1,13 @@
 using System;
 using UnityEngine;
 
-namespace _Scripts.OptiTrack
+namespace ubco.hci.OptiTrack
 {
 /// <summary>
 /// Implements live tracking of streamed OptiTrack rigid body data onto an object.
 /// </summary>
-public class OptitrackElbow : MonoBehaviour
+public class OptitrackElbow : OptitrackCustomSubject
 {
-    [Tooltip("The object containing the OptiTrackStreamingClient script.")]
-    public OptitrackStreamingClient StreamingClient;
-
-    [Tooltip("The Streaming ID of the rigid body in Motive")]
-    public Int32 RigidBodyId;
-
-    [Tooltip("Subscribes to this asset when using Unicast streaming.")]
-    public bool NetworkCompensation = true;
-
     [Tooltip("Change Scale of movement")] [SerializeField]
     private float movementScale;
 

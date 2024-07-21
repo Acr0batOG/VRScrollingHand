@@ -1,7 +1,7 @@
 using _Scripts.GameState;
 using UnityEngine;
 
-namespace _Scripts.OptiTrack
+namespace ubco.hci.OptiTrack
 {
     public class OrientRightHand : MonoBehaviour
     {

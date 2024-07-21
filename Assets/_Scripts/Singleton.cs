@@ -12,10 +12,12 @@ namespace _Scripts
         public static T instance {
             get { 
                 if(_instance == null){
-                    _instance = GameObject.FindObjectOfType<T>();
+                    _instance = FindObjectOfType<T>();
                     if(_instance == null){
-                        var singletonObj = new GameObject();
-                        singletonObj.name = typeof(T).ToString();
+                        var singletonObj = new GameObject
+                        {
+                            name = typeof(T).ToString()
+                        };
                         _instance = singletonObj.AddComponent<T>();
                     }
                 }
@@ -23,7 +25,8 @@ namespace _Scripts
             }
         }
 
-        static public bool isInstanceAlive{
+        public static bool isInstanceAlive
+        {
             get { return _instance != null; }
         }
 

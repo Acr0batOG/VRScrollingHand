@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace _Scripts.OptiTrack
+namespace ubco.hci.OptiTrack
 {
 /// <summary>
 /// Implements live tracking of streamed OptiTrack rigid body data onto an object.

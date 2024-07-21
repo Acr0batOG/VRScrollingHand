@@ -2,7 +2,7 @@ using _Scripts.GameState;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace _Scripts.OptiTrack
+namespace ubco.hci.OptiTrack
 {
     public class OrientOptiTrack : MonoBehaviour
     {

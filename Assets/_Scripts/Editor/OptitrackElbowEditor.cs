@@ -1,4 +1,4 @@
-using _Scripts.OptiTrack;
+using ubco.hci.OptiTrack;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
