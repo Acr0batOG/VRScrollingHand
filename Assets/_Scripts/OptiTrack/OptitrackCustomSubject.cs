@@ -42,6 +42,12 @@ namespace ubco.hci.OptiTrack
                 Debug.Log("No reference Transform Assigned, Using Streaming Client as default");
                 referenceTransform = StreamingClient.transform;
             }
+
+            if (systemConfig == null)
+            {
+                systemConfig = StreamingClient.systemConfig;
+            }
+            
             origin = referenceTransform.position;
         }
         

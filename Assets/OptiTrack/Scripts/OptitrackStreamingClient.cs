@@ -255,7 +255,9 @@ public class OptitrackStreamingClient : MonoBehaviour
     
     [Tooltip("Skips getting data descriptions. Skeletons will not work with this feature turned on, but it will reduce network usage with a large number of rigid bodies.")]
     public bool SkipDataDescriptions = false;
-
+    
+    [Tooltip(("Provide a Motion Capture System Config"))] [SerializeField]
+    public SystemAxisSO systemConfig;
 
     #region Private fields
     //private UInt16 ServerCommandPort = NatNetConstants.DefaultCommandPort;
