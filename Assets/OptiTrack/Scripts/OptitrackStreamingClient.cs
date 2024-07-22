@@ -22,6 +22,7 @@ using System.Threading;
 using UnityEngine;
 using NaturalPoint;
 using NaturalPoint.NatNetLib;
+using ubco.hci.OptiTrack;
 
 
 /// <summary>Skeleton naming conventions supported by OptiTrack Motive.</summary>
@@ -1464,4 +1465,13 @@ public class OptitrackStreamingClient : MonoBehaviour
         Monitor.Exit( m_frameDataUpdateLock );
     }
 #endregion Private methods
+
+    public void Recalibrate()
+    {
+        OptitrackCustomSubject[] subjects = FindObjectsOfType<OptitrackCustomSubject>();
+        foreach (OptitrackCustomSubject subject in subjects)
+        {
+            subject.Recalibrate();
+        }
+    }
 }
