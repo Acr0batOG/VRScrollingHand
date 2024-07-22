@@ -12,8 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a388a5ed8842938248ec5e596740c0, type: 3}
   m_Name: SystemAxis
   m_EditorClassIdentifier: 
-  MocapSystem: 0
-  XAxis: 0
-  YAxis: 0
-  ZAxis: 0
-  movementScale: {x: 0, y: 0, z: 0}
+  MocapSystem: 1
+  movementScale: 0.1

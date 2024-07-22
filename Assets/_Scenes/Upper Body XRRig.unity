@@ -2715,11 +2715,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1540719ee45c4ddfb008d4bfe17fc23d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  systemConfig: {fileID: 0}
   StreamingClient: {fileID: 1621611457}
   RigidBodyId: 15
   NetworkCompensation: 1
-  movementScale: 0.79
-  Finger: {fileID: 213941906}
+  referenceTransform: {fileID: 0}
 --- !u!1 &217809098
 GameObject:
   m_ObjectHideFlags: 0
@@ -13064,6 +13064,7 @@ MonoBehaviour:
   DrawForcePlates: 0
   RecordOnPlay: 0
   SkipDataDescriptions: 0
+  systemConfig: {fileID: 11400000, guid: 5798851e8491e374d9cb842ceea4982c, type: 2}
 --- !u!1 &1627163074
 GameObject:
   m_ObjectHideFlags: 0
@@ -13787,11 +13788,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d7808b12bebebb47aca70ea830c86a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  systemConfig: {fileID: 0}
   StreamingClient: {fileID: 1621611457}
   RigidBodyId: 9
   NetworkCompensation: 1
-  movementScale: 0.79
-  XRCamera: {fileID: 1272981834}
+  referenceTransform: {fileID: 0}
+  EstimatedCentreOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1662708332 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2604916979015095787, guid: 3f7511fbc40ae7a4b89c3298a3de199d, type: 3}
@@ -16076,11 +16078,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2bd4dd97294ac0b26cae02721d5c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  systemConfig: {fileID: 0}
   StreamingClient: {fileID: 1621611457}
   RigidBodyId: 11
   NetworkCompensation: 1
-  movementScale: 0.79
-  Elbow: {fileID: 1850185604}
+  referenceTransform: {fileID: 0}
 --- !u!1 &1864140032
 GameObject:
   m_ObjectHideFlags: 0
@@ -18012,11 +18014,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2a8905287c94627868adbe996dbf5c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  systemConfig: {fileID: 0}
   StreamingClient: {fileID: 1621611457}
   RigidBodyId: 13
   NetworkCompensation: 1
-  movementScale: 0.79
-  Wrist: {fileID: 399341850}
+  referenceTransform: {fileID: 0}
 --- !u!1 &2067329225
 GameObject:
   m_ObjectHideFlags: 0
