@@ -22,7 +22,7 @@ using System.Threading;
 using UnityEngine;
 using NaturalPoint;
 using NaturalPoint.NatNetLib;
-using ubco.hci.OptiTrack;
+using ubco.ovilab.OptiTrack;
 
 
 /// <summary>Skeleton naming conventions supported by OptiTrack Motive.</summary>

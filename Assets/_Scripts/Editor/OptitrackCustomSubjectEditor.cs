@@ -1,18 +1,22 @@
-using ubco.hci.OptiTrack;
 using UnityEditor;
 using UnityEngine;
+using ubco.ovilab.OptiTrack;
 
-[CustomEditor(typeof(OptitrackCustomSubject), true)]
-public class OptitrackCustomSubjectEditor : Editor
+namespace ubco.ovilab.HPUI.Editor
 {
-    public override void OnInspectorGUI()
+    [CanEditMultipleObjects]
+    [CustomEditor(typeof(OptitrackCustomSubject), true)]
+    public class OptitrackCustomSubjectEditor : UnityEditor.Editor
     {
-        base.OnInspectorGUI();
-        OptitrackCustomSubject optitrackBody = (OptitrackCustomSubject)target;
-        GUILayout.Space(10);
-        if (GUILayout.Button("Recalibrate"))
+        public override void OnInspectorGUI()
         {
-            optitrackBody.Recalibrate();
-        };
-    }
+            base.OnInspectorGUI();
+            OptitrackCustomSubject optitrackBody = (OptitrackCustomSubject)target;
+            GUILayout.Space(10);
+            if (GUILayout.Button("Recalibrate"))
+            {
+                optitrackBody.Recalibrate();
+            }
+        }
+    } 
 }

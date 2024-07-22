@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ubco.hci.OptiTrack
+namespace ubco.ovilab.OptiTrack
 {
     [CreateAssetMenu(fileName = "SystemAxis", menuName = "SystemOrientation/AxisRemapper", order = 0)]
     public class SystemAxisSO : ScriptableObject

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ubco.hci.OptiTrack
+namespace ubco.ovilab.OptiTrack
 {
     public class OptitrackWrist : OptitrackCustomSubject
     {
