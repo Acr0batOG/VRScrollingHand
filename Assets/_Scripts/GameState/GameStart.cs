@@ -21,6 +21,7 @@ namespace _Scripts.GameState
         [SerializeField] TextMeshProUGUI correctText;
         [SerializeField] bool testMode;
         [SerializeField] bool saveData;
+        [SerializeField] bool timeLimit;
         [SerializeField] int selectedNumber;
         [SerializeField] protected ScrollRect scrollableList;
         [SerializeField] AudioSource correctAudioSource;
@@ -43,6 +44,7 @@ namespace _Scripts.GameState
         int previousBlockId;
         int previousUserId;
         int previousNumberOfItems;
+        private int timeExceededValue = -1;
         private float distanceToItem;
         private float distanceTravelled;
         private float previousScrollPosition;
@@ -55,10 +57,11 @@ namespace _Scripts.GameState
         public float completionTime;
         private Color originalColor1;
         private Color originalColor2;
+        private ColorBlock colors;
         private Graphic graphic1;
         private Graphic graphic2;
-        private readonly Color highlightColor1 = new Color(0.85f, 0f, 0f); // Highlighted color
-        private readonly Color highlightColor2 = new Color(0.9f, 0.9f, 0.9f); // Highlighted color (light gray)
+        private readonly Color highlightColor1 = new Color(.9f, .85f, 0f); // Highlighted color
+        private readonly Color highlightColor2 = new Color(.94f, .94f, 94f); // Highlighted color (light gray)
 
         private int currentColorIndex = -1; // Index of the current highlighted color
         private int previousColorIndex = -1; // Index of the previous highlighted color
@@ -139,6 +142,10 @@ namespace _Scripts.GameState
         IEnumerator WaitBeforeGetColor()
         {
             yield return new WaitForSeconds(1.5f);
+            RectTransform outerRect = scrollableList.content.GetChild(0).GetComponent<RectTransform>();
+            Button button = outerRect.GetComponent<Button>();
+            // Get the current ColorBlock
+            colors = button.colors;
             RectTransform[] rect = scrollableList.content.GetChild(0).GetComponentsInChildren<RectTransform>();
             graphic1 = rect[0].GetComponent<Graphic>(); // Border
             originalColor1 = graphic1.color;
@@ -179,6 +186,17 @@ namespace _Scripts.GameState
             {
                 StartCoroutine(TestSelectionChange());
             }
+
+            if (timeLimit)
+            {
+                if (stopwatch.Elapsed.Seconds >= 10)
+                {
+                    Debug.Log("Time exceeded");
+                    CheckCorrect(timeExceededValue);
+                    timeExceededValue--;
+                }
+            }
+
         }
 
         private void UpdateHighlightedColors()
@@ -228,6 +246,20 @@ namespace _Scripts.GameState
 
         void HighlightColors(int index)
         {
+           RectTransform outerRect = scrollableList.content.GetChild(index).GetComponent<RectTransform>();
+           Button button = outerRect.GetComponent<Button>();
+           // Get the current ColorBlock
+           ColorBlock newColors = button.colors;
+
+           // Set all states to white
+           newColors.normalColor = Color.white;
+           newColors.highlightedColor = Color.white;
+           newColors.pressedColor = Color.white;
+           newColors.selectedColor = Color.white;
+           newColors.disabledColor = Color.white;
+
+           // Apply the modified ColorBlock back to the button
+           button.colors = newColors;
             RectTransform[] rect = scrollableList.content.GetChild(index).GetComponentsInChildren<RectTransform>();
             graphic1 = rect[0].GetComponent<Graphic>(); // Border
             graphic1.color = highlightColor1;
@@ -237,6 +269,9 @@ namespace _Scripts.GameState
 
         void ResetColors(int index)
         {
+            RectTransform outerRect = scrollableList.content.GetChild(index).GetComponent<RectTransform>();
+            Button button = outerRect.GetComponent<Button>();
+            button.colors = colors;
             RectTransform[] rect = scrollableList.content.GetChild(index).GetComponentsInChildren<RectTransform>();
             graphic1 = rect[0].GetComponent<Graphic>(); // Border
             graphic1.color = originalColor1;
@@ -281,8 +316,17 @@ namespace _Scripts.GameState
                 // Swap array[i] with the element at random index
                 (array[i], array[j]) = (array[j], array[i]);
             }
+            SwapValuesIfTooClose(array);
+            SwapValuesIfTooClose(array);
+            // Trim the list to contain only 10 items after shuffling. 10 items selected for each block
+            if (array.Count > 10)
+            {
+                array.RemoveRange(10, array.Count - 10); //Trim 50 item array to 10
+            }
+        }
 
-            // Check for values within 1 of each other and swap if found
+        void SwapValuesIfTooClose(List<int> array)
+        {
             for (int i = 0; i < array.Count - 1; i++)
             {
                 if (Math.Abs(array[i] - array[i + 1]) == 1)
@@ -291,14 +335,6 @@ namespace _Scripts.GameState
                     (array[i], array[array.Count - i - 1]) = (array[array.Count - i - 1], array[i]);
                 }
             }
-           
-            // Trim the list to contain only 10 items after shuffling. 10 items selected for each block
-            if (array.Count > 10)
-            {
-                array.RemoveRange(10, array.Count - 10); //Trim 50 item array to 10
-            }
-             
-            
         }
 
         void SetGameStart()
@@ -402,7 +438,7 @@ namespace _Scripts.GameState
                     correctText.text = "Correct";
                     correctText.color = Color.green; // Set color to green for correct
                     correctAudioSource.Play(); // Play the correct audio clip
-                    selectGraphic1.color = originalColor1;
+                    selectGraphic1.color = new Color(1f, .3686f, .3686f);
                     selectGraphic2.color = Color.green;
 
                 }
@@ -413,18 +449,30 @@ namespace _Scripts.GameState
                     correctText.text = "Incorrect";
                     correctText.color = Color.red; // Set color to red for incorrect
                     incorrectAudioSource.Play(); // Play the incorrect audio clip
-                    selectGraphic1.color = new Color(0.95f, 0f, 0f);
-                    selectGraphic2.color = new Color(1f, .32f, .32f);
+                    selectGraphic1.color = new Color(1f, .3686f, .3686f);
+                    selectGraphic2.color = new Color(1f, .2f, .2f);
                 }
 
                 currentScrollPosition = scrollableList.content.anchoredPosition.y;
                 distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
+                completionTime = 10;
                 SetTrialData();
             }
 
             }catch (Exception e)
             {
                 Debug.Log(e + " Exception: With checking the answer and changing the color");
+                //Answer is incorrect. Play incorrect noise, set isCorrect to false and display red text
+                if (!stopGame) //Boolean to check answer
+                {
+                    isCorrect = false;
+                    correctText.text = "Incorrect";
+                    correctText.color = Color.red; // Set color to red for incorrect
+                    incorrectAudioSource.Play(); // Play the incorrect audio clip
+                    currentScrollPosition = scrollableList.content.anchoredPosition.y;
+                    distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
+                    SetTrialData();
+                }
             }
 
         
@@ -455,7 +503,10 @@ namespace _Scripts.GameState
                     //Insert correct answer bool and time to select answer in Firebase
                     bool correctSelection = isCorrect;
                     float timeToComplete = completionTime;
-                    
+                    if (gameManager.SelectedItem < 0)
+                    {
+                        timeToComplete = 10.0f;
+                    }
                     if(saveData){
                         // Insert a new trial with the incremented trialId
                         InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, 

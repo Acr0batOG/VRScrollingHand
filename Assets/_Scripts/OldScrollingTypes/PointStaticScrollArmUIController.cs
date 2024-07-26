@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Globalization;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
@@ -13,6 +14,7 @@ namespace _Scripts.OldScrollingTypes
         private readonly float fingerSpeed = 5.0f;
         private readonly float fingertipSpeed = 10.0f;
         private int triggerTimer;
+        private Coroutine pauseCoroutine; // Coroutine for the pause
         Vector3 collisionPoint;
         protected new void Start()
         {
@@ -24,43 +26,74 @@ namespace _Scripts.OldScrollingTypes
 
         private void OnTriggerEnter(Collider other)
         {
-            LengthCheck(); // Check arm length
-            menuText.text = "Enter"; // Update menu text
-            if(triggerTimer < TriggerTimeMax)
-                Scroll(other); // Scroll through the content
-            else
+            if (other.gameObject.name == "Other Fingertip")
             {
-                StaticScroll(other, collisionPoint);
+                Debug.Log(other.gameObject.name);
+                LengthCheck(); // Check arm length
+                menuText.text = "Enter"; // Update menu text
+                if (triggerTimer < TriggerTimeMax)
+                    Scroll(other); // Scroll through the content
+                else
+                {
+                    StaticScroll(other, collisionPoint);
+                }
+
+                // Cancel the pause coroutine if a new collision starts
+                if (pauseCoroutine != null)
+                {
+                    StopCoroutine(pauseCoroutine);
+                    pauseCoroutine = null;
+                }
+
+                // Start dwell selection coroutine
+                DwellCoroutine ??= StartCoroutine(DwellSelection());
             }
-            // Start dwell selection coroutine
-            DwellCoroutine ??= StartCoroutine(DwellSelection());
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (triggerTimer<TriggerTimeMax){
-                Scroll(other);
-            }else { //After collision give appx 160ms to make selection then switch to Static scroll
-            
-                StaticScroll(other, collisionPoint);
-            }
-            // Restart dwell selection coroutine if list position changes significantly
-            if (DwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
+            if (other.gameObject.name == "Other Fingertip")
             {
-                StopCoroutine(DwellCoroutine);
-                DwellCoroutine = StartCoroutine(DwellSelection()); //Reset the selection if too much movement 
+                if (triggerTimer < TriggerTimeMax)
+                {
+                    Scroll(other);
+                }
+                else
+                {
+                    //After collision give appx 160ms to make selection then switch to Static scroll
+
+                    StaticScroll(other, collisionPoint);
+                }
+
+                // Restart dwell selection coroutine if list position changes significantly
+                if (DwellCoroutine != null &&
+                    Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
+                {
+                    StopCoroutine(DwellCoroutine);
+                    DwellCoroutine = StartCoroutine(DwellSelection()); //Reset the selection if too much movement 
+                }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            triggerTimer = 0; //Only reset to other method if collision done
-            menuText.text = "Exit"; // Update menu text
-            // Stop dwell selection coroutine on exit
-            if (DwellCoroutine != null)
+            if (other.gameObject.name == "Other Fingertip")
             {
-                StopCoroutine(DwellCoroutine); //Reset selection on exit
-                DwellCoroutine = null;
+                menuText.text = "Exit"; // Update menu text
+                // Stop dwell selection coroutine on exit
+                // Start the pause coroutine
+                if (pauseCoroutine != null)
+                {
+                    StopCoroutine(
+                        pauseCoroutine); //On exit: Keep dynamic scrolling for 1.8 seconds, reset to point if exceeded 
+                }
+
+                pauseCoroutine = StartCoroutine(PauseBeforeResetCoroutine());
+                if (DwellCoroutine != null)
+                {
+                    StopCoroutine(DwellCoroutine); //Reset selection on exit
+                    DwellCoroutine = null;
+                }
             }
         }
 
@@ -133,7 +166,12 @@ namespace _Scripts.OldScrollingTypes
             distText.text = "Point Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture);
         }
 
-        
+        private IEnumerator PauseBeforeResetCoroutine()
+        {
+            yield return new WaitForSeconds(1.2f); // Pause for 1.2 seconds before resetting
+            //Used to continue dynamic scrolling for 1.2s after exit, reset if exceeded
+            triggerTimer = 0; // Reset trigger timer after 1.2 seconds for back to static scrolling
+        }
         void SpeedControl(){
             int speedControlAreaNum = GameManager.AreaNumber; // Check the area number
 

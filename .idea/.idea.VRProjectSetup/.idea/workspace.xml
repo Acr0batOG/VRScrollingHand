@@ -8,6 +8,16 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/ArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/ArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/StaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/StaticScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/OrientOptiTrack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/OrientOptiTrack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,6 +180,20 @@
       <workItem from="1721154875687" duration="3875000" />
       <workItem from="1721162864529" duration="66000" />
       <workItem from="1721169499432" duration="1903000" />
+      <workItem from="1721337286619" duration="7564000" />
+      <workItem from="1721417800230" duration="4866000" />
+      <workItem from="1721425036904" duration="939000" />
+      <workItem from="1721685492319" duration="1524000" />
+      <workItem from="1721753803654" duration="10863000" />
+      <workItem from="1721773978032" duration="3089000" />
+      <workItem from="1721777508693" duration="871000" />
+      <workItem from="1721861528451" duration="4034000" />
+      <workItem from="1721930740924" duration="407000" />
+      <workItem from="1721931958224" duration="608000" />
+      <workItem from="1721939014166" duration="6446000" />
+      <workItem from="1722012577091" duration="335000" />
+      <workItem from="1722022912235" duration="4751000" />
+      <workItem from="1722030628144" duration="839000" />
     </task>
     <servers />
   </component>

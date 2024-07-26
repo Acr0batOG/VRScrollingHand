@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using UnityEngine;
 
 namespace _Scripts.OldScrollingTypes
@@ -16,13 +18,9 @@ namespace _Scripts.OldScrollingTypes
         protected readonly float FingerDivisor = 2.30f; // Used to convert user's finger length
         protected const float FingertipDivisor = 2.6f; // Used to convert user's fingertip length
         protected readonly float HandDivisorAdjustment = .08f;
-        // protected readonly float ARMDivisorAdjustment =.05f;
-        // protected readonly float imagesizeMultiplier = 1.36f;
-        // protected readonly float fontsizeMultiplier = 1.1f;
-        // private Coroutine hoverCoroutine = null;
-        // private int hoveredBinIndex = -1;
-        // private bool isExpanded = false;
-        // Start is called before the first frame update
+        private List<float> recentScrollPositions = new List<float>();
+        private int movingAverageWindowSize = 10; // Adjust the window size as needed
+       
         protected new void Start()
         {
             base.Start();
@@ -31,31 +29,41 @@ namespace _Scripts.OldScrollingTypes
 
         private void OnTriggerEnter(Collider other)
         {
-            LengthCheck(); // Check arm length
-            menuText.text = "Enter"; // Update menu text
-            Scroll(other); // Scroll through the content
-            DwellCoroutine ??= StartCoroutine(DwellSelection());
+            if (other.gameObject.name == "Other Fingertip")
+            {
+                LengthCheck(); // Check arm length
+                menuText.text = "Enter"; // Update menu text
+                Scroll(other); // Scroll through the content
+                DwellCoroutine ??= StartCoroutine(DwellSelection());
+            }
         }
 
         private void OnTriggerStay(Collider other)
         {
-            Scroll(other); // Scroll through the content
-            // Restart dwell selection coroutine if list position changes significantly
-            if (DwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
+            if (other.gameObject.name == "Other Fingertip")
             {
-                StopCoroutine(DwellCoroutine); //If too much movement, reset dwell Selection
-                DwellCoroutine = StartCoroutine(DwellSelection());
+                Scroll(other); // Scroll through the content
+                // Restart dwell selection coroutine if list position changes significantly
+                if (DwellCoroutine != null &&
+                    Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
+                {
+                    StopCoroutine(DwellCoroutine); //If too much movement, reset dwell Selection
+                    DwellCoroutine = StartCoroutine(DwellSelection());
+                }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            menuText.text = "Exit"; // Update menu text
-            // Stop dwell selection coroutine on exit
-            if (DwellCoroutine != null)
+            if (other.gameObject.name == "Other Fingertip")
             {
-                StopCoroutine(DwellCoroutine); //Reset dwell selection on exit
-                DwellCoroutine = null;
+                menuText.text = "Exit"; // Update menu text
+                // Stop dwell selection coroutine on exit
+                if (DwellCoroutine != null)
+                {
+                    StopCoroutine(DwellCoroutine); //Reset dwell selection on exit
+                    DwellCoroutine = null;
+                }
             }
         }
 
@@ -80,31 +88,27 @@ namespace _Scripts.OldScrollingTypes
 
             // Calculate bin index based on adjusted contact position
             int binIndex = Mathf.Clamp(Mathf.RoundToInt((1 - (adjustedContactPosition / (endOffset - startOffset))) * (totalBins - 1)), 0, totalBins - 1) + 1;
-            // if (hoveredBinIndex != binIndex)
-            // {
-            //     hoveredBinIndex = binIndex;
-            //
-            //     // Stop any existing hover coroutine
-            //     if (hoverCoroutine != null)
-            //     {
-            //         StopCoroutine(hoverCoroutine);
-            //         hoverCoroutine = null;
-            //         ResetBinHeight(binIndex);
-            //     }
-            //
-            //     // Start a new hover coroutine
-            //     hoverCoroutine = StartCoroutine(HoverOverBin(binIndex));
-            // }
+
             // Calculate bin height and new scroll position
             float binHeight = (contentHeight - viewportHeight) / (totalBins - 1);
             float newScrollPositionY = (binIndex - 1) * binHeight;
 
+            // Add the new scroll position to the list and keep the list within the window size
+            recentScrollPositions.Add(newScrollPositionY);
+            if (recentScrollPositions.Count > movingAverageWindowSize)
+            {
+                recentScrollPositions.RemoveAt(0);
+            }
+
+            // Calculate the smoothed scroll position using the moving average
+            float smoothedScrollPositionY = recentScrollPositions.Average();
+
             // Set the new scroll position
-            Vector2 newScrollPosition = new Vector2(scrollableList.content.anchoredPosition.x, newScrollPositionY);
+            Vector2 newScrollPosition = new Vector2(scrollableList.content.anchoredPosition.x, smoothedScrollPositionY);
             scrollableList.content.anchoredPosition = newScrollPosition;
 
             // Update distance text
-            distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
+            distText.text = "Point Scroll: Position " + contactPoint.ToString() + " " + smoothedScrollPositionY.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
         }
 
         // Check arm length and adjust offsets accordingly
@@ -115,7 +119,7 @@ namespace _Scripts.OldScrollingTypes
 
             switch(lengthCheckAreaNum){
                 case 1: 
-                    EndOffsetPercentage = UserPointHeight / ARMDivisor -.07f; //Arm being used for scrolling, different size
+                    EndOffsetPercentage = UserPointHeight / ARMDivisor -.125f; //Arm being used for scrolling, different size
                     StartOffsetPercentage = 0.25f;
                     break;
                 case 2:

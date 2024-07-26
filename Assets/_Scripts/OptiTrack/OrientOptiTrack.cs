@@ -12,6 +12,7 @@ namespace _Scripts.OptiTrack
         [SerializeField] private bool isVisible;
         [SerializeField] private CapsuleCollider armCollider;
         [SerializeField] private float multiplier = 5.2f;
+        [SerializeField] private float mul = 1.5f;
         private GameManager gameManager;
     
         // Start is called before the first frame update
@@ -42,19 +43,26 @@ namespace _Scripts.OptiTrack
             // Calculate the rotation to align with the direction vector
             Quaternion rotation = !hand ? 
                 Quaternion.FromToRotation(Vector3.up, direction) : 
-                Quaternion.FromToRotation(Vector3.back, direction) * Quaternion.Euler(0, 180, 0);
+                Quaternion.FromToRotation(Vector3.back, direction) * Quaternion.Euler(0, 180, 10);
 
-            // Apply the rotation to the collider
-            armUICapsuleCollider.transform.rotation = rotation;
-
+            if (hand)
+            {
+                armUICapsuleCollider.transform.position -= new Vector3(0.025f, 0.0f, 0.0f);
+            }
             // If visible, update the local scale
             if (visible)
             {
                 Transform armTransform = armUICapsuleCollider.transform;
                 Vector3 newScale = armTransform.localScale;
-                newScale.y = distance; //To be tested
+                newScale.y = distance / mul; //Good
+                newScale.x = gameManager.UserHeight / 24f;
+                newScale.z = gameManager.UserHeight / 24f;
                 armTransform.localScale = newScale;
+                rotation = Quaternion.FromToRotation(Vector3.up, direction) * Quaternion.Euler(0, 0, 15);
             }
+            
+            // Apply the rotation to the collider
+            armUICapsuleCollider.transform.rotation = rotation;
         }
     }
 }

@@ -29,61 +29,75 @@ namespace _Scripts.OldScrollingTypes
 
         private void OnTriggerEnter(Collider other)
         {
-            LengthCheck(); // Check arm length
-            menuText.text = "Enter"; // Update menu text
-            lastContactPoint = other.ClosestPoint(startPoint.position); //Set new contact position
-            if (triggerTimer < TriggerTimeMax) //Give user 8 frames on collision enter to use Point scroll type
+            if (other.gameObject.name == "Other Fingertip")
             {
-                Scroll(other);
-            }
-            else 
-            {
-                // After collision, give approx 8 or 160ms to make selection then switch to dynamic scroll
-                DynamicScroll(other);
-            }
+                LengthCheck(); // Check arm length
+                menuText.text = "Enter"; // Update menu text
+                lastContactPoint = other.ClosestPoint(startPoint.position); //Set new contact position
+                if (triggerTimer < TriggerTimeMax) //Give user 8 frames on collision enter to use Point scroll type
+                {
+                    Scroll(other);
+                }
+                else
+                {
+                    // After collision, give approx 8 or 160ms to make selection then switch to dynamic scroll
+                    DynamicScroll(other);
+                }
 
-            // Cancel the pause coroutine if a new collision starts
-            if (pauseCoroutine != null)
-            {
-                StopCoroutine(pauseCoroutine);
-                pauseCoroutine = null;
+                // Cancel the pause coroutine if a new collision starts
+                if (pauseCoroutine != null)
+                {
+                    StopCoroutine(pauseCoroutine);
+                    pauseCoroutine = null;
+                }
+
+                DwellCoroutine ??= StartCoroutine(DwellSelection());
             }
-            DwellCoroutine ??= StartCoroutine(DwellSelection());
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (triggerTimer < TriggerTimeMax) //Give user 8 frames after enter to use Point scroll type then switch
-            { 
-                Scroll(other);
-            }
-            else
+            if (other.gameObject.name == "Other Fingertip")
             {
-                // After collision, give approx 160ms then dynamic scrolling
-                DynamicScroll(other);
-            }
-        
-            if (DwellCoroutine != null && Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
-            {
-                StopCoroutine(DwellCoroutine); //If too much movement, reset dwell selection as scrolling is happening
-                DwellCoroutine = StartCoroutine(DwellSelection());
+                if (triggerTimer < TriggerTimeMax) //Give user 8 frames after enter to use Point scroll type then switch
+                {
+                    Scroll(other);
+                }
+                else
+                {
+                    // After collision, give approx 160ms then dynamic scrolling
+                    DynamicScroll(other);
+                }
+
+                if (DwellCoroutine != null &&
+                    Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
+                {
+                    StopCoroutine(
+                        DwellCoroutine); //If too much movement, reset dwell selection as scrolling is happening
+                    DwellCoroutine = StartCoroutine(DwellSelection());
+                }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            menuText.text = "Exit"; // Update menu text
+            if (other.gameObject.name == "Other Fingertip")
+            {
+                menuText.text = "Exit"; // Update menu text
 
-            // Start the pause coroutine
-            if (pauseCoroutine != null)
-            {
-                StopCoroutine(pauseCoroutine); //On exit: Keep dynamic scrolling for 1.8 seconds, reset to point if exceeded 
-            }
-            pauseCoroutine = StartCoroutine(PauseBeforeResetCoroutine());
-            if (DwellCoroutine != null)
-            {
-                StopCoroutine(DwellCoroutine); //Also reset dwell selection on exit
-                DwellCoroutine = null;
+                // Start the pause coroutine
+                if (pauseCoroutine != null)
+                {
+                    StopCoroutine(
+                        pauseCoroutine); //On exit: Keep dynamic scrolling for 1.8 seconds, reset to point if exceeded 
+                }
+
+                pauseCoroutine = StartCoroutine(PauseBeforeResetCoroutine());
+                if (DwellCoroutine != null)
+                {
+                    StopCoroutine(DwellCoroutine); //Also reset dwell selection on exit
+                    DwellCoroutine = null;
+                }
             }
         }
 

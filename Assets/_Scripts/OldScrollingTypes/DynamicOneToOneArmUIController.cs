@@ -24,36 +24,46 @@ namespace _Scripts.OldScrollingTypes
 
         protected void OnTriggerEnter(Collider other)
         {
-            menuText.text = "Enter";
-            // Initialize last contact point but don't scroll yet
-            lastContactPoint = other.ClosestPoint(startPoint.position);
-        
-            Scroll(other);
-            // Start dwell selection coroutine
-            DwellCoroutine ??= StartCoroutine(DwellSelection());
+            if (other.gameObject.name == "Other Fingertip")
+            {
+                menuText.text = "Enter";
+                Debug.Log(other.gameObject.name);
+                // Initialize last contact point but don't scroll yet
+                lastContactPoint = other.ClosestPoint(startPoint.position);
+
+                Scroll(other);
+                // Start dwell selection coroutine
+                DwellCoroutine ??= StartCoroutine(DwellSelection());
+            }
         }
 
         protected void OnTriggerStay(Collider other)
         {
-            Scroll(other);
-         
-            // Restart dwell selection coroutine if list position changes significantly
-            if (DwellCoroutine == null || !(Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) >
-                                            DwellThreshold)) return;
-            StopCoroutine(DwellCoroutine);
-            DwellCoroutine = StartCoroutine(DwellSelection());
+            if (other.gameObject.name == "Other Fingertip")
+            {
+                Scroll(other);
+
+                // Restart dwell selection coroutine if list position changes significantly
+                if (DwellCoroutine == null ||
+                    !(Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) >
+                      DwellThreshold)) return;
+                StopCoroutine(DwellCoroutine);
+                DwellCoroutine = StartCoroutine(DwellSelection());
+            }
 
         }
 
         protected void OnTriggerExit(Collider other)
         {
-
-            menuText.text = "Exit";
-            // Stop dwell selection coroutine on exit
-            if (DwellCoroutine != null)
+            if (other.gameObject.name == "Other Fingertip")
             {
-                StopCoroutine(DwellCoroutine);
-                DwellCoroutine = null;
+                menuText.text = "Exit";
+                // Stop dwell selection coroutine on exit
+                if (DwellCoroutine != null)
+                {
+                    StopCoroutine(DwellCoroutine);
+                    DwellCoroutine = null;
+                }
             }
         }
 
