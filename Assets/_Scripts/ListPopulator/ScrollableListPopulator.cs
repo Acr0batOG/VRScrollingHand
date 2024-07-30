@@ -100,7 +100,7 @@ namespace _Scripts.ListPopulator
             // Set the vertical normalized position
             scrollRect.verticalNormalizedPosition = normalizedPosition;
         }
-        private void RemoveListItems(){
+        public void RemoveListItems(){
             foreach (Transform child in content)
             {
                 //Remove all items from the list

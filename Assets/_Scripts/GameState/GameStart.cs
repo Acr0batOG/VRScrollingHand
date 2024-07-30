@@ -12,10 +12,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 namespace _Scripts.GameState
 {
-    public class GameStart : MonoBehaviour
+    public class GameStart : Singleton<GameStart>
     {
         [SerializeField] TextMeshProUGUI selectNumber; // Number to be selected by user.
         [SerializeField] TextMeshProUGUI correctText;
@@ -23,6 +24,7 @@ namespace _Scripts.GameState
         [SerializeField] bool saveData;
         [SerializeField] bool timeLimit;
         [SerializeField] int selectedNumber;
+        [SerializeField] private int itemMultiplier = 2;
         [SerializeField] protected ScrollRect scrollableList;
         [SerializeField] AudioSource correctAudioSource;
         [SerializeField] AudioSource incorrectAudioSource;
@@ -44,6 +46,7 @@ namespace _Scripts.GameState
         int previousBlockId;
         int previousUserId;
         int previousNumberOfItems;
+        private int startingItem = 25;
         private int timeExceededValue = -1;
         private float distanceToItem;
         private float distanceTravelled;
@@ -74,11 +77,10 @@ namespace _Scripts.GameState
             gameManager = GameManager.instance; //Game manager instance 
             firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
             FirebaseSetup();
-            //InitialSetup();
-            //SetGameStart(); //Start up the game
-            //InitializeArray();
-            //StartCoroutine(WaitBeforeGetColor());
-            
+            InitialSetup();
+            SetGameStart(); //Start up the game
+            InitializeArray();
+
         }
 
         void FirebaseSetup()
@@ -139,9 +141,8 @@ namespace _Scripts.GameState
             });
         }
 
-        IEnumerator WaitBeforeGetColor()
+        public void GetColor()
         {
-            yield return new WaitForSeconds(1.5f);
             RectTransform outerRect = scrollableList.content.GetChild(0).GetComponent<RectTransform>();
             Button button = outerRect.GetComponent<Button>();
             // Get the current ColorBlock
@@ -197,6 +198,11 @@ namespace _Scripts.GameState
                 }
             }
 
+            if (gameManager.InitalizeList)
+            {
+                GetColor();
+                gameManager.InitalizeList = false;
+            }
         }
 
         private void UpdateHighlightedColors()
@@ -280,9 +286,6 @@ namespace _Scripts.GameState
         }
         void ResetGame(){
             previousNumberOfItems = gameManager.NumberOfItems;
-            RemoveArray(numberArray); //Reset the array to no elements
-            FillArray(numberArray); // Fill the selection array
-            Shuffle(numberArray); // Shuffle the array for selection
             numberArrayIndex = 0; //Set array index back to 0
             currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
             currentUserId = firebaseGame.UserId;
@@ -294,11 +297,34 @@ namespace _Scripts.GameState
 
         void FillArray(List<int> array)
         {
-            int count = gameManager.NumberOfItems;
-            for (int i = 0; i < count; i++)
+            int count = 6 * itemMultiplier; //Number of items in array
+            float[] rangeArray = {.25f,.35f,.55f,.65f,.85f,.95f}; //Holds the difference between items
+            float[] valueArray = new float[3];
+            int[] itemsToBeUsed = new int[6];
+            int k = 0;
+            for (int i = 0; i < rangeArray.Length; i+=2)
             {
-                array.Add(i + 1); // Use Add method to fill array with numbers in the list, for selection
+                valueArray[k] = Random.Range(rangeArray[i], rangeArray[i + 1]); //Random Value between the items
+                k++;
             }
+
+            k = 0;
+            //Get the value to + or -
+            //25*valueArray[i]
+            for (int i = 0; i < itemsToBeUsed.Length; i+=2)
+            {
+                itemsToBeUsed[i] = startingItem + (int)(startingItem * valueArray[k]); //Positive - Cast to int
+                itemsToBeUsed[i+1] =  startingItem + (int)(startingItem * valueArray[k] * -1); //Negative - Cast to Int
+                k++;
+                //Correct - gets the percentile averages where it should be
+            }
+            
+            for (int i = 0; i < itemMultiplier; i++)
+            {
+                array.AddRange(itemsToBeUsed);
+            }
+            
+            
         }
         void RemoveArray(List<int> array)
         {
@@ -306,41 +332,45 @@ namespace _Scripts.GameState
         }
 
         void Shuffle(List<int> array)
-        {   
-            //Used to randomize array elements from 1-50
+        {
+            // Used to randomize array elements from 1-50
             System.Random random = new System.Random();
-            int n = array.Count; // Use Count instead of Capacity
+            int n = array.Count;
+
+            // Perform the Fisher-Yates shuffle
             for (int i = n - 1; i > 0; i--)
             {
-                int j = random.Next(0, i + 1); // Random index from 0 to I
+                int j = random.Next(0, i + 1); // Random index from 0 to i
                 // Swap array[i] with the element at random index
                 (array[i], array[j]) = (array[j], array[i]);
             }
-            SwapValuesIfTooClose(array);
-            SwapValuesIfTooClose(array);
-            // Trim the list to contain only 10 items after shuffling. 10 items selected for each block
-            if (array.Count > 10)
-            {
-                array.RemoveRange(10, array.Count - 10); //Trim 50 item array to 10
-            }
-        }
 
-        void SwapValuesIfTooClose(List<int> array)
-        {
-            for (int i = 0; i < array.Count - 1; i++)
+            // Check for consecutive duplicates and rearrange if needed
+            for (int i = 1; i < n; i++)
             {
-                if (Math.Abs(array[i] - array[i + 1]) == 1)
+                if (array[i] == array[i - 1])
                 {
-                    // Swap array[i] with array[array.Count - i - 1]
-                    (array[i], array[array.Count - i - 1]) = (array[array.Count - i - 1], array[i]);
+                    // Find a new index to swap with that is not the same as the previous element
+                    int j = i;
+                    while (j == i || array[j] == array[i - 1])
+                    {
+                        j = random.Next(0, n);
+                    }
+                    // Swap to avoid consecutive duplicates
+                    (array[i], array[j]) = (array[j], array[i]);
                 }
             }
+
+            string arrayString = string.Join(", ", array);
+            Debug.Log(arrayString);
+            
         }
+        
 
         void SetGameStart()
         {
-            selectNumber.text = "Select Any Number to Begin"; //Start text displayed to begin
-            
+            selectNumber.text = "Select Arm Object To Begin";
+
         }
 
         private void SelectionChange()
@@ -370,13 +400,13 @@ namespace _Scripts.GameState
             if (numberArrayIndex > 0) // Only check correctness after the first selection
             {   
                 CheckCorrect(selectedNumber); // Using selectedNumber to check correctness
-            }
+           }
             SetNumber(); //Set next number
             isCoroutineRunning = false; // Reset the flag when the coroutine completes
             previousSelectedNumber = selectedNumber; // Update previousSelectedNumber before starting the coroutine
         }
 
-        void SetNumber()
+        public void SetNumber()
         {
             if (numberArrayIndex < numberArray.Count)
             {

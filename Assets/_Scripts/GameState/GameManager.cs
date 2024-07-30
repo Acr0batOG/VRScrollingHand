@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Scripts.OldScrollingTypes;
+using _Scripts.OptiTrack;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,13 +14,13 @@ namespace _Scripts.GameState
         [SerializeField] private int techniqueNumber = -1;
         [SerializeField] private int areaNumber = -1;
         [SerializeField] private bool bodyVisibility = true;
-        [SerializeField] private bool enableControllers = false;
         [SerializeField] private float userHeight = 1.8f; 
         [SerializeField] private int numberOfItems = 50; // Number of items to populate
         private int selectedItem;
         private int previousTechnique = -1;
         private int previousArea = -1;
         private bool previousBodyVisibility = true;
+        private bool initalizeList;
         private GameObject handMesh; //Used to change the visibility of the hand mesh
         private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
         
@@ -48,10 +49,10 @@ namespace _Scripts.GameState
             get { return bodyVisibility; }
             set { bodyVisibility = value; }
         }
-        public bool EnableControllers
+        public bool InitalizeList
         {
-            get { return enableControllers; }
-            set { enableControllers = value; }
+            get { return initalizeList; }
+            set { initalizeList = value; }
         }
 
         // Property for userHeight with notification logic
@@ -105,11 +106,10 @@ namespace _Scripts.GameState
         {
             if (techniqueNumber != previousTechnique || areaNumber != previousArea)
             {
-                EnableSelectedController();
-
+                DisableAllArmUIControllers();
                 //Update technique and area for comparison
-                previousTechnique = techniqueNumber;
-                previousArea = areaNumber;
+                // previousTechnique = techniqueNumber;
+                // previousArea = areaNumber;
             }
 
             if (bodyVisibility != previousBodyVisibility)
@@ -121,8 +121,6 @@ namespace _Scripts.GameState
 
         public void EnableSelectedController()
         {
-            if (enableControllers)
-            {
                 Debug.Log("Controller Enabled");
                     
                 int compositeValue = areaNumber * 10 + techniqueNumber;
@@ -145,7 +143,7 @@ namespace _Scripts.GameState
 
                 //Set the proper collider.
                 armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
-            }
+          
         }
         private void DisableAllArmUIControllers()
         {

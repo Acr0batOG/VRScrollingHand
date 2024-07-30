@@ -12,28 +12,39 @@ namespace _Scripts.OptiTrack
     {
         [SerializeField] private Transform armCollider;
         [SerializeField] private CapsuleCollider startCollider;
+        [SerializeField] private MeshRenderer startRenderer;
         [SerializeField] private Transform startPoint;
         [SerializeField] private Transform endPoint;
         private ScrollableListPopulator scrollList;
         private GameManager gameManager;
+        private GameStart gameStart;
 
         private void Start()
         {
             gameManager = GameManager.instance;
             scrollList = ScrollableListPopulator.instance;
-            
+            gameStart = GameStart.instance;
+            Renderer objectRenderer = GetComponent<Renderer>();
+            objectRenderer.material.SetColor("_Color", Color.green);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (startCollider)
-            {
-                // Calculate the middle point between startPoint and endPoint
-                Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
-                Vector3 direction = (endPoint.position - startPoint.position).normalized;
-                OrientCollider(startCollider, middlePoint, direction);
+
+            //Debug.Log("Old "+ gameManager.PreviousTechnique + " Actual " + gameManager.TechniqueNumber );
+            if(gameManager.PreviousArea!=gameManager.AreaNumber||gameManager.PreviousTechnique!=gameManager.TechniqueNumber){
+                startCollider.enabled = true;
+                startRenderer.enabled = true;
+                scrollList.RemoveListItems();
+                gameManager.PreviousArea = gameManager.AreaNumber;
+                gameManager.PreviousTechnique = gameManager.TechniqueNumber;
             }
+            // Calculate the middle point between startPoint and endPoint
+            Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
+            Vector3 direction = (endPoint.position - startPoint.position).normalized;
+            OrientCollider(startCollider, middlePoint, direction);
+          
         }
 
         private void OrientCollider(CapsuleCollider armUICapsuleCollider, Vector3 middlePoint, Vector3 direction)
@@ -41,7 +52,7 @@ namespace _Scripts.OptiTrack
             armUICapsuleCollider.center = Vector3.zero; // Reset center to origin
            // armUICapsuleCollider.height = distance * gameManager.UserHeight; // Set height based on distance and user height
             armUICapsuleCollider.transform.position = middlePoint; // Position the collider at the midpoint
-            
+            armUICapsuleCollider.transform.localScale = new Vector3(.08f, .01f, .08f);
             // Set the direction of the collider to Y-axis
             armUICapsuleCollider.direction = 1; // 0 for X, 1 for Y, 2 for Z
             
@@ -63,11 +74,14 @@ namespace _Scripts.OptiTrack
 
         private void OnCollisionExit(Collision other)
         {
-            Destroy(GetComponent<Rigidbody>());
-            Destroy(startCollider.gameObject);
+            startCollider.enabled = false;
+            startRenderer.enabled = false;
             Debug.Log("Init Array");
+            Renderer objectRenderer = GetComponent<Renderer>();
+            objectRenderer.material.SetColor("_Color", Color.green);
             scrollList.InitArray();
-            gameManager.EnableControllers = true;
+            gameManager.InitalizeList = true;
+            gameStart.SetNumber();
             gameManager.EnableSelectedController();
         }
     }

@@ -3533,7 +3533,6 @@ MonoBehaviour:
   techniqueNumber: 1
   areaNumber: 1
   bodyVisibility: 1
-  enableControllers: 0
   userHeight: 1.8
   numberOfItems: 50
 --- !u!1001 &388811138
@@ -15038,6 +15037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armCollider: {fileID: 1350262530}
   startCollider: {fileID: 1827088235}
+  startRenderer: {fileID: 1827088236}
   startPoint: {fileID: 1850185604}
   endPoint: {fileID: 399341850}
 --- !u!136 &1827088235
