@@ -74,10 +74,10 @@ namespace _Scripts.GameState
             gameManager = GameManager.instance; //Game manager instance 
             firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
             FirebaseSetup();
-            InitialSetup();
-            SetGameStart(); //Start up the game
-            InitializeArray();
-            StartCoroutine(WaitBeforeGetColor());
+            //InitialSetup();
+            //SetGameStart(); //Start up the game
+            //InitializeArray();
+            //StartCoroutine(WaitBeforeGetColor());
             
         }
 

@@ -22,7 +22,7 @@ namespace _Scripts.OldScrollingTypes
         {
             if (other.gameObject.name == "Other Fingertip")
             {
-                Debug.Log(other.gameObject.name);
+                //Debug.Log(other.gameObject.name);
                 menuText.text = "Enter";
                 Scroll(other);
                 // Start dwell selection coroutine

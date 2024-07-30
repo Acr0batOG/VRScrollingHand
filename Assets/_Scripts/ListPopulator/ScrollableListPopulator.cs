@@ -1,3 +1,4 @@
+using System;
 using _Scripts.GameState;
 using TMPro;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 
 namespace _Scripts.ListPopulator
 {
-    public class ScrollableListPopulator : MonoBehaviour
+    public class ScrollableListPopulator : Singleton<ScrollableListPopulator>
     {
         [SerializeField] private GameObject listItemPrefab; // Reference to the prefab for list items
         private int numberOfItems; // Number of items to populate
@@ -16,11 +17,15 @@ namespace _Scripts.ListPopulator
         GameManager gameManager;
         private float totalHeight;
 
-        void Start()
-        {   
+        private void Start()
+        {
             gameManager = GameManager.instance;
             numberOfItems = gameManager.NumberOfItems; //Get number of items
             previousNumberOfItems = numberOfItems;
+        }
+
+        public void InitArray()
+        {   
             PopulateList();  //Populate the list
             SetScrollPositionToMidpoint();
         }
@@ -44,7 +49,6 @@ namespace _Scripts.ListPopulator
 
                 // Set the name of the instantiated item to a unique name
                 listItem.name = "ListItem_" + (i + 1).ToString();
-
                 // Find the Image component within the instantiated prefab
                 Image listItemImage = listItem.GetComponent<Image>();
                 if (listItemImage != null)
