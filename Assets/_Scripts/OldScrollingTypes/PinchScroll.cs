@@ -1,11 +1,13 @@
+using System;
 using _Scripts.Calculators;
 using UnityEngine;
 
 namespace _Scripts.OldScrollingTypes
 {
-    public class DynamicScrollArmUIController : ArmUIController
+    public class PinchScroll : ArmUIController
     {
-        private float scrollSpeed = 550f; // Speed multiplier for scrolling
+        // Start is called before the first frame update
+       private float scrollSpeed = 550f; // Speed multiplier for scrolling
         private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
         private float contentHeight;
@@ -72,15 +74,18 @@ namespace _Scripts.OldScrollingTypes
         protected override void Scroll(Collider colliderInfo)
         {
             Vector3 currentContactPoint = colliderInfo.ClosestPoint(startPoint.position);
+
+            // Calculate the vertical difference
+            float positionDifference = currentContactPoint.y - lastContactPoint.y;
+
             if (Vector3.Distance(lastContactPoint, currentContactPoint) < slowMovementThreshold)
             {
                 lastContactPoint = currentContactPoint;
                 return;
             }
-            float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
-            float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
-            float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
-            currentScrollSpeed = normalisedPositionDifference * scrollSpeed;
+
+            // Update scroll speed based on the vertical difference
+            currentScrollSpeed = positionDifference * scrollSpeed;
 
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
             newScrollPosition.y += currentScrollSpeed; // Addition because moving the hand up should scroll down

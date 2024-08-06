@@ -8,10 +8,10 @@ namespace _Scripts.OldScrollingTypes
         protected float handSpeed = 1.06f;
         protected float fingerSpeed = 5.0f;
         protected float fingertipSpeed = 10.0f;
-        protected float armThreshold = 150f;
-        protected float handThreshold = 125f;
-        protected float fingerThreshold = 75f;
-        protected float fingertipThreshold = 40f;
+        protected float armThreshold = 200f;
+        protected float handThreshold = 100f;
+        protected float fingerThreshold = 65f;
+        protected float fingertipThreshold = 35f;
     
         protected new void Start()
         {
@@ -67,8 +67,7 @@ namespace _Scripts.OldScrollingTypes
             Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
 
             float threshold = GetThreshold(); //Determine threshold size base on collision object
-        
-
+            
             // Calculate the distance from the contact point to the start and end points
             float distanceFromStart = (contactPoint - startPoint.position).magnitude;
             float distanceFromEnd = (contactPoint - endPoint.position).magnitude;
@@ -82,7 +81,6 @@ namespace _Scripts.OldScrollingTypes
 
             // Calculate the new scroll position based on the distance from the middle point
             float deltaY = (contactPoint - middlePoint).magnitude * polarity * staticScrollSpeed;
-            CheckThreshold(contactPoint, middlePoint, threshold);
             if(AreaNum==2||AreaNum==1){
                 if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
                     return; //Middle dead zone for no scrolling
@@ -103,25 +101,24 @@ namespace _Scripts.OldScrollingTypes
             // Update the distance text
             distText.text = "Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString();
         }
-        float GetThreshold(){
-            switch(AreaNum){//Update speed for area postion for scroll
-                case 1: 
-                    return capsuleCollider.height/armThreshold; //Arm Threshold - 165f
+
+        float GetThreshold()
+        {
+            switch (AreaNum)
+            {
+                //Update speed for area postion for scroll
+                case 1:
+                    return capsuleCollider.height / armThreshold; //Arm Threshold - 165f
                 case 2:
-                    return capsuleCollider.height/handThreshold; //Hand Threshold - 150f
+                    return capsuleCollider.height / handThreshold; //Hand Threshold - 150f
                 case 3:
-                    return capsuleCollider.height/fingerThreshold; //Finger Threshold - 100f
+                    return capsuleCollider.height / fingerThreshold; //Finger Threshold - 100f
                 case 4:
-                    return capsuleCollider.height/fingertipThreshold; //Fingertip Threshold - 50f
+                    return capsuleCollider.height / fingertipThreshold; //Fingertip Threshold - 50f
                 default:
-                    return capsuleCollider.height/165f;
+                    return capsuleCollider.height / 165f;
             }
         }
-        void CheckThreshold(Vector3 contactPoint, Vector3 middlePoint, float threshold){
-        
-            if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
-                return; //Middle dead zone for no scrolling
-        }
-        
+
     }
 }

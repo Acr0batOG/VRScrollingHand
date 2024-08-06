@@ -1,21 +1,19 @@
-using System;
 using System.Collections;
-using System.ComponentModel.Design;
+using System.Collections.Generic;
 using _Scripts.GameState;
 using _Scripts.ListPopulator;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Scripts.OptiTrack
 {
-    public class StarterAlignment : MonoBehaviour
+    public class StarterAlignment : Singleton<StarterAlignment>
     {
         [SerializeField] private Transform armCollider;
-        [SerializeField] private CapsuleCollider startCollider;
-        [SerializeField] private MeshRenderer startRenderer;
+        [SerializeField] public CapsuleCollider startCollider;
+        [SerializeField] public MeshRenderer startRenderer;
         [SerializeField] private Transform startPoint;
         [SerializeField] private Transform endPoint;
-        private ScrollableListPopulator scrollList;
+        public ScrollableListPopulator scrollList;
         private GameManager gameManager;
         private GameStart gameStart;
 
@@ -33,10 +31,12 @@ namespace _Scripts.OptiTrack
         {
 
             //Debug.Log("Old "+ gameManager.PreviousTechnique + " Actual " + gameManager.TechniqueNumber );
-            if(gameManager.PreviousArea!=gameManager.AreaNumber||gameManager.PreviousTechnique!=gameManager.TechniqueNumber){
+            if(gameManager.PreviousArea!=gameManager.AreaNumber||gameManager.PreviousTechnique!=gameManager.TechniqueNumber)
+            {
+                
+                scrollList.RemoveListItems();
                 startCollider.enabled = true;
                 startRenderer.enabled = true;
-                scrollList.RemoveListItems();
                 gameManager.PreviousArea = gameManager.AreaNumber;
                 gameManager.PreviousTechnique = gameManager.TechniqueNumber;
             }
@@ -46,7 +46,7 @@ namespace _Scripts.OptiTrack
             OrientCollider(startCollider, middlePoint, direction);
           
         }
-
+        
         private void OrientCollider(CapsuleCollider armUICapsuleCollider, Vector3 middlePoint, Vector3 direction)
         {
             armUICapsuleCollider.center = Vector3.zero; // Reset center to origin
@@ -74,6 +74,7 @@ namespace _Scripts.OptiTrack
 
         private void OnCollisionExit(Collision other)
         {
+            
             startCollider.enabled = false;
             startRenderer.enabled = false;
             Debug.Log("Init Array");
@@ -82,6 +83,13 @@ namespace _Scripts.OptiTrack
             scrollList.InitArray();
             gameManager.InitalizeList = true;
             gameStart.SetNumber();
+
+            StartCoroutine(Wait());
+        }
+
+        private IEnumerator Wait()
+        {
+            yield return new WaitForSeconds(.5f);
             gameManager.EnableSelectedController();
         }
     }

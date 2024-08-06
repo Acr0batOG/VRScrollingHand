@@ -21,6 +21,7 @@ namespace _Scripts.GameState
         private int previousArea = -1;
         private bool previousBodyVisibility = true;
         private bool initalizeList;
+        private bool touchFinished;
         private GameObject handMesh; //Used to change the visibility of the hand mesh
         private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
         
@@ -48,6 +49,11 @@ namespace _Scripts.GameState
         {
             get { return bodyVisibility; }
             set { bodyVisibility = value; }
+        }
+        public bool TouchFinished
+        {
+            get { return touchFinished; }
+            set { touchFinished = value; }
         }
         public bool InitalizeList
         {
@@ -128,10 +134,11 @@ namespace _Scripts.GameState
                 // Dictionary to map composite values to their corresponding UI controller index
                 Dictionary<int, int> compositeToIndex = new Dictionary<int, int>
                 {
-                    //Area is the first number 1-4 (Arm, Hand, Finger, Fingertip). Technique is next number 1-6
+                    //Area is the first number 1-3 (Arm, Hand, Other). Technique is next number 1-6
                     //(Static, Point, Dynamic, Point -> Static, Point -> Dynamic, Dynamic One to One)
                     { 11, 0 }, { 12, 1 }, { 13, 2 }, { 14, 3 }, { 15, 4 }, { 16, 5 },
-                    { 21, 6 }, { 22, 7 }, { 23, 8 }, { 24, 9 }, { 25, 10 }, { 26, 11 }
+                    { 21, 6 }, { 22, 7 }, { 23, 8 }, { 24, 9 }, { 25, 10 }, { 26, 11 },
+                    {31, 12}, {32, 13}
                 };
 
                 // Check if the composite value exists in the dictionary
@@ -145,9 +152,11 @@ namespace _Scripts.GameState
                 armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
           
         }
-        private void DisableAllArmUIControllers()
+        public void DisableAllArmUIControllers()
         {
+            Debug.Log("Disable Controllers");
             //Disable every arm controller each time it's called
+            touchFinished = false;
             foreach (ArmUIController t in armUIControllers)
             {
                 t.gameObject.SetActive(false);

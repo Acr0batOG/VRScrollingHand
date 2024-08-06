@@ -1,5 +1,6 @@
-using System.Collections;
+
 using System.Globalization;
+using _Scripts.GameState;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -9,41 +10,39 @@ namespace _Scripts.OldScrollingTypes
     public class PointStaticScrollArmUIController : PointScrollArmUIController
     {
         [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
-        private const int TriggerTimeMax = 8;
         private readonly float handSpeed = 1.06f;
         private readonly float fingerSpeed = 5.0f;
         private readonly float fingertipSpeed = 10.0f;
-        private int triggerTimer;
+        private GameManager gameManager;
+        private int scrollCounter;
+        private bool touchFinished;
         private Coroutine pauseCoroutine; // Coroutine for the pause
-        Vector3 collisionPoint;
+        
         protected new void Start()
         {
-
             base.Start();
+            gameManager = GameManager.instance;
             LengthCheck(); // Check arm length
             SpeedControl();
+            StartOffsetPercentage = .30f;
+            EndOffsetPercentage = 1.05f;
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            touchFinished = gameManager.TouchFinished;
             if (other.gameObject.name == "Other Fingertip")
             {
                 Debug.Log(other.gameObject.name);
                 LengthCheck(); // Check arm length
                 menuText.text = "Enter"; // Update menu text
-                if (triggerTimer < TriggerTimeMax)
+                if (!touchFinished)
                     Scroll(other); // Scroll through the content
                 else
                 {
-                    StaticScroll(other, collisionPoint);
+                    StaticScroll(other);
                 }
-
-                // Cancel the pause coroutine if a new collision starts
-                if (pauseCoroutine != null)
-                {
-                    StopCoroutine(pauseCoroutine);
-                    pauseCoroutine = null;
-                }
+                
 
                 // Start dwell selection coroutine
                 DwellCoroutine ??= StartCoroutine(DwellSelection());
@@ -54,7 +53,7 @@ namespace _Scripts.OldScrollingTypes
         {
             if (other.gameObject.name == "Other Fingertip")
             {
-                if (triggerTimer < TriggerTimeMax)
+                if (!touchFinished)
                 {
                     Scroll(other);
                 }
@@ -62,7 +61,7 @@ namespace _Scripts.OldScrollingTypes
                 {
                     //After collision give appx 160ms to make selection then switch to Static scroll
 
-                    StaticScroll(other, collisionPoint);
+                    StaticScroll(other);
                 }
 
                 // Restart dwell selection coroutine if list position changes significantly
@@ -81,14 +80,7 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit"; // Update menu text
                 // Stop dwell selection coroutine on exit
-                // Start the pause coroutine
-                if (pauseCoroutine != null)
-                {
-                    StopCoroutine(
-                        pauseCoroutine); //On exit: Keep dynamic scrolling for 1.8 seconds, reset to point if exceeded 
-                }
-
-                pauseCoroutine = StartCoroutine(PauseBeforeResetCoroutine());
+                
                 if (DwellCoroutine != null)
                 {
                     StopCoroutine(DwellCoroutine); //Reset selection on exit
@@ -126,24 +118,23 @@ namespace _Scripts.OldScrollingTypes
             // Set the new scroll position
             Vector2 newScrollPosition = new Vector2(scrollableList.content.anchoredPosition.x, newScrollPositionY);
             scrollableList.content.anchoredPosition = newScrollPosition;
-            triggerTimer++;  
+            scrollCounter++; 
         
-            collisionPoint = fingerCollider.ClosestPoint(startPoint.position); //Set middle point to location where last point selection was made
             distText.text = "Initial Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
+            if (scrollCounter >= 8)
+                touchFinished = true;
         }
 
-        private void StaticScroll(Collider collisionInfo, Vector3 pointStaticCollisionPoint){
+        private void StaticScroll(Collider collisionInfo){
             Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
             //Set middle of static scroll to point of initial collision
-            Vector3 middlePoint = pointStaticCollisionPoint;
+            Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
             //Set the width of the dead zone for selection
-            float threshold = capsuleCollider.height/145f;
+            float threshold = capsuleCollider.height/125f;
 
             // Determine the polarity based on which end the contact point is closer to
             int polarity = contactPoint.magnitude > middlePoint.magnitude ? -1 : 1;
-      
-
-            // Get the content height and the viewport height
+            
             // Get the content height and the viewport height
             float contentHeight = scrollableList.content.sizeDelta.y;
             float viewportHeight = scrollableList.viewport.rect.height;
@@ -165,13 +156,7 @@ namespace _Scripts.OldScrollingTypes
             // Update the distance text
             distText.text = "Point Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture);
         }
-
-        private IEnumerator PauseBeforeResetCoroutine()
-        {
-            yield return new WaitForSeconds(1.2f); // Pause for 1.2 seconds before resetting
-            //Used to continue dynamic scrolling for 1.2s after exit, reset if exceeded
-            triggerTimer = 0; // Reset trigger timer after 1.2 seconds for back to static scrolling
-        }
+        
         void SpeedControl(){
             int speedControlAreaNum = GameManager.AreaNumber; // Check the area number
 

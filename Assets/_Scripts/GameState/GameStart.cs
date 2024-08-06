@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using _Scripts.Database_Objects;
 using _Scripts.Firebase;
+using _Scripts.OptiTrack;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
@@ -29,6 +30,7 @@ namespace _Scripts.GameState
         [SerializeField] AudioSource correctAudioSource;
         [SerializeField] AudioSource incorrectAudioSource;
         private GameManager gameManager;
+        private StarterAlignment starterAlignment;
         private FirebaseUpdateGame firebaseGame;
         private DatabaseReference reference;
         private FirebaseAuth auth;
@@ -65,7 +67,6 @@ namespace _Scripts.GameState
         private Graphic graphic2;
         private readonly Color highlightColor1 = new Color(.9f, .85f, 0f); // Highlighted color
         private readonly Color highlightColor2 = new Color(.94f, .94f, 94f); // Highlighted color (light gray)
-
         private int currentColorIndex = -1; // Index of the current highlighted color
         private int previousColorIndex = -1; // Index of the previous highlighted color
         
@@ -76,6 +77,7 @@ namespace _Scripts.GameState
             saveData = true;
             gameManager = GameManager.instance; //Game manager instance 
             firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
+            starterAlignment = StarterAlignment.instance;
             FirebaseSetup();
             InitialSetup();
             SetGameStart(); //Start up the game
@@ -172,6 +174,7 @@ namespace _Scripts.GameState
                 }
             }
 
+            
             UpdateBlockAndUserId();
 
             if (NeedsGameReset())
@@ -190,7 +193,7 @@ namespace _Scripts.GameState
 
             if (timeLimit)
             {
-                if (stopwatch.Elapsed.Seconds >= 10)
+                if (stopwatch.Elapsed.Seconds >= 15)
                 {
                     Debug.Log("Time exceeded");
                     CheckCorrect(timeExceededValue);
@@ -286,6 +289,7 @@ namespace _Scripts.GameState
         }
         void ResetGame(){
             previousNumberOfItems = gameManager.NumberOfItems;
+            Shuffle(numberArray);
             numberArrayIndex = 0; //Set array index back to 0
             currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
             currentUserId = firebaseGame.UserId;
@@ -297,7 +301,6 @@ namespace _Scripts.GameState
 
         void FillArray(List<int> array)
         {
-            int count = 6 * itemMultiplier; //Number of items in array
             float[] rangeArray = {.25f,.35f,.55f,.65f,.85f,.95f}; //Holds the difference between items
             float[] valueArray = new float[3];
             int[] itemsToBeUsed = new int[6];
@@ -340,7 +343,7 @@ namespace _Scripts.GameState
             // Perform the Fisher-Yates shuffle
             for (int i = n - 1; i > 0; i--)
             {
-                int j = random.Next(0, i + 1); // Random index from 0 to i
+                int j = random.Next(0, i + 1); // Random index from 0 to I
                 // Swap array[i] with the element at random index
                 (array[i], array[j]) = (array[j], array[i]);
             }
@@ -386,12 +389,19 @@ namespace _Scripts.GameState
                     {
                         CheckCorrect(selectedItem); //Check if selection is correct 
                     }
+
+                    StartCoroutine(WaitBeforeNew());
                     
-                    SetNumber(); //Set next item
+                    //SetNumber(); //Set next item
                 }
             }
         }
 
+        IEnumerator WaitBeforeNew()
+        {
+            yield return new WaitForSeconds(.4f);
+            ResetAfterSelection();
+        }
         //This only used for test mode, when I'm too lazy to use the VR headset
         IEnumerator TestSelectionChange()
         {
@@ -410,16 +420,16 @@ namespace _Scripts.GameState
         {
             if (numberArrayIndex < numberArray.Count)
             {
-                if (numberArrayIndex > 0)
-                {
+                //if (numberArrayIndex > 0)
+                //{
                     // Debug.Log(numberArray[numberArrayIndex - 1]);
                     // Debug.Log("Actual Position " + scrollableList.content.anchoredPosition.y);
                     // Debug.Log("Array Number " + arr[numberArray[numberArrayIndex-1]-1]);
-                    itemLocation = distanceArray[numberArray[numberArrayIndex - 1] - 1];
+                    itemLocation = distanceArray[numberArray[numberArrayIndex] - 1];
                     distanceToItem =  Math.Abs(scrollableList.content.anchoredPosition.y - itemLocation);
                     // Debug.Log(distanceToItem);
-                }
-
+                //}
+                
                 //When items are left to select
                 stopwatch.Start(); //Start time
                 previousScrollPosition = scrollableList.content.anchoredPosition.y;
@@ -429,12 +439,14 @@ namespace _Scripts.GameState
                 {
                     (numberArray[numberArrayIndex], numberArray[numberArrayIndex + 1]) = (numberArray[numberArrayIndex + 1], numberArray[numberArrayIndex]);
                 }
-
-                selectNumber.text = "Item #" + (numberArrayIndex + 1) + ", Please Select: " + numberArray[numberArrayIndex].ToString(); // Set the number the user will be retrieving
-                numberArrayIndex++; //Update the array index to select next item
+                    selectNumber.text = "Item #" + (numberArrayIndex + 1) + ", Please Select: " +
+                                        numberArray[numberArrayIndex]
+                                            .ToString(); // Set the number the user will be retrieving
+                    numberArrayIndex++; //Update the array index to select next item
+                
             }
             else
-            {   //Once all 10 items have been selected
+            {   //Once all items have been selected
                 selectNumber.text = "No more items to select.";
                 numberArrayIndex++;
                 stopGame = true;
@@ -485,8 +497,9 @@ namespace _Scripts.GameState
 
                 currentScrollPosition = scrollableList.content.anchoredPosition.y;
                 distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
-                completionTime = 10;
+                
                 SetTrialData();
+               
             }
 
             }catch (Exception e)
@@ -501,6 +514,7 @@ namespace _Scripts.GameState
                     incorrectAudioSource.Play(); // Play the incorrect audio clip
                     currentScrollPosition = scrollableList.content.anchoredPosition.y;
                     distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
+                    completionTime = 10.0f;
                     SetTrialData();
                 }
             }
@@ -511,13 +525,41 @@ namespace _Scripts.GameState
         IEnumerator ResetColorsAfterDelay(Graphic resetGraphic1, Graphic resetGraphic2, float delay, int checkedSelectedItem)
         {
             yield return new WaitForSeconds(delay);
-        
-            // Reset colors to original
-            resetGraphic1.color = originalColor1;
-            resetGraphic2.color = originalColor2;
-            previousColorIndex = checkedSelectedItem-1;
-            ResetColors(previousColorIndex);
+            try
+            {
+                if (resetGraphic1 != null && resetGraphic2 != null)
+                {
+                    // Reset colors to original
+                    resetGraphic1.color = originalColor1;
+                    resetGraphic2.color = originalColor2;
+                    previousColorIndex = checkedSelectedItem - 1;
+                    ResetColors(previousColorIndex);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("This error sucks my dudes "+ e + " I also hate eggshells in my sandwich");
+            }
         }
+
+        private void ResetAfterSelection()
+        {
+            
+            gameManager.DisableAllArmUIControllers();
+            starterAlignment.scrollList.RemoveListItems();
+            StartCoroutine(Wait());
+            
+            selectNumber.text = "Select the Arm Object to Continue";
+
+        }
+
+        private IEnumerator Wait()
+        { 
+            yield return new WaitForSeconds(1.0f);
+            starterAlignment.startCollider.enabled = true;
+            starterAlignment.startRenderer.enabled = true;
+        }
+
         private void SetTrialData()
         {
             // Query trial data based on the user ID
@@ -541,7 +583,7 @@ namespace _Scripts.GameState
                         // Insert a new trial with the incremented trialId
                         InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, 
                             correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 
-                            numberArray[numberArrayIndex-2], itemLocation, distanceToItem, distanceTravelled));
+                            numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled));
                     }
                 }
                 else

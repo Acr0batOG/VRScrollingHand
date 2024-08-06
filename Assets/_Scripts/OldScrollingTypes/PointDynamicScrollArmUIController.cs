@@ -1,40 +1,50 @@
 using System.Collections;
 using System.Globalization;
 using _Scripts.Calculators;
+using _Scripts.GameState;
 using UnityEngine;
 
 namespace _Scripts.OldScrollingTypes
 {
     public class PointDynamicScrollArmUIController : PointScrollArmUIController //Inherit from PointScrollAnyways
     {
-        private float scrollSpeed = 625f;
-        private const int TriggerTimeMax = 8;
+        private float scrollSpeed = 550f;
         private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
+        private bool touchFinished;
+        private int scrollCounter;
         private readonly float fingerScrollMultiplier = 2.1f;
         private readonly float fingertipScrollMultiplier = 3.0f;
-        private int triggerTimer; //To speed up dynamic scrolling
         private Coroutine pauseCoroutine; // Coroutine for the pause
+        private GameManager gameManager;
         float contentHeight;
         float viewportHeight;
 
+        // Inertia-related variables
+        private float currentScrollSpeed;
+        private float deceleration = 75f; // Rate at which scrolling slows down
+        private bool isScrolling;
+
         protected new void Start()
         {
+            
             base.Start();
+            gameManager = GameManager.instance;
             LengthCheck(); // Check arm length
             AdjustSpeed(); // Update speed based on point used to scroll
             contentHeight = scrollableList.content.sizeDelta.y;
             viewportHeight = scrollableList.viewport.rect.height;
         }
-
+        
         private void OnTriggerEnter(Collider other)
         {
+            touchFinished = gameManager.TouchFinished;
             if (other.gameObject.name == "Other Fingertip")
             {
                 LengthCheck(); // Check arm length
                 menuText.text = "Enter"; // Update menu text
-                lastContactPoint = other.ClosestPoint(startPoint.position); //Set new contact position
-                if (triggerTimer < TriggerTimeMax) //Give user 8 frames on collision enter to use Point scroll type
+                lastContactPoint = other.ClosestPoint(startPoint.position); // Set new contact position
+                if (!touchFinished) // Give user 8 frames on collision enter to use Point scroll type
                 {
                     Scroll(other);
                 }
@@ -43,13 +53,7 @@ namespace _Scripts.OldScrollingTypes
                     // After collision, give approx 8 or 160ms to make selection then switch to dynamic scroll
                     DynamicScroll(other);
                 }
-
-                // Cancel the pause coroutine if a new collision starts
-                if (pauseCoroutine != null)
-                {
-                    StopCoroutine(pauseCoroutine);
-                    pauseCoroutine = null;
-                }
+                
 
                 DwellCoroutine ??= StartCoroutine(DwellSelection());
             }
@@ -59,7 +63,8 @@ namespace _Scripts.OldScrollingTypes
         {
             if (other.gameObject.name == "Other Fingertip")
             {
-                if (triggerTimer < TriggerTimeMax) //Give user 8 frames after enter to use Point scroll type then switch
+                isScrolling = true;
+                if (!touchFinished) // Give user 8 frames after enter to use Point scroll type then switch
                 {
                     Scroll(other);
                 }
@@ -72,8 +77,7 @@ namespace _Scripts.OldScrollingTypes
                 if (DwellCoroutine != null &&
                     Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
                 {
-                    StopCoroutine(
-                        DwellCoroutine); //If too much movement, reset dwell selection as scrolling is happening
+                    StopCoroutine(DwellCoroutine); // If too much movement, reset dwell selection as scrolling is happening
                     DwellCoroutine = StartCoroutine(DwellSelection());
                 }
             }
@@ -84,18 +88,10 @@ namespace _Scripts.OldScrollingTypes
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Exit"; // Update menu text
-
-                // Start the pause coroutine
-                if (pauseCoroutine != null)
-                {
-                    StopCoroutine(
-                        pauseCoroutine); //On exit: Keep dynamic scrolling for 1.8 seconds, reset to point if exceeded 
-                }
-
-                pauseCoroutine = StartCoroutine(PauseBeforeResetCoroutine());
+                isScrolling = false;
                 if (DwellCoroutine != null)
                 {
-                    StopCoroutine(DwellCoroutine); //Also reset dwell selection on exit
+                    StopCoroutine(DwellCoroutine); // Also reset dwell selection on exit
                     DwellCoroutine = null;
                 }
             }
@@ -127,7 +123,9 @@ namespace _Scripts.OldScrollingTypes
             Vector2 newScrollPosition = new Vector2(scrollableList.content.anchoredPosition.x, newScrollPositionY);
             scrollableList.content.anchoredPosition = newScrollPosition;
 
-            triggerTimer++; // 160ms or 8 frames of this scroll type 
+            scrollCounter++;
+            if (scrollCounter >= 8)
+                touchFinished = true;
 
             // Update distance text
             distText.text = "Initial Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
@@ -144,33 +142,34 @@ namespace _Scripts.OldScrollingTypes
             float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
             float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
             float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
-            float deltaY = normalisedPositionDifference * scrollSpeed;
-            
+            currentScrollSpeed = normalisedPositionDifference * scrollSpeed;
 
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
-            newScrollPosition.y += deltaY; // Addition because moving the hand up should scroll down
+            newScrollPosition.y += currentScrollSpeed; // Addition because moving the hand up should scroll down
 
             newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
             scrollableList.content.anchoredPosition = newScrollPosition;
 
             // Update the distance text
-            distText.text = $"Point Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {deltaY}";
+            distText.text = $"Point Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position {currentScrollSpeed}";
 
             // Update the last contact point
             lastContactPoint = currentContactPoint;
-        
         }
-        
 
-        private IEnumerator PauseBeforeResetCoroutine()
+        private void Update()
         {
-            yield return new WaitForSeconds(1.2f); // Pause for 1.2 seconds before resetting
-            //Used to continue dynamic scrolling for 1.2s after exit, reset if exceeded
-            triggerTimer = 0; // Reset trigger timer after 1.2 seconds for back to static scrolling
-        }
+            // Apply inertia
+            if (!isScrolling && currentScrollSpeed != 0)
+            {
+                currentScrollSpeed = Mathf.MoveTowards(currentScrollSpeed, 0, deceleration * Time.deltaTime);
 
-        // Check arm length and adjust offsets accordingly
-        
+                Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
+                newScrollPosition.y += currentScrollSpeed / 1.36f; // Adjusted for inertia
+                newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
+                scrollableList.content.anchoredPosition = newScrollPosition;
+            }
+        }
 
         void AdjustSpeed()
         {
@@ -181,8 +180,8 @@ namespace _Scripts.OldScrollingTypes
                     slowMovementThreshold /= 2; // Decrease slow threshold by 1/2
                     break;
                 case 4:
-                    scrollSpeed *= fingertipScrollMultiplier; //Increase for fingertip
-                    slowMovementThreshold /= 4; //Decrease threshold by 1/4
+                    scrollSpeed *= fingertipScrollMultiplier; // Increase for fingertip
+                    slowMovementThreshold /= 4; // Decrease threshold by 1/4
                     break;
             }
         }

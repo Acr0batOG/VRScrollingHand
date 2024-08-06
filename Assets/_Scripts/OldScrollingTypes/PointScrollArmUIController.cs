@@ -119,7 +119,7 @@ namespace _Scripts.OldScrollingTypes
 
             switch(lengthCheckAreaNum){
                 case 1: 
-                    EndOffsetPercentage = UserPointHeight / ARMDivisor -.125f; //Arm being used for scrolling, different size
+                    EndOffsetPercentage = UserPointHeight / ARMDivisor -.12f; //Arm being used for scrolling, different size
                     StartOffsetPercentage = 0.25f;
                     break;
                 case 2:
