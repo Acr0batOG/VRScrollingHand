@@ -122,7 +122,10 @@ namespace _Scripts.OldScrollingTypes
         
             distText.text = "Initial Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
             if (scrollCounter >= 8)
+            {
                 touchFinished = true;
+                gameManager.TouchFinished = true;
+            }
         }
 
         private void StaticScroll(Collider collisionInfo){

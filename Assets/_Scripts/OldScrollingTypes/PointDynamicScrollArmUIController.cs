@@ -125,7 +125,10 @@ namespace _Scripts.OldScrollingTypes
 
             scrollCounter++;
             if (scrollCounter >= 8)
+            {
                 touchFinished = true;
+                gameManager.TouchFinished = true;
+            }
 
             // Update distance text
             distText.text = "Initial Point Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture) + " " + EndOffsetPercentage + " " + capsuleCollider.GetComponent<CapsuleCollider>().height;
