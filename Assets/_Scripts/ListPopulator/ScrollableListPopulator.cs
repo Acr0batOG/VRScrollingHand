@@ -1,6 +1,7 @@
 using System;
 using _Scripts.GameState;
 using TMPro;
+using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,40 +42,48 @@ namespace _Scripts.ListPopulator
 
         private void PopulateList()
         {
-            //Add the items  to the list
-            for (int i = 0; i < numberOfItems; i++)
+            gameManager.TrackData = true;
+            try
             {
-                // Instantiate a new list item and set its parent to the content transform
-                GameObject listItem = Instantiate(listItemPrefab, content);
-
-                // Set the name of the instantiated item to a unique name
-                listItem.name = "ListItem_" + (i + 1).ToString();
-                // Find the Image component within the instantiated prefab
-                Image listItemImage = listItem.GetComponent<Image>();
-                if (listItemImage != null)
+                //Add the items  to the list
+                for (int i = 0; i < numberOfItems; i++)
                 {
-                    // Find the TextMeshProUGUI component within the children of the Image component
-                    TextMeshProUGUI listItemText = listItemImage.GetComponentInChildren<TextMeshProUGUI>();
-                    if (listItemText != null)
+                    // Instantiate a new list item and set its parent to the content transform
+                    GameObject listItem = Instantiate(listItemPrefab, content);
+                    // Set the name of the instantiated item to a unique name
+                    listItem.name = "ListItem_" + (i + 1).ToString();
+                    // Find the Image component within the instantiated prefab
+                    Image listItemImage = listItem.GetComponent<Image>();
+                    if (listItemImage != null)
                     {
-                        listItemText.text = (i + 1).ToString();
+                        // Find the TextMeshProUGUI component within the children of the Image component
+                        TextMeshProUGUI listItemText = listItemImage.GetComponentInChildren<TextMeshProUGUI>();
+                        if (listItemText != null)
+                        {
+                            listItemText.text = (i + 1).ToString();
+
+                        }
+                        else
+                        {
+                            Debug.LogError("TextMeshProUGUI component not found in list item prefab.");
+                        }
                     }
                     else
-                    { 
-                        Debug.LogError("TextMeshProUGUI component not found in list item prefab.");
+                    {
+                        Debug.LogError("Image component not found in list item prefab.");
                     }
-                }
-                else
-                {
-                    Debug.LogError("Image component not found in list item prefab.");
-                }
-        
-            }
 
-            // Adjust the size of the content to fit all items
-            RectTransform contentRect = content.GetComponent<RectTransform>();
-            totalHeight = numberOfItems * 50 + 240; //Linear formula to align the list
-            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+                }
+
+                // Adjust the size of the content to fit all items
+                RectTransform contentRect = content.GetComponent<RectTransform>();
+                totalHeight = numberOfItems * 50 + 240; //Linear formula to align the list
+                contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Your Princess is in another Castle");
+            }
         }
 
         public void SetScrollPositionToMidpoint()
@@ -100,7 +109,9 @@ namespace _Scripts.ListPopulator
             // Set the vertical normalized position
             scrollRect.verticalNormalizedPosition = normalizedPosition;
         }
-        public void RemoveListItems(){
+        public void RemoveListItems()
+        {
+            gameManager.TrackData = false;
             foreach (Transform child in content)
             {
                 //Remove all items from the list

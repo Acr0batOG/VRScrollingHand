@@ -15,7 +15,6 @@ namespace _Scripts.Firebase
         [SerializeField] protected int userId;
         [SerializeField] protected int blockId;
         [SerializeField] protected bool loadData;
-        [SerializeField] protected bool startGame;
         [SerializeField] protected TextMeshPro dataText;
         private DatabaseReference reference;
         private GameManager gameManager;
@@ -41,11 +40,7 @@ namespace _Scripts.Firebase
             get { return loadData; }
             set { loadData = value; }
         }
-        public bool StartGame
-        {
-            get { return startGame; }
-            set { startGame = value; }
-        }
+       
         void Start()
         {
             // Get the reference to GameManager
@@ -97,7 +92,7 @@ namespace _Scripts.Firebase
                 RetrieveAndSetBlockData();
 
                 loadData = false;
-                startGame = false;
+                
             }
         }
 

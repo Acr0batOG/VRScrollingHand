@@ -11,13 +11,7 @@ namespace _Scripts.OldScrollingTypes
 
         // Constants for offset percentages and divisors
         protected float StartOffsetPercentage = 0.22f; //Default offset position
-        protected readonly float StartOffsetChange = 0.04f; //Default offset position
         protected float EndOffsetPercentage = 1.22f; // End of arm, used for 11 inch forearms. Will be replaced in GameManager
-        protected readonly float ARMDivisor = 1.85f; // Used to convert user's arm length to the ending point on their arm
-        protected readonly float HandDivisor = 2.0f; // Used to convert user's hand length from their arm length to the ending point on their hand
-        protected readonly float FingerDivisor = 2.30f; // Used to convert user's finger length
-        protected const float FingertipDivisor = 2.6f; // Used to convert user's fingertip length
-        protected readonly float HandDivisorAdjustment = .08f;
         private List<float> recentScrollPositions = new List<float>();
         private int movingAverageWindowSize = 10; // Adjust the window size as needed
        
@@ -119,20 +113,12 @@ namespace _Scripts.OldScrollingTypes
 
             switch(lengthCheckAreaNum){
                 case 1: 
-                    EndOffsetPercentage = UserPointHeight / ARMDivisor -.12f; //Arm being used for scrolling, different size
+                    EndOffsetPercentage = .72f; //Arm being used for scrolling, different size
                     StartOffsetPercentage = 0.25f;
                     break;
                 case 2:
-                    EndOffsetPercentage = UserHeight / HandDivisor - HandDivisorAdjustment; //Different divisor to set hand size for users
-                    //.22
-                    break;
-                case 3:
-                    EndOffsetPercentage = UserHeight / FingerDivisor;  //Test this
-                    StartOffsetPercentage = .32f;
-                    break;
-                case 4:
-                    EndOffsetPercentage = UserHeight /FingertipDivisor ; //appx.85 with 2.2 arm length
-                    StartOffsetPercentage = .14f;
+                    EndOffsetPercentage = 1.0f; //Different divisor to set hand size for users
+                    StartOffsetPercentage = 0.22f;
                     break;
             }
         }

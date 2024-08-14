@@ -180,22 +180,23 @@ namespace _Scripts.Firebase
         {
             int k = 0;
             //Loop through each block combination the user will need to be tested on, and insert each user possibility
-            for (int area = 1; area <= 2; area++)
+            for (int area = 1; area <= 3; area++)
             {
                 for (int technique = 1; technique <= 6; technique++)
                 {
-                
+
                     k++;
                     int blockId = k;
+                    if (area < 3 || technique <= 2)
+                    {
+                        // Set the values for the current combination
+                        techniqueNumber = technique;
+                        areaNumber = area;
 
-                    // Set the values for the current combination
-                    techniqueNumber = technique;
-                    areaNumber = area;
-                  
-                
-                    // Retrieve the last blockId and then insert a new block
-                    InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber));
-                
+
+                        // Retrieve the last blockId and then insert a new block
+                        InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber));
+                    }
                 }
             }
         }

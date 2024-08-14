@@ -1,7 +1,11 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Firebase;
+using Firebase.Database;
+using Firebase.Extensions;
 
 namespace _Scripts.GameState
 {
@@ -11,13 +15,17 @@ namespace _Scripts.GameState
         protected GameManager GameManager;
         protected TextMeshPro SelectText;
         protected int SelectedItem;
-        protected readonly float ItemHeight = 55f; //Block item height
-        protected float ItemCountMultiplier = 1.3f; //Multiplier for items
+        protected readonly float ItemHeight = 55f; // Block item height
+        protected float ItemCountMultiplier = 1.3f; // Multiplier for items
         protected float ContentSize;
         protected int ItemCount;
         protected Slider SelectionBar;
-        private float[] correctArray = new float [51];
-        private float itemDistanceInit = (2454.621f/49f);
+        private float[] correctArray = new float[51];
+        private float itemDistanceInit = (2454.621f / 49f);
+        private DatabaseReference databaseReference;
+        private bool isInitialized = false; // Flag to check if setup is complete
+        private bool isCooldownActive = false; // Flag to check if cooldown is active
+
         void Start()
         {
             GameManager = GameManager.instance;
@@ -26,12 +34,31 @@ namespace _Scripts.GameState
             SelectionBar.value = 0f;
             InitializeArray();
             ItemCount = GameManager.NumberOfItems;
+
+            // Initialize Firebase and set up the listener
+            FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.Exception != null)
+                {
+                    Debug.LogError($"Failed to initialize Firebase: {task.Exception}");
+                    return;
+                }
+
+                FirebaseDatabase database = FirebaseDatabase.DefaultInstance;
+                databaseReference = database.RootReference;
+
+                // Set up a listener for changes in the "button_presses" path
+                databaseReference.Child("button_presses").ChildAdded += OnChildAdded;
+                StartCoroutine(WaitBeforeSetFlag());
+            });
         }
-        
-        void Update()
+
+        IEnumerator WaitBeforeSetFlag()
         {
-        
+            yield return new WaitForSeconds(2.0f);
+            isInitialized = true;
         }
+
         void InitializeArray()
         {
             for (int i = 0; i <= 50; i++)
@@ -40,28 +67,29 @@ namespace _Scripts.GameState
             }
         }
 
-        private void OnCollisionEnter(Collision other)
+        void OnChildAdded(object sender, ChildChangedEventArgs args)
         {
-           
-                
+            if (args.DatabaseError != null)
+            {
+                Debug.LogError("Firebase database error: " + args.DatabaseError.Message);
+                return;
+            }
+
+            // Only process the event if the initial setup is complete and cooldown is not active
+            if (isInitialized && !isCooldownActive)
+            {
                 SelectItem();
-        }
-
-        private void OnCollisionExit(Collision other)
-        {
-            
-        }
-
-        private void OnCollisionStay(Collision other)
-        {
-          
+            }
         }
 
         protected void SelectItem()
         {
+            // Activate the cooldown
+            isCooldownActive = true;
 
-            GameObject selectTextObject = GameObject.FindWithTag("ItemSelect"); //Get item to show selection
+            GameObject selectTextObject = GameObject.FindWithTag("ItemSelect"); // Get item to show selection
             float currentPositionY = scrollableList.content.anchoredPosition.y;
+            SelectionBar.value = 1.4f;
 
             // Find the index of the color range that currentPositionY is within
             for (int i = 0; i < correctArray.Length - 1; i++)
@@ -72,9 +100,9 @@ namespace _Scripts.GameState
                 }
             }
 
-           
             GameManager.SelectedItem = SelectedItem;
-            // Calculate the selected item index based on the scroll position and item height
+            StartCoroutine(ResetSelection());
+
             // Check if the GameObject was found
             if (selectTextObject)
             {
@@ -88,6 +116,15 @@ namespace _Scripts.GameState
                     SelectText.text = "Item Selected: " + SelectedItem;
                 }
             }
+        }
+
+        IEnumerator ResetSelection()
+        {
+            yield return new WaitForSeconds(.5f);
+            SelectionBar.value = 0f;
+
+            // Deactivate the cooldown
+            isCooldownActive = false;
         }
     }
 }

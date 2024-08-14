@@ -41,9 +41,8 @@ namespace _Scripts.OptiTrack
             armUICapsuleCollider.direction = 1; // 0 for X, 1 for Y, 2 for Z
             
             // Calculate the rotation to align with the direction vector
-            Quaternion rotation = !hand ? 
-                Quaternion.FromToRotation(Vector3.up, direction) : 
-                Quaternion.FromToRotation(Vector3.back, direction) * Quaternion.Euler(0, 180, 10);
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction); 
+                
 
             if (hand)
             {

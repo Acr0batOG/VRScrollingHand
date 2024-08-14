@@ -142,97 +142,45 @@ namespace _Scripts.OldScrollingTypes
         
         protected IEnumerator DwellSelection()
         {
-            float initialPosition = scrollableList.content.anchoredPosition.y;
-            //Very first selection get distance from selected object
-            
-            PreviousScrollPosition = initialPosition;
-            float startTime = Time.time;
-            //Debug.Log("Selection Starting");
-            
-            while (Time.time - startTime < DwellTime)
             {
-                if (Time.time - startTime < .066)
-                {
-                    SelectionBar.value = 0; //Don't fill the bar for the first 66ms for smoother looking fill
-                }
-                else
-                {
-                    SelectionBar.value = Time.time - startTime; //Fill the selection bar
-                }
-            
-                float currentPosition = scrollableList.content.anchoredPosition.y; //Current list position
-                // Debug.Log("Checking threshold");
-            
-                if (Mathf.Abs(currentPosition - initialPosition) > DwellThreshold) //If too much movement reset position
-                {
-                    //Debug.Log("Selection Cancelled");
-                    startTime = Time.time; // Reset the dwell timer
-                    initialPosition = currentPosition; // Update the initial position
-                }
+            // float initialPosition = scrollableList.content.anchoredPosition.y;
+            // //Very first selection get distance from selected object
+            //
+            // PreviousScrollPosition = initialPosition;
+            // float startTime = Time.time;
+            // //Debug.Log("Selection Starting");
+            //
+            // while (Time.time - startTime < DwellTime)
+            // {
+            //     if (Time.time - startTime < .066)
+            //     {
+            //         SelectionBar.value = 0; //Don't fill the bar for the first 66ms for smoother looking fill
+            //     }
+            //     else
+            //     {
+            //         SelectionBar.value = Time.time - startTime; //Fill the selection bar
+            //     }
+            //
+            //     float currentPosition = scrollableList.content.anchoredPosition.y; //Current list position
+            //     // Debug.Log("Checking threshold");
+            //
+            //     if (Mathf.Abs(currentPosition - initialPosition) > DwellThreshold) //If too much movement reset position
+            //     {
+            //         //Debug.Log("Selection Cancelled");
+            //         startTime = Time.time; // Reset the dwell timer
+            //         initialPosition = currentPosition; // Update the initial position
+            //     }
             
                yield return null; // Wait for the next frame
             }
             
             //Debug.Log("Selection Made");
             // Dwell time completed, select the item
-            SelectItem();
+            //SelectItem();
         }
 
 
-        // protected void SelectItem()
-        // {
-        //     
-        //         GameObject selectTextObject = GameObject.FindWithTag("ItemSelect"); //Get item to show selection
-        //         float viewportHeight = scrollableList.viewport.rect.height;
-        //
-        //         // Calculate the total height of the list content
-        //         ContentSize = ItemHeight * ItemCount;
-        //         float relativeScrollPosition =
-        //             scrollableList.content.anchoredPosition.y /
-        //             (ContentSize - viewportHeight); //CUrrent scroll psoition of current list 
-        //         // Calculate the relative scroll position within the content
-        //         float halfwayHeight =
-        //             (ContentSize - viewportHeight) / 2f; //Halfway point to see if we meed to add an adjustment factor
-        //
-        //         int targetValue = 1; //Target for distance calculations
-        //         float distanceFromTarget =
-        //             Mathf.Abs(relativeScrollPosition * ItemCount - targetValue); //Distance for adjustment calculation
-        //
-        //         // Factor to increase the adjustment based on distance from target
-        //         float adjustmentFactor =
-        //             distanceFromTarget /
-        //             (ItemCount * ItemCountMultiplier); //Subtraction for items greater than 25 to align the selections
-        //         //Debug.Log("ADJ" + adjustmentFactor); //For testing
-        //         //Debug.Log(relativeScrollPosition * itemCount + 1);
-        //         if (halfwayHeight < relativeScrollPosition)
-        //         {
-        //
-        //             SelectedItem = Mathf.Clamp(Mathf.RoundToInt(relativeScrollPosition * ItemCount + 1), 1,
-        //                 ItemCount); //Get item selected
-        //         }
-        //         else
-        //         {
-        //             SelectedItem =
-        //                 Mathf.Clamp(Mathf.RoundToInt(relativeScrollPosition * ItemCount + 1 - adjustmentFactor), 1,
-        //                     ItemCount); //Get item selected minus a factor
-        //         }
-        //
-        //         GameManager.SelectedItem = SelectedItem;
-        //         // Calculate the selected item index based on the scroll position and item height
-        //         // Check if the GameObject was found
-        //         if (selectTextObject)
-        //         {
-        //             // Get the TextMeshProUGUI component from the GameObject
-        //             SelectText = selectTextObject.GetComponent<TextMeshPro>();
-        //
-        //             // Check if the component was found
-        //             if (SelectText)
-        //             {
-        //                 // Set text to the item selected
-        //                 SelectText.text = "Item Selected: " + SelectedItem;
-        //             }
-        //         }
-        // }
+       
         void InitializeArray()
         {
             for (int i = 0; i <= 50; i++)

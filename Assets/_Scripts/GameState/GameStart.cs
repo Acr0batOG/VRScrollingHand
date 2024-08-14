@@ -19,7 +19,7 @@ namespace _Scripts.GameState
 {
     public class GameStart : Singleton<GameStart>
     {
-        [SerializeField] TextMeshProUGUI selectNumber; // Number to be selected by user.
+        [SerializeField] public TextMeshProUGUI selectNumber; // Number to be selected by user.
         [SerializeField] TextMeshProUGUI correctText;
         [SerializeField] bool testMode;
         [SerializeField] bool saveData;
@@ -29,22 +29,25 @@ namespace _Scripts.GameState
         [SerializeField] protected ScrollRect scrollableList;
         [SerializeField] AudioSource correctAudioSource;
         [SerializeField] AudioSource incorrectAudioSource;
+        public String trialIdStr;
+        public String userIdStr;
         private GameManager gameManager;
         private StarterAlignment starterAlignment;
+        private StarterHandAlignment starterHandAlignment;
         private FirebaseUpdateGame firebaseGame;
         private DatabaseReference reference;
         private FirebaseAuth auth;
         private Stopwatch stopwatch;
-        List<int> numberArray = new(); // Array to hold numbers the user will select, will be shuffled each time
+        public List<int> numberArray = new(); // Array to hold numbers the user will select, will be shuffled each time
         private float[] distanceArray = new float [50];
         private float[] colorArray = new float [51];
-        int numberArrayIndex;
+        public int numberArrayIndex;
         int previousSelectedItem;
         private int previousSelectedNumber;
-        private bool stopGame; //Used to stop game once all items selected
+        public bool stopGame; //Used to stop game once all items selected
         int selectedItem;
-        int currentBlockId;
-        int currentUserId;
+        public int currentBlockId;
+        public int currentUserId;
         int previousBlockId;
         int previousUserId;
         int previousNumberOfItems;
@@ -78,6 +81,7 @@ namespace _Scripts.GameState
             gameManager = GameManager.instance; //Game manager instance 
             firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
             starterAlignment = StarterAlignment.instance;
+            starterHandAlignment = StarterHandAlignment.instance;
             FirebaseSetup();
             InitialSetup();
             SetGameStart(); //Start up the game
@@ -378,8 +382,7 @@ namespace _Scripts.GameState
 
         private void SelectionChange()
         {
-            if (firebaseGame.StartGame)
-            {
+           
                 selectedItem = gameManager.SelectedItem;
                 if (selectedItem != previousSelectedItem) //Massive fucking bug right here!
                 //Doesn't work if user tries to select the same number twice, but I don't know how to fix it
@@ -395,7 +398,7 @@ namespace _Scripts.GameState
                     //SetNumber(); //Set next item
                 }
             }
-        }
+        
 
         IEnumerator WaitBeforeNew()
         {
@@ -547,19 +550,39 @@ namespace _Scripts.GameState
             
             gameManager.DisableAllArmUIControllers();
             starterAlignment.scrollList.RemoveListItems();
+            
             StartCoroutine(Wait());
             
-            selectNumber.text = "Select the Arm Object to Continue";
+            selectNumber.text = "Select the Object to Continue";
 
         }
 
         private IEnumerator Wait()
         { 
             yield return new WaitForSeconds(1.0f);
-            starterAlignment.startCollider.enabled = true;
-            starterAlignment.startRenderer.enabled = true;
+            if (gameManager.AreaNumber == 1)
+            {
+                starterAlignment.startCollider.enabled = true;
+                starterAlignment.startRenderer.enabled = true;
+                starterHandAlignment.startCollider.enabled = false;
+                starterHandAlignment.startRenderer.enabled = false;
+            }
+            else if(gameManager.AreaNumber == 2)
+            {
+                starterHandAlignment.startCollider.enabled = true;
+                starterHandAlignment.startRenderer.enabled = true;
+                starterAlignment.startCollider.enabled = false;
+                starterAlignment.startRenderer.enabled = false;
+            }
         }
 
+        public void DisableColliders()
+        {
+            starterAlignment.startCollider.enabled = false;
+            starterAlignment.startRenderer.enabled = false;
+            starterHandAlignment.startCollider.enabled = false;
+            starterHandAlignment.startRenderer.enabled = false;
+        }
         private void SetTrialData()
         {
             // Query trial data based on the user ID
@@ -616,8 +639,8 @@ namespace _Scripts.GameState
         void InsertTrial(Trial trial)
         {
             // Convert blockId, trialId, and userId to strings to use them as key
-            string trialIdStr = trial.TrialId.ToString();
-            string userIdStr = trial.UserId.ToString();
+            trialIdStr = trial.TrialId.ToString(); 
+            userIdStr = trial.UserId.ToString();
 
             // Form the reference path for inserting the trial data
             DatabaseReference trialReference = reference.Child("Game").Child("Study1").Child("Trials").Child("User" + userIdStr).Child(trialIdStr);

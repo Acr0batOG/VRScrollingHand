@@ -7,8 +7,16 @@
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseNewUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseNewUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseUpdateGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseUpdateGame.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/MakeSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/MakeSelection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/ListPopulator/ScrollableListPopulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/ListPopulator/ScrollableListPopulator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/ArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/ArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/OrientOptiTrack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/OrientOptiTrack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/StarterAlignment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/StarterAlignment.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -197,6 +205,13 @@
       <workItem from="1722976097881" duration="2247000" />
       <workItem from="1723070364047" duration="827000" />
       <workItem from="1723074494075" duration="440000" />
+      <workItem from="1723078328761" duration="53000" />
+      <workItem from="1723078608004" duration="59000" />
+      <workItem from="1723150660465" duration="512000" />
+      <workItem from="1723154201592" duration="4075000" />
+      <workItem from="1723487723874" duration="14872000" />
+      <workItem from="1723654960238" duration="1280000" />
+      <workItem from="1723657067229" duration="5854000" />
     </task>
     <servers />
   </component>

@@ -21,6 +21,7 @@ namespace _Scripts.GameState
         private int previousArea = -1;
         private bool previousBodyVisibility = true;
         private bool initalizeList;
+        private bool trackData;
         private bool touchFinished;
         private GameObject handMesh; //Used to change the visibility of the hand mesh
         private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
@@ -59,6 +60,11 @@ namespace _Scripts.GameState
         {
             get { return initalizeList; }
             set { initalizeList = value; }
+        }
+        public bool TrackData
+        {
+            get { return trackData; }
+            set { trackData = value; }
         }
 
         // Property for userHeight with notification logic

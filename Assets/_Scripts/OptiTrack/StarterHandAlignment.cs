@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace _Scripts.OptiTrack
 {
-    public class StarterAlignment : Singleton<StarterAlignment>
+    public class StarterHandAlignment : Singleton<StarterHandAlignment>
     {
-        [SerializeField] private Transform armCollider;
+        [SerializeField] private Transform handCollider;
         [SerializeField] public CapsuleCollider startCollider;
         [SerializeField] public MeshRenderer startRenderer;
         [SerializeField] private Transform startPoint;
@@ -16,15 +16,13 @@ namespace _Scripts.OptiTrack
         public ScrollableListPopulator scrollList;
         private GameManager gameManager;
         private GameStart gameStart;
-        private StarterHandAlignment starterHandAlignment;
+        
 
         private void Start()
         {
             gameManager = GameManager.instance;
             scrollList = ScrollableListPopulator.instance;
             gameStart = GameStart.instance;
-            starterHandAlignment = StarterHandAlignment.instance;
-            gameStart.DisableColliders();
             Renderer objectRenderer = GetComponent<Renderer>();
             objectRenderer.material.SetColor("_Color", Color.green);
         }
@@ -32,31 +30,14 @@ namespace _Scripts.OptiTrack
         // Update is called once per frame
         void Update()
         {
-            
             if (gameStart.numberArrayIndex > gameStart.numberArray.Count)
             {
                 gameStart.selectNumber.text = "No more items to select.";
             
                 gameStart.stopGame = true;
             }
-
-            //Debug.Log("Old "+ gameManager.PreviousTechnique + " Actual " + gameManager.TechniqueNumber );
-            if(gameManager.PreviousArea!=gameManager.AreaNumber||gameManager.PreviousTechnique!=gameManager.TechniqueNumber)
-            {
-                gameStart.DisableColliders();
-                scrollList.RemoveListItems();
-                if (gameManager.AreaNumber == 1)
-                {
-                    startCollider.enabled = true;
-                    startRenderer.enabled = true;
-                }else if (gameManager.AreaNumber == 2)
-                {
-                    starterHandAlignment.startCollider.enabled = true;
-                    starterHandAlignment.startRenderer.enabled = true;
-                }
-                gameManager.PreviousArea = gameManager.AreaNumber;
-                gameManager.PreviousTechnique = gameManager.TechniqueNumber;
-            }
+        
+           
             // Calculate the middle point between startPoint and endPoint
             Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
             Vector3 direction = (endPoint.position - startPoint.position).normalized;
@@ -120,3 +101,4 @@ namespace _Scripts.OptiTrack
         }
     }
 }
+
