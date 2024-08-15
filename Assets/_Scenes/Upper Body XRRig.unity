@@ -614,7 +614,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.425
+  m_Radius: 0.415
   m_Height: 0.66616094
   m_Direction: 1
   m_Center: {x: -0.16236953, y: -0.32846454, z: -1.4967232}
@@ -3891,7 +3891,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.425
+  m_Radius: 0.415
   m_Height: 0.7178362
   m_Direction: 1
   m_Center: {x: -0.011438914, y: -0.20981295, z: 0.08233229}
@@ -4125,7 +4125,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.425
+  m_Radius: 0.415
   m_Height: 0.649226
   m_Direction: 1
   m_Center: {x: 0.044751212, y: -0.2211278, z: 0.08233224}
@@ -6439,7 +6439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &722904765
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7539,7 +7539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &883789104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11108,10 +11108,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6236887
-  m_Height: 2.17558
+  m_Radius: 0.8061362
+  m_Height: 2.428489
   m_Direction: 1
-  m_Center: {x: 0.04136636, y: 0.0073091146, z: 0.016902402}
+  m_Center: {x: 0.04193834, y: 0.03211193, z: 0.016902402}
 --- !u!54 &1465855822
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12904,7 +12904,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.425
+  m_Radius: 0.415
   m_Height: 0.7073206
   m_Direction: 1
   m_Center: {x: -0.039198197, y: -0.34997144, z: -0.049429625}
@@ -15819,7 +15819,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.425
+  m_Radius: 0.415
   m_Height: 0.7335675
   m_Direction: 1
   m_Center: {x: -0.1821635, y: -0.2785538, z: -1.4967226}
@@ -16244,7 +16244,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.000091e+12, y: 0}
+  m_AnchoredPosition: {x: NaN, y: NaN}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1884178976
@@ -16261,7 +16261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keepAlive: 1
   userId: 1
-  blockId: 1
+  blockId: 13
   loadData: 0
   dataText: {fileID: 849904396}
 --- !u!1001 &1897138935
@@ -17356,7 +17356,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.425
+  m_Radius: 0.415
   m_Height: 0.71171504
   m_Direction: 1
   m_Center: {x: 0.008472278, y: -0.18994722, z: 0.082333155}

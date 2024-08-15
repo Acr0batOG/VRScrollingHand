@@ -24,8 +24,7 @@ namespace _Scripts.OldScrollingTypes
             gameManager = GameManager.instance;
             LengthCheck(); // Check arm length
             SpeedControl();
-            StartOffsetPercentage = .30f;
-            EndOffsetPercentage = 1.05f;
+            
         }
 
         private void OnTriggerEnter(Collider other)

@@ -45,7 +45,7 @@ namespace _Scripts.OptiTrack
             {
                 gameStart.DisableColliders();
                 scrollList.RemoveListItems();
-                if (gameManager.AreaNumber == 1)
+                if (gameManager.AreaNumber == 1||gameManager.AreaNumber == 3)
                 {
                     startCollider.enabled = true;
                     startRenderer.enabled = true;

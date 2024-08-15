@@ -117,8 +117,9 @@ namespace _Scripts.OldScrollingTypes
                     StartOffsetPercentage = 0.25f;
                     break;
                 case 2:
-                    EndOffsetPercentage = 1.0f; //Different divisor to set hand size for users
-                    StartOffsetPercentage = 0.22f;
+                    EndOffsetPercentage = .68f; //Different divisor to set hand size for users
+                    StartOffsetPercentage = 0.27f;
+                    
                     break;
             }
         }

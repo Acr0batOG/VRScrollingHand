@@ -82,7 +82,8 @@ namespace _Scripts.ListPopulator
             }
             catch (Exception e)
             {
-                Debug.Log("Your Princess is in another Castle");
+                
+                Debug.Log(e + "Your Princess is in another Castle");
             }
         }
 

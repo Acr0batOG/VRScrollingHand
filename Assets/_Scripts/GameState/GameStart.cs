@@ -560,7 +560,7 @@ namespace _Scripts.GameState
         private IEnumerator Wait()
         { 
             yield return new WaitForSeconds(1.0f);
-            if (gameManager.AreaNumber == 1)
+            if (gameManager.AreaNumber == 1||gameManager.AreaNumber==3)
             {
                 starterAlignment.startCollider.enabled = true;
                 starterAlignment.startRenderer.enabled = true;
@@ -600,7 +600,7 @@ namespace _Scripts.GameState
                     float timeToComplete = completionTime;
                     if (gameManager.SelectedItem < 0)
                     {
-                        timeToComplete = 10.0f;
+                        timeToComplete = 15.0f;
                     }
                     if(saveData){
                         // Insert a new trial with the incremented trialId
