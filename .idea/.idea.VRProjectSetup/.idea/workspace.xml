@@ -6,13 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/TrackingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/TrackingData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/ListPopulator/ScrollableListPopulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/ListPopulator/ScrollableListPopulator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/StarterAlignment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OptiTrack/StarterAlignment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PinchScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PinchScroll.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -211,6 +205,8 @@
       <workItem from="1723666199000" duration="2327000" />
       <workItem from="1723668644226" duration="57000" />
       <workItem from="1723674148635" duration="1841000" />
+      <workItem from="1723746416377" duration="747000" />
+      <workItem from="1723748532671" duration="67000" />
     </task>
     <servers />
   </component>
