@@ -5,6 +5,8 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 using Debug = UnityEngine.Debug;
 
 namespace _Scripts.Firebase
@@ -14,11 +16,12 @@ namespace _Scripts.Firebase
         [SerializeField] private CapsuleCollider starter;
         [SerializeField] private Transform dataObject;
         [SerializeField] private int insertionFrequency = 1; // Number of inserts per second
+        [SerializeField] private XRController xrController;
         private GameStart gameStart;
         private FirebaseUpdateGame firebaseGame;
         private DatabaseReference databaseReference;
         private GameManager gameManager;
-        private float timeSinceLastInsert = 0f;
+        private float timeSinceLastInsert;
         private Stopwatch stopwatch;
 
         private int a;
@@ -43,13 +46,10 @@ namespace _Scripts.Firebase
             });
             stopwatch.Start();
         }
-
-        
-        
-
         // Update is called once per frame
         void Update()
         {
+            
             a++;
             if (gameManager.TrackData && starter.gameObject.activeSelf)
             {
@@ -67,7 +67,7 @@ namespace _Scripts.Firebase
         {
             try
             {
-                if (firebaseGame.BlockId > 0 && firebaseGame.BlockId < 15)
+                if (firebaseGame.BlockId > 0 && firebaseGame.BlockId < 14) 
                 {
                     Vector3 position = dataObject.position;
                     string positionString = $"{position.x}, {position.y}, {position.z}";
@@ -83,6 +83,32 @@ namespace _Scripts.Firebase
                                 Debug.LogError($"Failed to insert data: {task.Exception}");
                             }
                         });
+                }else if (firebaseGame.BlockId == 14)
+                {
+                    if (xrController != null && xrController.inputDevice.isValid)
+                    {
+                        // Try to get the primary 2D axis (thumbstick) value
+                        if (xrController.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis,
+                                out Vector2 thumbstickInput))
+                        {
+                            // Get the vertical input from the thumbstick
+                            float verticalInput = thumbstickInput.y;
+                            
+                            // Insert the position string into Firebase
+                            string key = a.ToString();
+                            databaseReference.Child("Game").Child("Study1").Child("tracking_data")
+                                .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
+                                .Child("ControllerJoystick").Child(key)
+                                .SetValueAsync(verticalInput.ToString()).ContinueWithOnMainThread(task =>
+                                {
+                                    if (task.Exception != null)
+                                    {
+                                        Debug.LogError($"Failed to insert data: {task.Exception}");
+                                    }
+                                });
+                            
+                        }
+                    }
                 }
             }
             catch (Exception e)

@@ -376,7 +376,10 @@ namespace _Scripts.GameState
 
         void SetGameStart()
         {
-            selectNumber.text = "Select Arm Object To Begin";
+            if (gameManager.AreaNumber == 3 && gameManager.TechniqueNumber == 2)
+                selectNumber.text = "Select A Button to Begin";
+            else
+                selectNumber.text = "Select Arm Object To Begin";
 
         }
 
@@ -552,14 +555,16 @@ namespace _Scripts.GameState
             starterAlignment.scrollList.RemoveListItems();
             
             StartCoroutine(Wait());
-            
-            selectNumber.text = "Select the Object to Continue";
+            if (gameManager.AreaNumber == 3 && gameManager.TechniqueNumber == 2)
+                selectNumber.text = "Select A Button to Continue";
+            else
+                selectNumber.text = "Select the Object to Continue";
 
         }
 
         private IEnumerator Wait()
         { 
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(.36f);
             if (gameManager.AreaNumber == 1||gameManager.AreaNumber==3)
             {
                 starterAlignment.startCollider.enabled = true;

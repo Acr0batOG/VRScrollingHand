@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using _Scripts.GameState;
 using _Scripts.ListPopulator;
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace _Scripts.OptiTrack
 {
@@ -13,6 +15,7 @@ namespace _Scripts.OptiTrack
         [SerializeField] public MeshRenderer startRenderer;
         [SerializeField] private Transform startPoint;
         [SerializeField] private Transform endPoint;
+        [SerializeField] private XRController xrController;
         public ScrollableListPopulator scrollList;
         private GameManager gameManager;
         private GameStart gameStart;
@@ -38,6 +41,20 @@ namespace _Scripts.OptiTrack
                 gameStart.selectNumber.text = "No more items to select.";
             
                 gameStart.stopGame = true;
+            }
+
+            if (xrController != null && xrController.inputDevice.isValid)
+            {
+                // Check if the A button (primary button) is pressed
+                bool isAPressed =
+                    xrController.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool aButtonPressed) &&
+                    aButtonPressed;
+
+                // Optionally log or perform an action when the A button is pressed
+                if (isAPressed&&startCollider.enabled&&gameManager.AreaNumber==3&&gameManager.TechniqueNumber==2)
+                {
+                    ButtonSelectedRemoveCollider();
+                }
             }
 
             //Debug.Log("Old "+ gameManager.PreviousTechnique + " Actual " + gameManager.TechniqueNumber );
@@ -104,6 +121,19 @@ namespace _Scripts.OptiTrack
             StartCoroutine(Wait());
         }
 
+        private void ButtonSelectedRemoveCollider()
+        {
+            startCollider.enabled = false;
+            startRenderer.enabled = false;
+            Debug.Log("Init Array");
+            Renderer objectRenderer = GetComponent<Renderer>();
+            objectRenderer.material.SetColor("_Color", Color.green);
+            
+            StartCoroutine(WaitBeforeLoadList());
+            gameStart.SetNumber();
+
+            StartCoroutine(Wait());
+        }
         private IEnumerator Wait()
         {
             yield return new WaitForSeconds(.5f);

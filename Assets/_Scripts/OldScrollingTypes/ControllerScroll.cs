@@ -1,15 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace _Scripts.OldScrollingTypes
 {
     public class ControllerScroll : ArmUIController
     {
-        // Start is called before the first frame update
-        [SerializeField] private float scrollSpeed = 100f;  // Adjust the speed of scrolling
+        [SerializeField] private float scrollSpeed = 750f;  // Adjust the speed of scrolling
 
         private float contentHeight;
         private float viewportHeight;
+
+        // Reference to the XR Controller component
+        [SerializeField] private XRController xrController;
 
         protected new void Start()
         {
@@ -19,22 +23,31 @@ namespace _Scripts.OldScrollingTypes
 
         void Update()
         {
-            // Get the vertical input from the right joystick
-            float verticalInput = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y;
-            // Check if the A button is pressed
-            if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch))
+            // Ensure the XRController is assigned and the inputDevice is valid
+            if (xrController != null && xrController.inputDevice.isValid)
             {
-                SelectItem();
+                // Try to get the primary 2D axis (thumbstick) value
+                if (xrController.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 thumbstickInput))
+                {
+                    // Get the vertical input from the thumbstick
+                    float verticalInput = thumbstickInput.y;
+               
+
+                    // Calculate the new scroll position based on the joystick input
+                    Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
+                    newScrollPosition.y -= verticalInput * scrollSpeed * Time.deltaTime;
+
+                    // Clamp the new scroll position to ensure it stays within the scrollable area
+                    newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
+
+                    // Apply the new scroll position
+                    scrollableList.content.anchoredPosition = newScrollPosition;
+                }
             }
-            // Calculate the new scroll position based on the joystick input
-            Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
-            newScrollPosition.y += verticalInput * scrollSpeed * Time.deltaTime; // Multiply by Time.deltaTime for frame-rate independence
-
-            // Clamp the new scroll position to ensure it stays within the scrollable area
-            newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
-
-            // Apply the new scroll position
-            scrollableList.content.anchoredPosition = newScrollPosition;
+            else
+            {
+                Debug.LogWarning("XRController is not assigned or inputDevice is not valid.");
+            }
         }
     }
 }
