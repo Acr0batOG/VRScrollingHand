@@ -10591,6 +10591,7 @@ GameObject:
   - component: {fileID: 1465855821}
   - component: {fileID: 1465855822}
   - component: {fileID: 1465855823}
+  - component: {fileID: 1465855824}
   m_Layer: 0
   m_Name: PinchScroll
   m_TagString: Untagged
@@ -10746,6 +10747,22 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1465855821}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+--- !u!114 &1465855824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465855814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85bccb16b78f0214682d61c7c7de7db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starter: {fileID: 1827088235}
+  dataObject: {fileID: 1465855815}
+  insertionFrequency: 10
+  xrController: {fileID: 0}
 --- !u!1 &1488084742
 GameObject:
   m_ObjectHideFlags: 0
@@ -15950,9 +15967,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepAlive: 1
-  userId: 1
-  blockId: 14
-  loadData: 0
+  userId: 5
+  blockId: 1
+  loadData: 1
   dataText: {fileID: 849904396}
 --- !u!1001 &1897138935
 PrefabInstance:

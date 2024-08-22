@@ -63,11 +63,29 @@ namespace _Scripts.Firebase
             }
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private void InsertTrackingData()
         {
             try
             {
-                if (firebaseGame.BlockId > 0 && firebaseGame.BlockId < 14) 
+                if (firebaseGame.BlockId is > 0 and < 13 && dataObject.name is not ("PinchScroll" or "Right Controller"))
+                {
+                    Vector3 position = dataObject.position;
+                    string positionString = $"{position.x}, {position.y}, {position.z}";
+                    // Insert the position string into Firebase
+                    string key = a.ToString();
+                    databaseReference.Child("Game").Child("Study1").Child("tracking_data")
+                        .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
+                        .Child(dataObject.name).Child(key)
+                        .SetValueAsync(positionString).ContinueWithOnMainThread(task =>
+                        {
+                            if (task.Exception != null)
+                            {
+                                Debug.LogError($"Failed to insert data: {task.Exception}");
+                            }
+                        });
+                }else if (firebaseGame.BlockId == 13 &&
+                          (dataObject.name == "PinchScroll" || dataObject.name == "Other Fingertip"))
                 {
                     Vector3 position = dataObject.position;
                     string positionString = $"{position.x}, {position.y}, {position.z}";
@@ -110,6 +128,7 @@ namespace _Scripts.Firebase
                         }
                     }
                 }
+                
             }
             catch (Exception e)
             {
