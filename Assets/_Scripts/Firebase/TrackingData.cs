@@ -134,7 +134,7 @@ namespace _Scripts.Firebase
 
         private static string GetTimestamp(DateTime value)
         {
-            return value.ToString("yyyyMMddHHmmssffff");
+            return value.ToString("yyyy,MM,dd,HH,mm,ss,ffff");
         }
     }
     
