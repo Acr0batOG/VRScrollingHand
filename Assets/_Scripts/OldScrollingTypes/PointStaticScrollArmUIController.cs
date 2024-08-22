@@ -23,7 +23,6 @@ namespace _Scripts.OldScrollingTypes
             base.Start();
             gameManager = GameManager.instance;
             LengthCheck(); // Check arm length
-            SpeedControl();
             
         }
 
@@ -159,23 +158,5 @@ namespace _Scripts.OldScrollingTypes
             distText.text = "Point Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture);
         }
         
-        void SpeedControl(){
-            int speedControlAreaNum = GameManager.AreaNumber; // Check the area number
-
-            switch(speedControlAreaNum){
-                case 1: 
-                    break;
-                case 2:
-                    staticScrollSpeed *= handSpeed; //Increase speed for each type
-                    break;
-                case 3:
-                    staticScrollSpeed *= fingerSpeed;
-                    break;
-                case 4:
-                    staticScrollSpeed *= fingertipSpeed;
-                    break;
-            }
-        
-        }
     }
 }
