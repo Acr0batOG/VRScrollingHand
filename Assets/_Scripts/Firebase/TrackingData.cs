@@ -23,8 +23,6 @@ namespace _Scripts.Firebase
         private GameManager gameManager;
         private float timeSinceLastInsert;
         private Stopwatch stopwatch;
-
-        private int a;
         // Start is called before the first frame up
         void Start()
         {
@@ -49,8 +47,6 @@ namespace _Scripts.Firebase
         // Update is called once per frame
         void Update()
         {
-            
-            a++;
             if (gameManager.TrackData && starter.gameObject.activeSelf)
             {
                 timeSinceLastInsert += Time.deltaTime;
@@ -73,7 +69,7 @@ namespace _Scripts.Firebase
                     Vector3 position = dataObject.position;
                     string positionString = $"{position.x}, {position.y}, {position.z}";
                     // Insert the position string into Firebase
-                    string key = a.ToString();
+                    string key = GetTimestamp(DateTime.Now);
                     databaseReference.Child("Game").Child("Study1").Child("tracking_data")
                         .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
                         .Child(dataObject.name).Child(key)
@@ -90,7 +86,7 @@ namespace _Scripts.Firebase
                     Vector3 position = dataObject.position;
                     string positionString = $"{position.x}, {position.y}, {position.z}";
                     // Insert the position string into Firebase
-                    string key = a.ToString();
+                    string key = GetTimestamp(DateTime.Now);
                     databaseReference.Child("Game").Child("Study1").Child("tracking_data")
                         .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
                         .Child(dataObject.name).Child(key)
@@ -113,7 +109,7 @@ namespace _Scripts.Firebase
                             float verticalInput = thumbstickInput.y;
                             
                             // Insert the position string into Firebase
-                            string key = a.ToString();
+                            string key = GetTimestamp(DateTime.Now);
                             databaseReference.Child("Game").Child("Study1").Child("tracking_data")
                                 .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
                                 .Child("ControllerJoystick").Child(key)
@@ -135,5 +131,11 @@ namespace _Scripts.Firebase
                 Debug.Log(e + " (Arnold accent) I'll be back");
             }
         }
+
+        private static string GetTimestamp(DateTime value)
+        {
+            return value.ToString("yyyyMMddHHmmssffff");
+        }
     }
+    
 }
