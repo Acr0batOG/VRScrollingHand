@@ -520,7 +520,7 @@ namespace _Scripts.GameState
                     incorrectAudioSource.Play(); // Play the incorrect audio clip
                     currentScrollPosition = scrollableList.content.anchoredPosition.y;
                     distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
-                    completionTime = 10.0f;
+                    completionTime = 15.0f;
                     SetTrialData();
                 }
             }
@@ -607,7 +607,7 @@ namespace _Scripts.GameState
                     {
                         timeToComplete = 15.0f;
                     }
-                    if(saveData){
+                    if(saveData&&!firebaseGame.PracticeMode){
                         // Insert a new trial with the incremented trialId
                         InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, 
                             correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 

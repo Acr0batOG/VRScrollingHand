@@ -23,6 +23,10 @@ namespace _Scripts.Firebase
         private GameManager gameManager;
         private float timeSinceLastInsert;
         private Stopwatch stopwatch;
+        private string accumulatedData = ""; // String to accumulate data
+
+        private const float insertionInterval = 10f; // Interval in seconds
+
         // Start is called before the first frame up
         void Start()
         {
@@ -44,6 +48,7 @@ namespace _Scripts.Firebase
             });
             stopwatch.Start();
         }
+
         // Update is called once per frame
         void Update()
         {
@@ -51,80 +56,75 @@ namespace _Scripts.Firebase
             {
                 timeSinceLastInsert += Time.deltaTime;
 
-                if (timeSinceLastInsert >= 1f / insertionFrequency)
+                if (!firebaseGame.PracticeMode)
                 {
-                    InsertTrackingData();
-                    timeSinceLastInsert = 0f;
+                    AppendTrackingData();
+
+                    if (timeSinceLastInsert >= insertionInterval)
+                    {
+                        InsertAccumulatedData();
+                        timeSinceLastInsert = 0f;
+                        accumulatedData = ""; // Clear accumulated data after insertion
+                    }
                 }
             }
         }
 
-        // ReSharper disable Unity.PerformanceAnalysis
-        private void InsertTrackingData()
+        private void AppendTrackingData()
         {
             try
             {
-                if (firebaseGame.BlockId is > 0 and < 13 && dataObject.name is not ("PinchScroll" or "Right Controller"))
+                if (firebaseGame.BlockId is > 0 and < 13 &&
+                    dataObject.name is not ("PinchScroll" or "Right Controller"))
                 {
                     Vector3 position = dataObject.position;
                     string positionString = $"{position.x}, {position.y}, {position.z}";
-                    // Insert the position string into Firebase
-                    string key = GetTimestamp(DateTime.Now);
-                    databaseReference.Child("Game").Child("Study1").Child("tracking_data")
-                        .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
-                        .Child(dataObject.name).Child(key)
-                        .SetValueAsync(positionString).ContinueWithOnMainThread(task =>
-                        {
-                            if (task.Exception != null)
-                            {
-                                Debug.LogError($"Failed to insert data: {task.Exception}");
-                            }
-                        });
-                }else if (firebaseGame.BlockId == 13 &&
-                          (dataObject.name == "PinchScroll" || dataObject.name == "Other Fingertip"))
+                    accumulatedData += $"[{GetTimestamp(DateTime.Now)}] {dataObject.name}: {positionString}\n";
+                }
+                else if (firebaseGame.BlockId == 13 &&
+                         (dataObject.name == "PinchScroll" || dataObject.name == "Other Fingertip"))
                 {
                     Vector3 position = dataObject.position;
                     string positionString = $"{position.x}, {position.y}, {position.z}";
-                    // Insert the position string into Firebase
-                    string key = GetTimestamp(DateTime.Now);
-                    databaseReference.Child("Game").Child("Study1").Child("tracking_data")
-                        .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
-                        .Child(dataObject.name).Child(key)
-                        .SetValueAsync(positionString).ContinueWithOnMainThread(task =>
-                        {
-                            if (task.Exception != null)
-                            {
-                                Debug.LogError($"Failed to insert data: {task.Exception}");
-                            }
-                        });
-                }else if (firebaseGame.BlockId == 14)
+                    accumulatedData += $"[{GetTimestamp(DateTime.Now)}] {dataObject.name}: {positionString}\n";
+                }
+                else if (firebaseGame.BlockId == 14)
                 {
                     if (xrController != null && xrController.inputDevice.isValid)
                     {
-                        // Try to get the primary 2D axis (thumbstick) value
                         if (xrController.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis,
                                 out Vector2 thumbstickInput))
                         {
-                            // Get the vertical input from the thumbstick
                             float verticalInput = thumbstickInput.y;
-                            
-                            // Insert the position string into Firebase
-                            string key = GetTimestamp(DateTime.Now);
-                            databaseReference.Child("Game").Child("Study1").Child("tracking_data")
-                                .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
-                                .Child("ControllerJoystick").Child(key)
-                                .SetValueAsync(verticalInput.ToString()).ContinueWithOnMainThread(task =>
-                                {
-                                    if (task.Exception != null)
-                                    {
-                                        Debug.LogError($"Failed to insert data: {task.Exception}");
-                                    }
-                                });
-                            
+                            accumulatedData += $"[{GetTimestamp(DateTime.Now)}] ControllerJoystick: {verticalInput}\n";
                         }
                     }
                 }
-                
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e + " (Arnold accent) I'll be back");
+            }
+        }
+
+        private void InsertAccumulatedData()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(accumulatedData))
+                {
+                    string key = GetTimestamp(DateTime.Now);
+                    databaseReference.Child("Game").Child("Study1").Child("tracking_data")
+                        .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
+                        .Child("AccumulatedData").Child(key)
+                        .SetValueAsync(accumulatedData).ContinueWithOnMainThread(task =>
+                        {
+                            if (task.Exception != null)
+                            {
+                                Debug.LogError($"Failed to insert accumulated data: {task.Exception}");
+                            }
+                        });
+                }
             }
             catch (Exception e)
             {
@@ -137,5 +137,4 @@ namespace _Scripts.Firebase
             return value.ToString("yyyy,MM,dd,HH,mm,ss,ffff");
         }
     }
-    
 }
