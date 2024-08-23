@@ -15,17 +15,19 @@ namespace _Scripts.Firebase
     {
         [SerializeField] private CapsuleCollider starter;
         [SerializeField] private Transform dataObject;
-        [SerializeField] private int insertionFrequency = 1; // Number of inserts per second
+        //[SerializeField] private int insertionFrequency = 1; // Number of inserts per second
         [SerializeField] private XRController xrController;
         private GameStart gameStart;
         private FirebaseUpdateGame firebaseGame;
         private DatabaseReference databaseReference;
         private GameManager gameManager;
-        private float timeSinceLastInsert;
         private Stopwatch stopwatch;
         private string accumulatedData = ""; // String to accumulate data
+        private float timeSinceLastInsert = 0f;
+        private float timeSinceLastDataCollection = 0f;
+        private const float InsertionInterval = 10f; // Interval in seconds for Firebase insertion
+        private const float DataCollectionInterval = 0.2f; // Interval in seconds for data collection (5 times per second)
 
-        private const float insertionInterval = 10f; // Interval in seconds
 
         // Start is called before the first frame up
         void Start()
@@ -55,12 +57,19 @@ namespace _Scripts.Firebase
             if (gameManager.TrackData && starter.gameObject.activeSelf)
             {
                 timeSinceLastInsert += Time.deltaTime;
+                timeSinceLastDataCollection += Time.deltaTime;
 
                 if (!firebaseGame.PracticeMode)
                 {
-                    AppendTrackingData();
+                    // Collect data only if the collection interval has passed
+                    if (timeSinceLastDataCollection >= DataCollectionInterval)
+                    {
+                        AppendTrackingData();
+                        timeSinceLastDataCollection = 0f; // Reset data collection timer
+                    }
 
-                    if (timeSinceLastInsert >= insertionInterval)
+                    // Insert data into Firebase every 10 seconds
+                    if (timeSinceLastInsert >= InsertionInterval)
                     {
                         InsertAccumulatedData();
                         timeSinceLastInsert = 0f;

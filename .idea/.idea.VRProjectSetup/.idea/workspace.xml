@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseUpdateGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseUpdateGame.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/TrackingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/TrackingData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -223,7 +222,7 @@
       <workItem from="1724274821915" duration="275000" />
       <workItem from="1724279968073" duration="959000" />
       <workItem from="1724349807639" duration="6767000" />
-      <workItem from="1724435186647" duration="752000" />
+      <workItem from="1724435186647" duration="1561000" />
     </task>
     <servers />
   </component>

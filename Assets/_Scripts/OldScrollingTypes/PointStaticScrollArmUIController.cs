@@ -10,9 +10,6 @@ namespace _Scripts.OldScrollingTypes
     public class PointStaticScrollArmUIController : PointScrollArmUIController
     {
         [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
-        private readonly float handSpeed = 1.06f;
-        private readonly float fingerSpeed = 5.0f;
-        private readonly float fingertipSpeed = 10.0f;
         private GameManager gameManager;
         private int scrollCounter;
         private bool touchFinished;
