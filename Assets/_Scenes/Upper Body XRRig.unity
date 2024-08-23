@@ -567,7 +567,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 18639795}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
-  staticScrollSpeed: 75
+  staticScrollSpeed: 106
 --- !u!54 &18639794
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12459,7 +12459,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1627309301}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
-  staticScrollSpeed: 118
+  staticScrollSpeed: 130
 --- !u!54 &1627309300
 Rigidbody:
   m_ObjectHideFlags: 0
