@@ -88,7 +88,7 @@ namespace _Scripts.Firebase
                 {
                     Vector3 position = dataObject.position;
                     string positionString = $"{position.x}, {position.y}, {position.z}";
-                    accumulatedData += $"[{GetTimestamp(DateTime.Now)}] {dataObject.name}: {positionString}\n";
+                    accumulatedData += $"[{GetTimestamp(DateTime.Now)}] {positionString}\n";
                 }
                 else if (firebaseGame.BlockId == 13 &&
                          (dataObject.name == "PinchScroll" || dataObject.name == "Other Fingertip"))
@@ -125,7 +125,7 @@ namespace _Scripts.Firebase
                     string key = GetTimestamp(DateTime.Now);
                     databaseReference.Child("Game").Child("Study1").Child("tracking_data")
                         .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
-                        .Child("AccumulatedData").Child(key)
+                        .Child("AccumulatedData").Child(dataObject.name).Child(key)
                         .SetValueAsync(accumulatedData).ContinueWithOnMainThread(task =>
                         {
                             if (task.Exception != null)
