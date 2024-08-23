@@ -44,10 +44,7 @@ namespace _Scripts.OptiTrack
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction); 
                 
 
-            if (hand)
-            {
-                armUICapsuleCollider.transform.position -= new Vector3(0.025f, 0.0f, 0.0f);
-            }
+           
             // If visible, update the local scale
             if (visible)
             {

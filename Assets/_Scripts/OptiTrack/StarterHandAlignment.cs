@@ -59,6 +59,7 @@ namespace _Scripts.OptiTrack
             
             // Apply the rotation to the collider
             armUICapsuleCollider.transform.rotation = rotation * Quaternion.Euler(0, 0, 10);
+            
         }
 
         private void OnCollisionEnter(Collision other)
