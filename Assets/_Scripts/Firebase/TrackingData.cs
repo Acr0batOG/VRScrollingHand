@@ -54,26 +54,29 @@ namespace _Scripts.Firebase
         // Update is called once per frame
         void Update()
         {
-            if (gameManager.TrackData && starter.gameObject.activeSelf)
+            if (!gameStart.StopGame)
             {
-                timeSinceLastInsert += Time.deltaTime;
-                timeSinceLastDataCollection += Time.deltaTime;
-
-                if (!firebaseGame.PracticeMode)
+                if (gameManager.TrackData && starter.gameObject.activeSelf)
                 {
-                    // Collect data only if the collection interval has passed
-                    if (timeSinceLastDataCollection >= DataCollectionInterval)
-                    {
-                        AppendTrackingData();
-                        timeSinceLastDataCollection = 0f; // Reset data collection timer
-                    }
+                    timeSinceLastInsert += Time.deltaTime;
+                    timeSinceLastDataCollection += Time.deltaTime;
 
-                    // Insert data into Firebase every 10 seconds
-                    if (timeSinceLastInsert >= InsertionInterval)
+                    if (!firebaseGame.PracticeMode)
                     {
-                        InsertAccumulatedData();
-                        timeSinceLastInsert = 0f;
-                        accumulatedData = ""; // Clear accumulated data after insertion
+                        // Collect data only if the collection interval has passed
+                        if (timeSinceLastDataCollection >= DataCollectionInterval)
+                        {
+                            AppendTrackingData();
+                            timeSinceLastDataCollection = 0f; // Reset data collection timer
+                        }
+
+                        // Insert data into Firebase every 10 seconds
+                        if (timeSinceLastInsert >= InsertionInterval)
+                        {
+                            InsertAccumulatedData();
+                            timeSinceLastInsert = 0f;
+                            accumulatedData = ""; // Clear accumulated data after insertion
+                        }
                     }
                 }
             }

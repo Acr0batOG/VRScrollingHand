@@ -72,7 +72,12 @@ namespace _Scripts.GameState
         private readonly Color highlightColor2 = new Color(.94f, .94f, 94f); // Highlighted color (light gray)
         private int currentColorIndex = -1; // Index of the current highlighted color
         private int previousColorIndex = -1; // Index of the previous highlighted color
-        
+
+        public bool StopGame
+        {
+            get { return stopGame; }
+            set { stopGame = value; }
+        }
     
         // Only 10 values will be read for each trial. But different every time and non-repeating
         void Start()
@@ -557,6 +562,8 @@ namespace _Scripts.GameState
             StartCoroutine(Wait());
             if (gameManager.AreaNumber == 3 && gameManager.TechniqueNumber == 2)
                 selectNumber.text = "Select A Button to Continue";
+            else if (numberArrayIndex >= numberArray.Count)
+                selectNumber.text = "No More Items to Select";
             else
                 selectNumber.text = "Select the Object to Continue";
 
