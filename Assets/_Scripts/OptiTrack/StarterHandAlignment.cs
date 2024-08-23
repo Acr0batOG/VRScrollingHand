@@ -50,7 +50,7 @@ namespace _Scripts.OptiTrack
             armUICapsuleCollider.center = Vector3.zero; // Reset center to origin
            // armUICapsuleCollider.height = distance * gameManager.UserHeight; // Set height based on distance and user height
             armUICapsuleCollider.transform.position = middlePoint; // Position the collider at the midpoint
-            armUICapsuleCollider.transform.localScale = new Vector3(.045f, .0055f, .045f);
+            armUICapsuleCollider.transform.localScale = new Vector3(.065f, .0075f, .065f);
             // Set the direction of the collider to Y-axis
             armUICapsuleCollider.direction = 1; // 0 for X, 1 for Y, 2 for Z
             
