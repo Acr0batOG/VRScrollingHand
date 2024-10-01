@@ -1,4 +1,5 @@
 
+using System;
 using System.Globalization;
 using _Scripts.GameState;
 using UnityEngine;
@@ -14,6 +15,10 @@ namespace _Scripts.OldScrollingTypes
         private int scrollCounter;
         private bool touchFinished;
         private Coroutine pauseCoroutine; // Coroutine for the pause
+        protected float armThreshold = 200f;
+        protected float handThreshold = 100f;
+        protected float fingerThreshold = 65f;
+        protected float fingertipThreshold = 35f;
         
         protected new void Start()
         {
@@ -40,7 +45,7 @@ namespace _Scripts.OldScrollingTypes
                 
 
                 // Start dwell selection coroutine
-                DwellCoroutine ??= StartCoroutine(DwellSelection());
+                //DwellCoroutine ??= StartCoroutine(DwellSelection());
             }
         }
 
@@ -125,22 +130,32 @@ namespace _Scripts.OldScrollingTypes
 
         private void StaticScroll(Collider collisionInfo){
             Vector3 contactPoint = collisionInfo.ClosestPoint(startPoint.position);
-            //Set middle of static scroll to point of initial collision
+
+            // Calculate the middle point between startPoint and endPoint
             Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
-            //Set the width of the dead zone for selection
-            float threshold = capsuleCollider.height/125f;
+
+            float threshold = GetThreshold(); //Determine threshold size base on collision object
+            
+            // Calculate the distance from the contact point to the start and end points
+            float distanceFromStart = (contactPoint - startPoint.position).magnitude;
+            float distanceFromEnd = (contactPoint - endPoint.position).magnitude;
 
             // Determine the polarity based on which end the contact point is closer to
-            int polarity = contactPoint.magnitude > middlePoint.magnitude ? -1 : 1;
-            
+            int polarity = distanceFromStart > distanceFromEnd ? -1 : 1;
+
             // Get the content height and the viewport height
             float contentHeight = scrollableList.content.sizeDelta.y;
             float viewportHeight = scrollableList.viewport.rect.height;
 
             // Calculate the new scroll position based on the distance from the middle point
             float deltaY = (contactPoint - middlePoint).magnitude * polarity * staticScrollSpeed;
-            if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
-                return; //Middle dead zone for no scrolling
+            if(AreaNum==2||AreaNum==1){
+                if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
+                    return; //Middle dead zone for no scrolling
+            }else if(AreaNum==3||AreaNum==4){
+                if (Math.Abs(contactPoint.x - middlePoint.x) <= threshold)
+                    return; //Middle dead zone for no scrolling
+            }
             // Update the new scroll position
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
             newScrollPosition.y += deltaY;
@@ -154,6 +169,22 @@ namespace _Scripts.OldScrollingTypes
             // Update the distance text
             distText.text = "Point Static Scroll: Position " + contactPoint.ToString() + " " + newScrollPosition.y.ToString(CultureInfo.InvariantCulture);
         }
-        
+        float GetThreshold()
+        {
+            switch (AreaNum)
+            {
+                //Update speed for area postion for scroll
+                case 1:
+                    return capsuleCollider.height / armThreshold; //Arm Threshold - 165f
+                case 2:
+                    return capsuleCollider.height / handThreshold; //Hand Threshold - 150f
+                case 3:
+                    return capsuleCollider.height / fingerThreshold; //Finger Threshold - 100f
+                case 4:
+                    return capsuleCollider.height / fingertipThreshold; //Fingertip Threshold - 50f
+                default:
+                    return capsuleCollider.height / 165f;
+            }
+        }
     }
 }
