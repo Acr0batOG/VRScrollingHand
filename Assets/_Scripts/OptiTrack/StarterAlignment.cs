@@ -20,6 +20,7 @@ namespace _Scripts.OptiTrack
         private GameManager gameManager;
         private GameStart gameStart;
         private StarterHandAlignment starterHandAlignment;
+        private StarterFingerAlignment starterFingerAlignment;
 
         private void Start()
         {
@@ -70,6 +71,10 @@ namespace _Scripts.OptiTrack
                 {
                     starterHandAlignment.startCollider.enabled = true;
                     starterHandAlignment.startRenderer.enabled = true;
+                }else if (gameManager.AreaNumber == 4 || gameManager.AreaNumber == 5)
+                {
+                    starterFingerAlignment.startCollider.enabled = true;
+                    starterFingerAlignment.startRenderer.enabled = true;
                 }
                 gameManager.PreviousArea = gameManager.AreaNumber;
                 gameManager.PreviousTechnique = gameManager.TechniqueNumber;
