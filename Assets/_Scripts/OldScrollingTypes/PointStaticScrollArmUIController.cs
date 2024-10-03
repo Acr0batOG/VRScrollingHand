@@ -44,8 +44,6 @@ namespace _Scripts.OldScrollingTypes
                 }
                 
 
-                // Start dwell selection coroutine
-                //DwellCoroutine ??= StartCoroutine(DwellSelection());
             }
         }
 
@@ -64,13 +62,7 @@ namespace _Scripts.OldScrollingTypes
                     StaticScroll(other);
                 }
 
-                // Restart dwell selection coroutine if list position changes significantly
-                if (DwellCoroutine != null &&
-                    Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
-                {
-                    StopCoroutine(DwellCoroutine);
-                    DwellCoroutine = StartCoroutine(DwellSelection()); //Reset the selection if too much movement 
-                }
+               
             }
         }
 
@@ -80,12 +72,7 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit"; // Update menu text
                 // Stop dwell selection coroutine on exit
-                
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine); //Reset selection on exit
-                    DwellCoroutine = null;
-                }
+               
             }
         }
 

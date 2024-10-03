@@ -28,7 +28,6 @@ namespace _Scripts.OldScrollingTypes
                 LengthCheck(); // Check arm length
                 menuText.text = "Enter"; // Update menu text
                 Scroll(other); // Scroll through the content
-                DwellCoroutine ??= StartCoroutine(DwellSelection());
             }
         }
 
@@ -37,13 +36,7 @@ namespace _Scripts.OldScrollingTypes
             if (other.gameObject.name == "Other Fingertip")
             {
                 Scroll(other); // Scroll through the content
-                // Restart dwell selection coroutine if list position changes significantly
-                if (DwellCoroutine != null &&
-                    Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
-                {
-                    StopCoroutine(DwellCoroutine); //If too much movement, reset dwell Selection
-                    DwellCoroutine = StartCoroutine(DwellSelection());
-                }
+                
             }
         }
 
@@ -52,12 +45,7 @@ namespace _Scripts.OldScrollingTypes
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Exit"; // Update menu text
-                // Stop dwell selection coroutine on exit
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine); //Reset dwell selection on exit
-                    DwellCoroutine = null;
-                }
+                
             }
         }
 

@@ -33,8 +33,8 @@ namespace _Scripts.OldScrollingTypes
                 lastContactPoint = other.ClosestPoint(startPoint.position);
 
                 Scroll(other);
-                // Start dwell selection coroutine
-                DwellCoroutine ??= StartCoroutine(DwellSelection());
+               
+                
             }
         }
 
@@ -45,12 +45,7 @@ namespace _Scripts.OldScrollingTypes
                 isScrolling = true;
                 Scroll(other);
 
-                // Restart dwell selection coroutine if list position changes significantly
-                if (DwellCoroutine == null ||
-                    !(Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) >
-                      DwellThreshold)) return;
-                StopCoroutine(DwellCoroutine);
-                DwellCoroutine = StartCoroutine(DwellSelection());
+                
             }
         }
 
@@ -60,18 +55,14 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit";
                 isScrolling = false;
-                // Stop dwell selection coroutine on exit
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine);
-                    DwellCoroutine = null;
-                }
+                
+                
             }
         }
 
         protected override void Scroll(Collider colliderInfo)
         {
-            Vector3 currentContactPoint = colliderInfo.ClosestPoint(startPoint.position);
+           Vector3 currentContactPoint = colliderInfo.ClosestPoint(startPoint.position);
             if (Vector3.Distance(lastContactPoint, currentContactPoint) < slowMovementThreshold)
             {
                 lastContactPoint = currentContactPoint;
@@ -89,7 +80,7 @@ namespace _Scripts.OldScrollingTypes
             scrollableList.content.anchoredPosition = newScrollPosition;
 
             // Update the distance text
-            distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentScrollSpeed}";
+            distText.text = $"Point Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position {currentScrollSpeed}";
 
             // Update the last contact point
             lastContactPoint = currentContactPoint;

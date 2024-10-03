@@ -13,7 +13,7 @@ namespace _Scripts.OldScrollingTypes
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
         private bool touchFinished;
         private int scrollCounter;
-        private readonly float fingerScrollMultiplier = 2.1f;
+        private readonly float fingerScrollMultiplier = 1.5f;
         private readonly float fingertipScrollMultiplier = 3.0f;
         private Coroutine pauseCoroutine; // Coroutine for the pause
         private GameManager gameManager;
@@ -55,7 +55,7 @@ namespace _Scripts.OldScrollingTypes
                 }
                 
 
-                DwellCoroutine ??= StartCoroutine(DwellSelection());
+            
             }
         }
 
@@ -73,13 +73,7 @@ namespace _Scripts.OldScrollingTypes
                     // After collision, give approx 160ms then dynamic scrolling
                     DynamicScroll(other);
                 }
-
-                if (DwellCoroutine != null &&
-                    Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
-                {
-                    StopCoroutine(DwellCoroutine); // If too much movement, reset dwell selection as scrolling is happening
-                    DwellCoroutine = StartCoroutine(DwellSelection());
-                }
+                
             }
         }
 
@@ -89,11 +83,7 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit"; // Update menu text
                 isScrolling = false;
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine); // Also reset dwell selection on exit
-                    DwellCoroutine = null;
-                }
+               
             }
         }
 
@@ -178,11 +168,11 @@ namespace _Scripts.OldScrollingTypes
         {
             switch (AreaNum)
             {
-                case 3:
+                case 4:
                     scrollSpeed *= fingerScrollMultiplier; // Increase scroll speed for finger
                     slowMovementThreshold /= 2; // Decrease slow threshold by 1/2
                     break;
-                case 4:
+                case 5:
                     scrollSpeed *= fingertipScrollMultiplier; // Increase for fingertip
                     slowMovementThreshold /= 4; // Decrease threshold by 1/4
                     break;
