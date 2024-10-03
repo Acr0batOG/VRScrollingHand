@@ -34,6 +34,7 @@ namespace _Scripts.GameState
         private GameManager gameManager;
         private StarterAlignment starterAlignment;
         private StarterHandAlignment starterHandAlignment;
+        private StarterFingerAlignment starterFingerAlignment;
         private FirebaseUpdateGame firebaseGame;
         private DatabaseReference reference;
         private FirebaseAuth auth;
@@ -87,6 +88,7 @@ namespace _Scripts.GameState
             firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
             starterAlignment = StarterAlignment.instance;
             starterHandAlignment = StarterHandAlignment.instance;
+            starterFingerAlignment = StarterFingerAlignment.instance;
             FirebaseSetup();
             InitialSetup();
             SetGameStart(); //Start up the game
@@ -578,6 +580,8 @@ namespace _Scripts.GameState
                 starterAlignment.startRenderer.enabled = true;
                 starterHandAlignment.startCollider.enabled = false;
                 starterHandAlignment.startRenderer.enabled = false;
+                starterFingerAlignment.startCollider.enabled = false;
+                starterFingerAlignment.startRenderer.enabled = false;
             }
             else if(gameManager.AreaNumber == 2)
             {
@@ -585,6 +589,17 @@ namespace _Scripts.GameState
                 starterHandAlignment.startRenderer.enabled = true;
                 starterAlignment.startCollider.enabled = false;
                 starterAlignment.startRenderer.enabled = false;
+                starterFingerAlignment.startCollider.enabled = false;
+                starterFingerAlignment.startRenderer.enabled = false;
+            } else if (gameManager.AreaNumber == 4 || gameManager.AreaNumber == 5)
+            {
+                starterFingerAlignment.startCollider.enabled = true;
+                starterFingerAlignment.startRenderer.enabled = true;
+                starterAlignment.startCollider.enabled = false;
+                starterAlignment.startRenderer.enabled = false;
+                starterHandAlignment.startCollider.enabled = false;
+                starterHandAlignment.startRenderer.enabled = false;
+                
             }
         }
 
@@ -594,6 +609,8 @@ namespace _Scripts.GameState
             starterAlignment.startRenderer.enabled = false;
             starterHandAlignment.startCollider.enabled = false;
             starterHandAlignment.startRenderer.enabled = false;
+            starterFingerAlignment.startCollider.enabled = false;
+            starterFingerAlignment.startRenderer.enabled = false;
         }
         private void SetTrialData()
         {
