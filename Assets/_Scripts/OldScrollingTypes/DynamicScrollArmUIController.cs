@@ -63,7 +63,7 @@ namespace _Scripts.OldScrollingTypes
                 // Stop dwell selection coroutine on exit
                 if (DwellCoroutine != null)
                 {
-                    StopCoroutine(DwellCoroutine);
+                    StopCoroutine(DwellCoroutine);//Delete this
                     DwellCoroutine = null;
                 }
             }
