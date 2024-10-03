@@ -111,9 +111,9 @@ namespace _Scripts.OldScrollingTypes
                     return capsuleCollider.height / armThreshold; //Arm Threshold - 165f
                 case 2:
                     return capsuleCollider.height / handThreshold; //Hand Threshold - 150f
-                case 3:
-                    return capsuleCollider.height / fingerThreshold; //Finger Threshold - 100f
                 case 4:
+                    return capsuleCollider.height / fingerThreshold; //Finger Threshold - 100f
+                case 5:
                     return capsuleCollider.height / fingertipThreshold; //Fingertip Threshold - 50f
                 default:
                     return capsuleCollider.height / 165f;
