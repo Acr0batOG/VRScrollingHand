@@ -28,6 +28,7 @@ namespace _Scripts.OptiTrack
             scrollList = ScrollableListPopulator.instance;
             gameStart = GameStart.instance;
             starterHandAlignment = StarterHandAlignment.instance;
+            starterFingerAlignment = StarterFingerAlignment.instance;
             gameStart.DisableColliders();
             Renderer objectRenderer = GetComponent<Renderer>();
             objectRenderer.material.SetColor("_Color", Color.green);
