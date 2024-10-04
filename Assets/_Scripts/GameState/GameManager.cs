@@ -144,7 +144,9 @@ namespace _Scripts.GameState
                     //(Static, Point, Dynamic, Point -> Static, Point -> Dynamic, Dynamic One to One)
                     { 11, 0 }, { 12, 1 }, { 13, 2 }, { 14, 3 }, { 15, 4 }, { 16, 5 },
                     { 21, 6 }, { 22, 7 }, { 23, 8 }, { 24, 9 }, { 25, 10 }, { 26, 11 },
-                    {31, 12}, {32, 13}
+                    { 31, 12 }, { 32, 13 },
+                    { 41, 14 }, { 42, 15 }, { 43, 16 }, { 44, 17 }, { 45, 18 }, { 46, 19 },
+                    { 51, 20 }, { 52, 21 }, { 53, 22 }, { 54, 23 }, { 55, 24 }, { 56, 25 }
                 };
 
                 // Check if the composite value exists in the dictionary

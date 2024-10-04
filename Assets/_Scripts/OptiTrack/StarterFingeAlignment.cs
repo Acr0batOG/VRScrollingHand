@@ -3,33 +3,26 @@ using System.Collections.Generic;
 using _Scripts.GameState;
 using _Scripts.ListPopulator;
 using UnityEngine;
-using UnityEngine.XR;
-using UnityEngine.XR.Interaction.Toolkit;
 
 namespace _Scripts.OptiTrack
 {
-    public class StarterAlignment : Singleton<StarterAlignment>
+    public class StarterFingeAlignment : Singleton<StarterFingeAlignment>
     {
-        [SerializeField] private Transform armCollider;
+        [SerializeField] private Transform fingerCollider;
         [SerializeField] public CapsuleCollider startCollider;
         [SerializeField] public MeshRenderer startRenderer;
         [SerializeField] private Transform startPoint;
         [SerializeField] private Transform endPoint;
-        [SerializeField] private XRController xrController;
         public ScrollableListPopulator scrollList;
         private GameManager gameManager;
         private GameStart gameStart;
-        private StarterHandAlignment starterHandAlignment;
-        private StarterFingeAlignment starterFingerAlignment;
+        
 
         private void Start()
         {
             gameManager = GameManager.instance;
             scrollList = ScrollableListPopulator.instance;
             gameStart = GameStart.instance;
-            starterHandAlignment = StarterHandAlignment.instance;
-            starterFingerAlignment = StarterFingeAlignment.instance;
-            gameStart.DisableColliders();
             Renderer objectRenderer = GetComponent<Renderer>();
             objectRenderer.material.SetColor("_Color", Color.green);
         }
@@ -37,49 +30,14 @@ namespace _Scripts.OptiTrack
         // Update is called once per frame
         void Update()
         {
-            
             if (gameStart.numberArrayIndex > gameStart.numberArray.Count)
             {
                 gameStart.selectNumber.text = "No more items to select.";
             
                 gameStart.stopGame = true;
             }
-
-            if (xrController != null && xrController.inputDevice.isValid)
-            {
-                // Check if the A button (primary button) is pressed
-                bool isAPressed =
-                    xrController.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool aButtonPressed) &&
-                    aButtonPressed;
-
-                // Optionally log or perform an action when the A button is pressed
-                if (isAPressed&&startCollider.enabled&&gameManager.AreaNumber==3&&gameManager.TechniqueNumber==2)
-                {
-                    ButtonSelectedRemoveCollider();
-                }
-            }
-
-            //Debug.Log("Old "+ gameManager.PreviousTechnique + " Actual " + gameManager.TechniqueNumber );
-            if(gameManager.PreviousArea!=gameManager.AreaNumber||gameManager.PreviousTechnique!=gameManager.TechniqueNumber)
-            {
-                gameStart.DisableColliders();
-                scrollList.RemoveListItems();
-                if (gameManager.AreaNumber == 1||gameManager.AreaNumber == 3)
-                {
-                    startCollider.enabled = true;
-                    startRenderer.enabled = true;
-                }else if (gameManager.AreaNumber == 2)
-                {
-                    starterHandAlignment.startCollider.enabled = true;
-                    starterHandAlignment.startRenderer.enabled = true;
-                }else if (gameManager.AreaNumber == 4 || gameManager.AreaNumber == 5)
-                {
-                    starterFingerAlignment.startCollider.enabled = true;
-                    starterFingerAlignment.startRenderer.enabled = true;
-                }
-                gameManager.PreviousArea = gameManager.AreaNumber;
-                gameManager.PreviousTechnique = gameManager.TechniqueNumber;
-            }
+        
+           
             // Calculate the middle point between startPoint and endPoint
             Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
             Vector3 direction = (endPoint.position - startPoint.position).normalized;
@@ -92,7 +50,7 @@ namespace _Scripts.OptiTrack
             armUICapsuleCollider.center = Vector3.zero; // Reset center to origin
            // armUICapsuleCollider.height = distance * gameManager.UserHeight; // Set height based on distance and user height
             armUICapsuleCollider.transform.position = middlePoint; // Position the collider at the midpoint
-            armUICapsuleCollider.transform.localScale = new Vector3(.08f, .01f, .08f);
+            armUICapsuleCollider.transform.localScale = new Vector3(.065f, .0075f, .065f);
             // Set the direction of the collider to Y-axis
             armUICapsuleCollider.direction = 1; // 0 for X, 1 for Y, 2 for Z
             
@@ -101,6 +59,7 @@ namespace _Scripts.OptiTrack
             
             // Apply the rotation to the collider
             armUICapsuleCollider.transform.rotation = rotation * Quaternion.Euler(0, 0, 10);
+            
         }
 
         private void OnCollisionEnter(Collision other)
@@ -127,19 +86,6 @@ namespace _Scripts.OptiTrack
             StartCoroutine(Wait());
         }
 
-        private void ButtonSelectedRemoveCollider()
-        {
-            startCollider.enabled = false;
-            startRenderer.enabled = false;
-            Debug.Log("Init Array");
-            Renderer objectRenderer = GetComponent<Renderer>();
-            objectRenderer.material.SetColor("_Color", Color.green);
-            
-            StartCoroutine(WaitBeforeLoadList());
-            gameStart.SetNumber();
-
-            StartCoroutine(Wait());
-        }
         private IEnumerator Wait()
         {
             yield return new WaitForSeconds(.5f);
@@ -156,3 +102,4 @@ namespace _Scripts.OptiTrack
         }
     }
 }
+
