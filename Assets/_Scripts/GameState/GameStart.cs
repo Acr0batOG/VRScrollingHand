@@ -654,9 +654,11 @@ namespace _Scripts.GameState
             trialIdStr = trial.TrialId.ToString(); 
             userIdStr = trial.UserId.ToString();
 
+            DateTime theTime = DateTime.Now;
+            string datetime = theTime.ToString("yyyy-MM-dd\\THH:mm:ss\\Z");
             // Form the reference path for inserting the trial data
-            DatabaseReference trialReference = reference.Child("Game").Child("Study1").Child("Trials").Child("User" + userIdStr).Child(trialIdStr);
-
+            DatabaseReference trialReference = reference.Child("Game").Child("Study1").Child("Trials").Child("User" + userIdStr).Child(datetime);
+            
             // Insert the trial data into the firebase
             trialReference.SetRawJsonValueAsync(JsonUtility.ToJson(trial)).ContinueWithOnMainThread(task =>
             {
