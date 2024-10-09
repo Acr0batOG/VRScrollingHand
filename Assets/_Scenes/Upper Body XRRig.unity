@@ -685,8 +685,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 18639795}
-  multiplier: 5.25
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!4 &24303253 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4593680705043960, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
@@ -897,8 +897,8 @@ Transform:
   m_GameObject: {fileID: 46876707}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.393, y: 0.347, z: 0.0127}
-  m_LocalScale: {x: 0.0285, y: 0.039583337, z: 0.0285}
+  m_LocalPosition: {x: -0.39309, y: 0.35229, z: 0.0127}
+  m_LocalScale: {x: 0.0285, y: 0.044837233, z: 0.0285}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1252553713}
@@ -1061,8 +1061,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 72451690}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &72451688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2809,8 +2809,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 237621444}
-  multiplier: 8
-  mul: 1.5
+  scrollMultiplier: 9.5
+  visibleSizeMultiplier: 2
 --- !u!114 &237621442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3059,8 +3059,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 247470839}
-  multiplier: 8
-  mul: 1.5
+  scrollMultiplier: 9.5
+  visibleSizeMultiplier: 2
 --- !u!114 &247470837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3238,8 +3238,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 268392687}
-  multiplier: 8
-  mul: 1.5
+  scrollMultiplier: 9.5
+  visibleSizeMultiplier: 2
 --- !u!114 &268392685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4502,8 +4502,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 403858441}
-  multiplier: 5.25
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!1 &412035926 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3073751486554326274, guid: 1e09d962f56189d46ad6bcd146c01a77, type: 3}
@@ -4573,8 +4573,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 429636887}
-  multiplier: 5.25
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &429636885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5132,8 +5132,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 476471343}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &476471341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6764,8 +6764,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 699891135}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &699891133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10988,8 +10988,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1311545253}
-  multiplier: 8
-  mul: 1.5
+  scrollMultiplier: 9.5
+  visibleSizeMultiplier: 2
 --- !u!114 &1311545251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11410,8 +11410,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1374437585}
-  multiplier: 8
-  mul: 1.5
+  scrollMultiplier: 9.5
+  visibleSizeMultiplier: 2
 --- !u!114 &1374437583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12029,8 +12029,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 46876709}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &1440778711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14126,8 +14126,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1627309301}
-  multiplier: 5.25
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!1 &1632106912
 GameObject:
   m_ObjectHideFlags: 0
@@ -14182,8 +14182,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1632106917}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &1632106915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15611,8 +15611,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1765086446}
-  multiplier: 8
-  mul: 1.5
+  scrollMultiplier: 9.5
+  visibleSizeMultiplier: 2
 --- !u!114 &1765086444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17250,8 +17250,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1844934862}
-  multiplier: 5.25
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!4 &1850185604 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3073751486554326281, guid: 1e09d962f56189d46ad6bcd146c01a77, type: 3}
@@ -17289,8 +17289,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 1
   armCollider: {fileID: 1350262531}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &1850185613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18033,8 +18033,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1938751691}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &1938751689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18538,8 +18538,8 @@ MonoBehaviour:
   isHand: 1
   isVisible: 0
   armCollider: {fileID: 93556883}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &1994455058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18860,8 +18860,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 2067329229}
-  multiplier: 5.25
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!1 &2070270817
 GameObject:
   m_ObjectHideFlags: 0
@@ -18916,8 +18916,8 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 2070270822}
-  multiplier: 5.75
-  mul: 1.5
+  scrollMultiplier: 5.2
+  visibleSizeMultiplier: 1.5
 --- !u!114 &2070270820
 MonoBehaviour:
   m_ObjectHideFlags: 0
