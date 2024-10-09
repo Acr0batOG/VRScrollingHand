@@ -15962,10 +15962,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepAlive: 1
-  userId: 1
+  userId: 2
   blockId: 1
-  loadData: 1
-  practiceMode: 0
+  loadData: 0
+  practiceMode: 1
   dataText: {fileID: 849904396}
 --- !u!1001 &1897138935
 PrefabInstance:
@@ -16641,7 +16641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f97f049f3d0cb54081c39562a06eea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userName: RhysPilot
+  userName: Thuan
   userHeight: 1.85
   insertUser: 0
 --- !u!1 &1994093089
