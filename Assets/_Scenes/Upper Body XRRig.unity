@@ -4395,7 +4395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StreamingClient: {fileID: 0}
-  RigidBodyId: 23
+  RigidBodyId: 19
   NetworkCompensation: 1
 --- !u!1001 &399341849
 PrefabInstance:
@@ -12908,7 +12908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StreamingClient: {fileID: 0}
-  RigidBodyId: 19
+  RigidBodyId: 0
   NetworkCompensation: 1
 --- !u!23 &1465855819
 MeshRenderer:
