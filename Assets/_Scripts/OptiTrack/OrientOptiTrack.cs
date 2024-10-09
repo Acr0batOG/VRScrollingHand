@@ -11,8 +11,8 @@ namespace _Scripts.OptiTrack
         [SerializeField] private bool isHand;
         [SerializeField] private bool isVisible;
         [SerializeField] private CapsuleCollider armCollider;
-        [SerializeField] private float multiplier = 5.2f;
-        [SerializeField] private float mul = 1.5f;
+        [SerializeField] private float scrollMultiplier = 5.2f;
+        [SerializeField] private float visibleSizeMultiplier = 1.5f;
         private GameManager gameManager;
     
         // Start is called before the first frame update
@@ -34,7 +34,7 @@ namespace _Scripts.OptiTrack
         private void OrientCollider(CapsuleCollider armUICapsuleCollider, Vector3 middlePoint, Vector3 direction, float distance, bool hand, bool visible)
         {
             armUICapsuleCollider.center = Vector3.zero; // Reset center to origin
-            armUICapsuleCollider.height = distance * gameManager.UserHeight * multiplier; // Set height based on distance and user height
+            armUICapsuleCollider.height = distance * gameManager.UserHeight * scrollMultiplier; // Set height based on distance and user height
             armUICapsuleCollider.transform.position = middlePoint; // Position the collider at the midpoint
             
             // Set the direction of the collider to Y-axis
@@ -50,7 +50,7 @@ namespace _Scripts.OptiTrack
             {
                 Transform armTransform = armUICapsuleCollider.transform;
                 Vector3 newScale = armTransform.localScale;
-                newScale.y = distance / mul; //Good
+                newScale.y = distance / visibleSizeMultiplier; //Good
                 newScale.x = gameManager.UserHeight / 24f;
                 newScale.z = gameManager.UserHeight / 24f;
                 armTransform.localScale = newScale;

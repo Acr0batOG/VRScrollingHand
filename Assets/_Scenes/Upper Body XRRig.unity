@@ -2809,7 +2809,7 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 237621444}
-  multiplier: 5.75
+  multiplier: 8
   mul: 1.5
 --- !u!114 &237621442
 MonoBehaviour:
@@ -2829,7 +2829,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 237621444}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
-  staticScrollSpeed: 100
+  staticScrollSpeed: 150
 --- !u!54 &237621443
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2876,7 +2876,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.45
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.03100785, y: -0.20953706, z: 0.024338206}
@@ -3059,7 +3059,7 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 247470839}
-  multiplier: 5.75
+  multiplier: 8
   mul: 1.5
 --- !u!114 &247470837
 MonoBehaviour:
@@ -3125,7 +3125,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.45
   m_Height: 2.03
   m_Direction: 1
   m_Center: {x: 0.15752773, y: -0.17739928, z: 0.11458226}
@@ -3238,7 +3238,7 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 268392687}
-  multiplier: 5.75
+  multiplier: 8
   mul: 1.5
 --- !u!114 &268392685
 MonoBehaviour:
@@ -3304,7 +3304,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.45
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.02586497, y: 0.007109135, z: -0.03860996}
@@ -10988,7 +10988,7 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1311545253}
-  multiplier: 5.75
+  multiplier: 8
   mul: 1.5
 --- !u!114 &1311545251
 MonoBehaviour:
@@ -11054,7 +11054,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.45
   m_Height: 2.03
   m_Direction: 1
   m_Center: {x: 0.15752773, y: -0.17739928, z: 0.11458226}
@@ -11410,7 +11410,7 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1374437585}
-  multiplier: 5.75
+  multiplier: 8
   mul: 1.5
 --- !u!114 &1374437583
 MonoBehaviour:
@@ -11476,7 +11476,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.45
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.02586497, y: 0.007109135, z: -0.03860996}
@@ -15611,7 +15611,7 @@ MonoBehaviour:
   isHand: 0
   isVisible: 0
   armCollider: {fileID: 1765086446}
-  multiplier: 5.75
+  multiplier: 8
   mul: 1.5
 --- !u!114 &1765086444
 MonoBehaviour:
@@ -15631,7 +15631,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1765086446}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
-  staticScrollSpeed: 120
+  staticScrollSpeed: 170
 --- !u!54 &1765086445
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15678,7 +15678,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.45
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.03100785, y: -0.20953706, z: 0.024338206}
