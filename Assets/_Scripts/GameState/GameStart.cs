@@ -52,6 +52,7 @@ namespace _Scripts.GameState
         int previousBlockId;
         int previousUserId;
         int previousNumberOfItems;
+        private int lastTrialId;
         private int startingItem = 25;
         private int timeExceededValue = -1;
         private float distanceToItem;
@@ -131,6 +132,7 @@ namespace _Scripts.GameState
             stopwatch = new Stopwatch(); //Create a stopwatch object for timing
             FillArray(numberArray); // Fill the selection array
             Shuffle(numberArray); // Shuffle the array for selection
+            currentUserId = firebaseGame.UserId;
             previousNumberOfItems = gameManager.NumberOfItems;
             currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
             currentUserId = firebaseGame.UserId;
@@ -169,7 +171,11 @@ namespace _Scripts.GameState
         void Update()
         {
             float currentPositionY = scrollableList.content.anchoredPosition.y;
-
+            if (firebaseGame.UserId != currentUserId)
+            {
+                lastTrialId = 0;
+                currentUserId = firebaseGame.UserId;
+            }
             // Find the index of the color range that currentPositionY is within
             for (int i = 0; i < colorArray.Length - 1; i++)
             {
@@ -623,7 +629,7 @@ namespace _Scripts.GameState
                 {
                     DataSnapshot snapshot = task.Result;
                     // Get the last trialId
-                    int lastTrialId = GetLastTrialId(snapshot);
+                    
                     //Insert correct answer bool and time to select answer in Firebase
                     bool correctSelection = isCorrect;
                     float timeToComplete = completionTime;
@@ -633,7 +639,7 @@ namespace _Scripts.GameState
                     }
                     if(saveData&&!firebaseGame.PracticeMode){
                         // Insert a new trial with the incremented trialId
-                        InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, 
+                        InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, ++lastTrialId, timeToComplete, 
                             correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 
                             numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled));
                     }
@@ -670,9 +676,11 @@ namespace _Scripts.GameState
             // Convert blockId, trialId, and userId to strings to use them as key
             trialIdStr = trial.TrialId.ToString(); 
             userIdStr = trial.UserId.ToString();
-
+            
+            DateTime theTime = DateTime.Now;
+            string datetime = theTime.ToString("yyyy-MM-dd\\THH:mm:ss\\Z");
             // Form the reference path for inserting the trial data
-            DatabaseReference trialReference = reference.Child("Game").Child("Study1").Child("Trials").Child("User" + userIdStr).Child(trialIdStr);
+            DatabaseReference trialReference = reference.Child("Game").Child("Study1").Child("Trials").Child("User" + userIdStr).Child(datetime);
 
             // Insert the trial data into the firebase
             trialReference.SetRawJsonValueAsync(JsonUtility.ToJson(trial)).ContinueWithOnMainThread(task =>
