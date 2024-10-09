@@ -606,7 +606,7 @@ namespace _Scripts.GameState
                 {
                     DataSnapshot snapshot = task.Result;
                     // Get the last trialId
-                    int lastTrialId = GetLastTrialId(snapshot);
+                    int lastTrialId = 0;
                     //Insert correct answer bool and time to select answer in Firebase
                     bool correctSelection = isCorrect;
                     float timeToComplete = completionTime;
@@ -616,7 +616,7 @@ namespace _Scripts.GameState
                     }
                     if(saveData&&!firebaseGame.PracticeMode){
                         // Insert a new trial with the incremented trialId
-                        InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId + 1, timeToComplete, 
+                        InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId++, timeToComplete, 
                             correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 
                             numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled));
                     }
