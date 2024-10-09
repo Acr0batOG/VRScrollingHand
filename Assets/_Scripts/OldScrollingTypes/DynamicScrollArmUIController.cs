@@ -25,6 +25,7 @@ namespace _Scripts.OldScrollingTypes
 
         protected void OnTriggerEnter(Collider other)
         {
+            contentHeight = scrollableList.content.sizeDelta.y;
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Enter";
@@ -75,12 +76,14 @@ namespace _Scripts.OldScrollingTypes
 
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
             newScrollPosition.y += currentScrollSpeed; // Addition because moving the hand up should scroll down
-
+          
+            //This is where it breaks
             newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
-            scrollableList.content.anchoredPosition = newScrollPosition;
+           //Content Height is wrong
+          
 
             // Update the distance text
-            distText.text = $"Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position {currentScrollSpeed}\n Normalized Position {normalisedPosition} PrevNormPos{previousNormalizedPosition}";
+            distText.text = $"Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position {currentScrollSpeed}\n";
 
             // Update the last contact point
             lastContactPoint = currentContactPoint;

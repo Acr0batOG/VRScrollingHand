@@ -20,6 +20,7 @@ namespace _Scripts.OldScrollingTypes
         }
         protected void OnTriggerEnter(Collider other)
         {
+            
             if (other.gameObject.name == "Other Fingertip")
             {
                 //Debug.Log(other.gameObject.name);
