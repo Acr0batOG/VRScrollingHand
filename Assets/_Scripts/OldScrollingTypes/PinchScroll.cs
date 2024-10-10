@@ -35,8 +35,7 @@ namespace _Scripts.OldScrollingTypes
                 lastContactPoint = other.ClosestPoint(startPoint.position);
 
                 Scroll(other);
-                // Start dwell selection coroutine
-                DwellCoroutine ??= StartCoroutine(DwellSelection());
+               
             }
         }
 
@@ -48,11 +47,7 @@ namespace _Scripts.OldScrollingTypes
                 Scroll(other);
 
                 // Restart dwell selection coroutine if list position changes significantly
-                if (DwellCoroutine == null ||
-                    !(Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) >
-                      DwellThreshold)) return;
-                StopCoroutine(DwellCoroutine);
-                DwellCoroutine = StartCoroutine(DwellSelection());
+                
             }
         }
 
@@ -62,12 +57,8 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit";
                 isScrolling = false;
-                // Stop dwell selection coroutine on exit
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine);
-                    DwellCoroutine = null;
-                }
+              
+                
             }
         }
 

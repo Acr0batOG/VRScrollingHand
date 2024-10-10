@@ -24,6 +24,7 @@ namespace _Scripts.OldScrollingTypes
 
         protected void OnTriggerEnter(Collider other)
         {
+            contentHeight = scrollableList.content.sizeDelta.y;
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Enter";
@@ -33,7 +34,7 @@ namespace _Scripts.OldScrollingTypes
 
                 Scroll(other);
                 // Start dwell selection coroutine
-                DwellCoroutine ??= StartCoroutine(DwellSelection());
+             
             }
         }
 
@@ -42,13 +43,6 @@ namespace _Scripts.OldScrollingTypes
             if (other.gameObject.name == "Other Fingertip")
             {
                 Scroll(other);
-
-                // Restart dwell selection coroutine if list position changes significantly
-                if (DwellCoroutine == null ||
-                    !(Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) >
-                      DwellThreshold)) return;
-                StopCoroutine(DwellCoroutine);
-                DwellCoroutine = StartCoroutine(DwellSelection());
             }
 
         }
@@ -58,12 +52,7 @@ namespace _Scripts.OldScrollingTypes
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Exit";
-                // Stop dwell selection coroutine on exit
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine);
-                    DwellCoroutine = null;
-                }
+               
             }
         }
 

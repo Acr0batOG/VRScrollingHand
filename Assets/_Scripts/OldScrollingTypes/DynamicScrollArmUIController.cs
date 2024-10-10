@@ -25,6 +25,7 @@ namespace _Scripts.OldScrollingTypes
 
         protected void OnTriggerEnter(Collider other)
         {
+            contentHeight = scrollableList.content.sizeDelta.y;
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Enter";
@@ -33,8 +34,7 @@ namespace _Scripts.OldScrollingTypes
                 lastContactPoint = other.ClosestPoint(startPoint.position);
 
                 Scroll(other);
-                // Start dwell selection coroutine
-                DwellCoroutine ??= StartCoroutine(DwellSelection());
+               
             }
         }
 
@@ -46,11 +46,7 @@ namespace _Scripts.OldScrollingTypes
                 Scroll(other);
 
                 // Restart dwell selection coroutine if list position changes significantly
-                if (DwellCoroutine == null ||
-                    !(Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) >
-                      DwellThreshold)) return;
-                StopCoroutine(DwellCoroutine);
-                DwellCoroutine = StartCoroutine(DwellSelection());
+               
             }
         }
 
@@ -60,12 +56,7 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit";
                 isScrolling = false;
-                // Stop dwell selection coroutine on exit
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine);//Delete this
-                    DwellCoroutine = null;
-                }
+                
             }
         }
 
@@ -87,7 +78,7 @@ namespace _Scripts.OldScrollingTypes
 
             newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
             scrollableList.content.anchoredPosition = newScrollPosition;
-
+            
             // Update the distance text
             distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentScrollSpeed}";
 

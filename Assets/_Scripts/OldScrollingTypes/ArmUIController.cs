@@ -20,7 +20,6 @@ namespace _Scripts.OldScrollingTypes
         protected float UserHeight;
         protected int AreaNum;
         protected int SelectedItem;
-        protected Coroutine DwellCoroutine; // Coroutine for the dwell selection
         protected readonly float ARMModify = 4.75f; //Works
         protected readonly float HandModify = 4.75f; //Works
         protected readonly float FingerModify = 5.0f; //Works
@@ -28,8 +27,6 @@ namespace _Scripts.OldScrollingTypes
         protected readonly float ItemHeight = 55f; //Block item height
         protected float ItemCountMultiplier = 1.3f; //Multiplier for items
         protected float PreviousScrollPosition; // Previous scroll position for dwell check
-        protected float DwellThreshold = 10f; // Threshold for movement to cancel dwell
-        protected float DwellTime = 1.4f; // Time required to dwell on an item
         protected float ContentSize;
         protected int ItemCount;
         private float[] correctArray = new float [51];
@@ -140,44 +137,10 @@ namespace _Scripts.OldScrollingTypes
             //Just to be inherited
         }
         
-        protected IEnumerator DwellSelection()
-        {
-            {
-            // float initialPosition = scrollableList.content.anchoredPosition.y;
-            // //Very first selection get distance from selected object
-            //
-            // PreviousScrollPosition = initialPosition;
-            // float startTime = Time.time;
-            // //Debug.Log("Selection Starting");
-            //
-            // while (Time.time - startTime < DwellTime)
-            // {
-            //     if (Time.time - startTime < .066)
-            //     {
-            //         SelectionBar.value = 0; //Don't fill the bar for the first 66ms for smoother looking fill
-            //     }
-            //     else
-            //     {
-            //         SelectionBar.value = Time.time - startTime; //Fill the selection bar
-            //     }
-            //
-            //     float currentPosition = scrollableList.content.anchoredPosition.y; //Current list position
-            //     // Debug.Log("Checking threshold");
-            //
-            //     if (Mathf.Abs(currentPosition - initialPosition) > DwellThreshold) //If too much movement reset position
-            //     {
-            //         //Debug.Log("Selection Cancelled");
-            //         startTime = Time.time; // Reset the dwell timer
-            //         initialPosition = currentPosition; // Update the initial position
-            //     }
+       
             
-               yield return null; // Wait for the next frame
-            }
-            
-            //Debug.Log("Selection Made");
-            // Dwell time completed, select the item
-            //SelectItem();
-        }
+           
+     
 
 
        

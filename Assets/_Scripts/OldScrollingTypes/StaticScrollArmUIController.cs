@@ -25,11 +25,7 @@ namespace _Scripts.OldScrollingTypes
                 //Debug.Log(other.gameObject.name);
                 menuText.text = "Enter";
                 Scroll(other);
-                // Start dwell selection coroutine
-                if (DwellCoroutine == null)
-                {
-                    DwellCoroutine = StartCoroutine(DwellSelection()); //Start dwell selection
-                }
+                
             }
         }
 
@@ -38,25 +34,13 @@ namespace _Scripts.OldScrollingTypes
             if (other.gameObject.name == "Other Fingertip")
             {
                 Scroll(other);
-                // Restart dwell selection coroutine if list position changes significantly
-                if (DwellCoroutine != null &&
-                    Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
-                {
-                    StopCoroutine(DwellCoroutine);
-                    DwellCoroutine = StartCoroutine(DwellSelection()); //Reset selection if too much movement
-                }
             }
         }
         protected void OnTriggerExit(Collider other){
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Exit";
-                // Stop dwell selection coroutine on exit
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine); //Stop dwell on exit
-                    DwellCoroutine = null;
-                }
+                
             }
         }
 

@@ -3378,13 +3378,13 @@ MonoBehaviour:
   - {fileID: 1632106915}
   - {fileID: 699891133}
   - {fileID: 476471341}
-  - {fileID: 1938751689}
+  - {fileID: 1938751694}
   - {fileID: 1627309299}
   - {fileID: 1844934860}
   - {fileID: 429636885}
   - {fileID: 18639793}
   - {fileID: 403858439}
-  - {fileID: 2067329227}
+  - {fileID: 2067329233}
   - {fileID: 1465855823}
   - {fileID: 2000711959}
   armUIDetectors:
@@ -16268,7 +16268,7 @@ GameObject:
   - component: {fileID: 1938751692}
   - component: {fileID: 1938751691}
   - component: {fileID: 1938751690}
-  - component: {fileID: 1938751689}
+  - component: {fileID: 1938751694}
   - component: {fileID: 1938751688}
   m_Layer: 10
   m_Name: Capsule Dynamic One to One
@@ -16311,24 +16311,6 @@ MonoBehaviour:
   armCollider: {fileID: 1938751691}
   multiplier: 5.75
   mul: 1.5
---- !u!114 &1938751689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938751686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7765573f76db7ae468ad343d579fc919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startPoint: {fileID: 1850185604}
-  endPoint: {fileID: 399341850}
-  scrollableList: {fileID: 679323135}
-  capsuleCollider: {fileID: 1938751691}
-  distText: {fileID: 883789104}
-  menuText: {fileID: 722904766}
 --- !u!54 &1938751690
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16429,6 +16411,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938751686}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1938751694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938751686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e5a5bf19e14b7c82dc9ea35369fc29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPoint: {fileID: 1850185604}
+  endPoint: {fileID: 399341850}
+  scrollableList: {fileID: 679323135}
+  capsuleCollider: {fileID: 1938751691}
+  distText: {fileID: 883789104}
+  menuText: {fileID: 722904766}
 --- !u!4 &1954042901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2733093729761800249, guid: b3ed8a0a703ebd34a9e44ed3d9f1fcf6, type: 3}
@@ -16977,7 +16977,7 @@ GameObject:
   - component: {fileID: 2067329230}
   - component: {fileID: 2067329229}
   - component: {fileID: 2067329228}
-  - component: {fileID: 2067329227}
+  - component: {fileID: 2067329233}
   - component: {fileID: 2067329232}
   m_Layer: 10
   m_Name: Capsule Dynamic One to One
@@ -17001,24 +17001,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 304267369}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 70.754}
---- !u!114 &2067329227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067329225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7765573f76db7ae468ad343d579fc919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startPoint: {fileID: 399341850}
-  endPoint: {fileID: 99491779}
-  scrollableList: {fileID: 679323135}
-  capsuleCollider: {fileID: 2067329229}
-  distText: {fileID: 883789104}
-  menuText: {fileID: 722904766}
 --- !u!54 &2067329228
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17138,6 +17120,24 @@ MonoBehaviour:
   armCollider: {fileID: 2067329229}
   multiplier: 5.25
   mul: 1.5
+--- !u!114 &2067329233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067329225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e5a5bf19e14b7c82dc9ea35369fc29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPoint: {fileID: 399341850}
+  endPoint: {fileID: 99491779}
+  scrollableList: {fileID: 679323135}
+  capsuleCollider: {fileID: 2067329229}
+  distText: {fileID: 883789104}
+  menuText: {fileID: 722904766}
 --- !u!1 &2070270817
 GameObject:
   m_ObjectHideFlags: 0

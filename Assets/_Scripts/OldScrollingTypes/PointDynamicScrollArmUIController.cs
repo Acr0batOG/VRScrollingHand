@@ -38,6 +38,7 @@ namespace _Scripts.OldScrollingTypes
         
         private void OnTriggerEnter(Collider other)
         {
+            contentHeight = scrollableList.content.sizeDelta.y;
             touchFinished = gameManager.TouchFinished;
             if (other.gameObject.name == "Other Fingertip")
             {
@@ -55,7 +56,7 @@ namespace _Scripts.OldScrollingTypes
                 }
                 
 
-                DwellCoroutine ??= StartCoroutine(DwellSelection());
+                
             }
         }
 
@@ -74,12 +75,7 @@ namespace _Scripts.OldScrollingTypes
                     DynamicScroll(other);
                 }
 
-                if (DwellCoroutine != null &&
-                    Mathf.Abs(scrollableList.content.anchoredPosition.y - PreviousScrollPosition) > DwellThreshold)
-                {
-                    StopCoroutine(DwellCoroutine); // If too much movement, reset dwell selection as scrolling is happening
-                    DwellCoroutine = StartCoroutine(DwellSelection());
-                }
+                
             }
         }
 
@@ -89,11 +85,6 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit"; // Update menu text
                 isScrolling = false;
-                if (DwellCoroutine != null)
-                {
-                    StopCoroutine(DwellCoroutine); // Also reset dwell selection on exit
-                    DwellCoroutine = null;
-                }
             }
         }
 
