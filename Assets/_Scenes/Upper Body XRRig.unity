@@ -3079,6 +3079,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 247470839}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 450
 --- !u!54 &247470838
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4023,7 +4024,7 @@ MonoBehaviour:
   - {fileID: 247470837}
   - {fileID: 237621442}
   - {fileID: 1374437583}
-  - {fileID: 1311545251}
+  - {fileID: 1311545256}
   armUIDetectors:
   - {fileID: 1647782371}
   scrollRect: {fileID: 0}
@@ -4154,7 +4155,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -4593,6 +4594,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 429636887}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &429636886
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6491,6 +6493,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 664175671}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &664175670
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7305,6 +7308,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 737250808}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &737250807
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7652,6 +7656,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 839943954}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!1 &849904394
 GameObject:
   m_ObjectHideFlags: 0
@@ -8379,6 +8384,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 909413931}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &909413930
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8658,6 +8664,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 961019810}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &961019809
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10438,6 +10445,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1261180742}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &1261180741
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10947,7 +10955,7 @@ GameObject:
   - component: {fileID: 1311545254}
   - component: {fileID: 1311545253}
   - component: {fileID: 1311545252}
-  - component: {fileID: 1311545251}
+  - component: {fileID: 1311545256}
   - component: {fileID: 1311545250}
   m_Layer: 10
   m_Name: Capsule Dynamic One to One
@@ -10990,24 +10998,6 @@ MonoBehaviour:
   armCollider: {fileID: 1311545253}
   scrollMultiplier: 9.5
   visibleSizeMultiplier: 2
---- !u!114 &1311545251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1311545248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7765573f76db7ae468ad343d579fc919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startPoint: {fileID: 393713815}
-  endPoint: {fileID: 1440778709}
-  scrollableList: {fileID: 679323135}
-  capsuleCollider: {fileID: 1311545253}
-  distText: {fileID: 883789104}
-  menuText: {fileID: 722904766}
 --- !u!54 &1311545252
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11108,6 +11098,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311545248}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1311545256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311545248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e5a5bf19e14b7c82dc9ea35369fc29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPoint: {fileID: 393713815}
+  endPoint: {fileID: 1440778709}
+  scrollableList: {fileID: 679323135}
+  capsuleCollider: {fileID: 1311545253}
+  distText: {fileID: 883789104}
+  menuText: {fileID: 722904766}
 --- !u!1 &1318040210
 GameObject:
   m_ObjectHideFlags: 0
@@ -14202,6 +14210,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1632106917}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &1632106916
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16059,6 +16068,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1784142848}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &1784142847
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16978,6 +16988,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1838582044}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &1838582043
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18053,6 +18064,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 1938751691}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &1938751690
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18743,6 +18755,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 2067329229}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
+  scrollSpeed: 550
 --- !u!54 &2067329228
 Rigidbody:
   m_ObjectHideFlags: 0

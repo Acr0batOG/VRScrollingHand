@@ -5,7 +5,7 @@ namespace _Scripts.OldScrollingTypes
 {
     public class DynamicScrollArmUIController : ArmUIController
     {
-        private float scrollSpeed = 550f; // Speed multiplier for scrolling
+        [SerializeField] private float scrollSpeed = 550f; // Speed multiplier for scrolling
         private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
         private float contentHeight;
@@ -79,8 +79,8 @@ namespace _Scripts.OldScrollingTypes
           
             //This is where it breaks
             newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
-           //Content Height is wrong
-          
+            //Content Height is wrong
+            scrollableList.content.anchoredPosition = newScrollPosition;
 
             // Update the distance text
             distText.text = $"Dynamic Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position {currentScrollSpeed}\n";
