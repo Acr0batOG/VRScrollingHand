@@ -37,7 +37,6 @@ namespace _Scripts.OptiTrack
                 gameStart.stopGame = true;
             }
         
-           
             // Calculate the middle point between startPoint and endPoint
             Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
             Vector3 direction = (endPoint.position - startPoint.position).normalized;
