@@ -102,7 +102,10 @@ namespace _Scripts.GameState
         void Start()
         {
             DisableAllArmUIControllers();
-            armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
+            if(AreaNumber<=3)
+                armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
+            else if(AreaNumber>3)
+                armUIDetectors[1].gameObject.SetActive(true);
             handMesh = GameObject.Find("Hand_ply"); //Get hand and body mesh: For changing visibility
             upperBodyMesh = GameObject.Find("upper_body_ply");
             if (handMesh == null || upperBodyMesh == null)
@@ -157,7 +160,10 @@ namespace _Scripts.GameState
                 }
 
                 //Set the proper collider.
-                armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
+                if(AreaNumber<=3)
+                    armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
+                else if(AreaNumber>3)
+                    armUIDetectors[1].gameObject.SetActive(true); //Enable the fingertip collider
           
         }
         public void DisableAllArmUIControllers()

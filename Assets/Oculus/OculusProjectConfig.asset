@@ -40,5 +40,5 @@ MonoBehaviour:
   systemSplashScreen: {fileID: 0}
   systemSplashScreenType: 0
   _systemLoadingScreenBackground: 0
-  ovrPluginMd5Win64: e8cfe66d40bc858ac6a51dd265d3b2f73c761183cb2a56e733638151afaa6626
-  ovrPluginMd5Android: c7bb9a379e186c4b2726b69bbb7d3acedea1ebc25d9dcf0f0be2adf479e276a7
+  ovrPluginMd5Win64: e8cfe66d40bc858ac6a51dd265d3b2f79ef6cbd024e6df4a022549b73f425fae
+  ovrPluginMd5Android: c7bb9a379e186c4b2726b69bbb7d3acee21dd6b2430365a481a2053a017db7b1

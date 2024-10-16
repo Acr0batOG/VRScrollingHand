@@ -23,7 +23,7 @@ namespace _Scripts.OldScrollingTypes
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 LengthCheck(); // Check arm length
                 menuText.text = "Enter"; // Update menu text
@@ -33,7 +33,7 @@ namespace _Scripts.OldScrollingTypes
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 Scroll(other); // Scroll through the content
                 
@@ -42,7 +42,7 @@ namespace _Scripts.OldScrollingTypes
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 menuText.text = "Exit"; // Update menu text
                 

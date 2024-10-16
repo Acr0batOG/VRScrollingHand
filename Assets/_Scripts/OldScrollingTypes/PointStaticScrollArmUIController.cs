@@ -31,7 +31,7 @@ namespace _Scripts.OldScrollingTypes
         private void OnTriggerEnter(Collider other)
         {
             touchFinished = gameManager.TouchFinished;
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 Debug.Log(other.gameObject.name);
                 LengthCheck(); // Check arm length
@@ -49,7 +49,7 @@ namespace _Scripts.OldScrollingTypes
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 if (!touchFinished)
                 {
@@ -68,7 +68,7 @@ namespace _Scripts.OldScrollingTypes
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 menuText.text = "Exit"; // Update menu text
                 // Stop dwell selection coroutine on exit

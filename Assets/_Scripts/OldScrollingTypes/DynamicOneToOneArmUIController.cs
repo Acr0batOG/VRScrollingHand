@@ -25,7 +25,7 @@ namespace _Scripts.OldScrollingTypes
         protected void OnTriggerEnter(Collider other)
         {
             contentHeight = scrollableList.content.sizeDelta.y;
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 menuText.text = "Enter";
                 Debug.Log(other.gameObject.name);
@@ -39,7 +39,7 @@ namespace _Scripts.OldScrollingTypes
 
         protected void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 Scroll(other);
                 
@@ -49,7 +49,7 @@ namespace _Scripts.OldScrollingTypes
 
         protected void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.name == "Other Fingertip")
+            if (other.gameObject.name == "Other Fingertip" || other.gameObject.name == "Thumb")
             {
                 menuText.text = "Exit";
                

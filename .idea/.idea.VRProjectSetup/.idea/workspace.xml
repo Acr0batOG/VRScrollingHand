@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Oculus/OculusProjectConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Oculus/OculusProjectConfig.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicOneToOneArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/DynamicScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PinchScroll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PinchScroll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointDynamicScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/PointStaticScrollArmUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/StaticScrollArmUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/OldScrollingTypes/StaticScrollArmUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +27,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/_Scripts/OptiTrack/StarterFingerAlignment.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.meta.movement@21a73bdc10/Runtime/Scripts/Effects/NormalRecalculation/CompareVectorHashes.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.meta.xr.sdk.core@64.0.0/Editor/OVRProjectSetup/OVRProjectSetupDrawer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.meta.xr.sdk.core@64.0.0/Editor/OVRProjectSetup/Tasks/Processors/OVRConfigurationTaskUpdaterSummary.cs" root0="SKIP_HIGHLIGHTING" />
@@ -227,6 +238,7 @@
       <workItem from="1727979711765" duration="1105000" />
       <workItem from="1727982559854" duration="3460000" />
       <workItem from="1728494369377" duration="1011000" />
+      <workItem from="1729105978043" duration="540000" />
     </task>
     <servers />
   </component>
