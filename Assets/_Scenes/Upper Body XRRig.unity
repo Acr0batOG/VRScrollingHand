@@ -12054,7 +12054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StreamingClient: {fileID: 1621611457}
-  RigidBodyId: 6
+  RigidBodyId: 15
   NetworkCompensation: 1
 --- !u!65 &1440778712
 BoxCollider:
