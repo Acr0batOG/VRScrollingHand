@@ -126,7 +126,7 @@ namespace _Scripts.Firebase
                 if (!string.IsNullOrEmpty(accumulatedData))
                 {
                     string key = GetTimestamp(DateTime.Now);
-                    databaseReference.Child("Game").Child("Study1").Child("tracking_data")
+                    databaseReference.Child("Game").Child("Study2").Child("tracking_data")
                         .Child("User" + firebaseGame.UserId).Child("Block" + firebaseGame.BlockId)
                         .Child("AccumulatedData").Child(dataObject.name).Child(key)
                         .SetValueAsync(accumulatedData).ContinueWithOnMainThread(task =>
