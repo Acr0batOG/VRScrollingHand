@@ -86,7 +86,7 @@ namespace _Scripts.Firebase
 
         void CheckAndInsertUser()
         {
-            reference.Child("Game").Child("Study1").Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Study2").Child("Users").GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -125,7 +125,7 @@ namespace _Scripts.Firebase
 
         void GetLastUserIdAndInsertUser()
         {
-            reference.Child("Game").Child("Study1").Child("Users").OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(
+            reference.Child("Game").Child("Study2").Child("Users").OrderByKey().LimitToLast(1).GetValueAsync().ContinueWithOnMainThread(
                 task =>
             {
                 if (task.IsCompleted)
@@ -158,7 +158,7 @@ namespace _Scripts.Firebase
             // Convert userId to string to use it as a key
             string userIdStr = user.UserId.ToString();
             // Insert the user data into the "games" node in the database
-            reference.Child("Game").Child("Study1").Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).
+            reference.Child("Game").Child("Study2").Child("Users").Child(userIdStr).SetRawJsonValueAsync(JsonUtility.ToJson(user)).
                 ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
@@ -179,26 +179,32 @@ namespace _Scripts.Firebase
         void InsertBlocksForUser(int userId)
         {
             int k = 0;
+            int[] techniqueNum = { 3, 5 };
+            int[] areaNum = { 1, 2 };
             //Loop through each block combination the user will need to be tested on, and insert each user possibility
-            for (int area = 1; area <= 3; area++)
+            for (int i = 1; i <= areaNum.Length; i++)
             {
-                for (int technique = 1; technique <= 6; technique++)
+                for (int j = 1; j<= techniqueNum.Length; j++)
                 {
 
                     k++;
                     int blockId = k;
-                    if (area < 3 || technique <= 2)
-                    {
+                    
                         // Set the values for the current combination
-                        techniqueNumber = technique;
-                        areaNumber = area;
+                        techniqueNumber = techniqueNum[j-1];
+                        areaNumber = i;
 
 
                         // Retrieve the last blockId and then insert a new block
                         InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber));
-                    }
+                    
                 }
             }
+
+            areaNumber = 3;
+
+            InsertBlock(new Block(++k, userId, areaNumber, 1));
+            InsertBlock(new Block(++k, userId, areaNumber, 2));
         }
 
 
@@ -208,7 +214,7 @@ namespace _Scripts.Firebase
             string blockIdStr = block.BlockId.ToString();
             string userIdStr = block.UserId.ToString();
             // Check if the user exists
-            reference.Child("Game").Child("Study1").Child("Users").Child(userIdStr).GetValueAsync().ContinueWithOnMainThread(task =>
+            reference.Child("Game").Child("Study2").Child("Users").Child(userIdStr).GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -216,7 +222,7 @@ namespace _Scripts.Firebase
                     if (userSnapshot.Exists)
                     {
                         // User exists, proceed with inserting the block
-                        reference.Child("Game").Child("Study1").Child("Users").Child(userIdStr).Child("Blocks").Child(blockIdStr).
+                        reference.Child("Game").Child("Study2").Child("Users").Child(userIdStr).Child("Blocks").Child(blockIdStr).
                             SetRawJsonValueAsync(JsonUtility.ToJson(block)).ContinueWithOnMainThread(blockInsertionTask =>
                         {
                             if (blockInsertionTask.IsCompleted)
