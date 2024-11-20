@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Oculus/OculusProjectConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Oculus/OculusProjectConfig.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/MetaXRAudioSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MetaXRAudioSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Upper Body XRRig.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseNewUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseNewUser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseUpdateGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/FirebaseUpdateGame.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Firebase/TrackingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Firebase/TrackingData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
-    </list>
+    <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -233,7 +223,7 @@
       <workItem from="1726000286594" duration="100000" />
       <workItem from="1727813333095" duration="2525000" />
       <workItem from="1728594882698" duration="618000" />
-      <workItem from="1731962743944" duration="1295000" />
+      <workItem from="1731962743944" duration="1448000" />
     </task>
     <servers />
   </component>
