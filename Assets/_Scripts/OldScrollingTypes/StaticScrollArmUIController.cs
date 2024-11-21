@@ -12,7 +12,9 @@ namespace _Scripts.OldScrollingTypes
         protected float handThreshold = 100f;
         protected float fingerThreshold = 65f;
         protected float fingertipThreshold = 35f;
-    
+        [SerializeField] protected float endpointOffset = .05f;
+        [SerializeField] protected float startpointOffset = .05f;
+
         protected new void Start()
         {
             base.Start();
@@ -48,19 +50,28 @@ namespace _Scripts.OldScrollingTypes
         }
 
         protected override void Scroll(Collider fingerCollider){
+            // Calculate the offset for the endpoint
+            Vector3 directionToEnd = (endPoint.position - startPoint.position).normalized;
+            Vector3 endOffset = directionToEnd * endpointOffset;
+            Vector3 directionToStart = (startPoint.position - endPoint.position).normalized;
+            Vector3 startOffset = directionToStart * startpointOffset;
+
+            // Apply the offset to bring the endpoint closer
+            Vector3 adjustedEndpointPosition = endPoint.position - endOffset;
+            Vector3 adjustedStartpointPosition = startPoint.position - startOffset;
             Vector3 contactPoint = fingerCollider.ClosestPoint(startPoint.position);
 
-            // Calculate the middle point between startPoint and endPoint
-            Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
+            // Calculate the middle point between startPoint and the adjusted endpoint
+            Vector3 middlePoint = (adjustedStartpointPosition + adjustedEndpointPosition) / 2f;
 
-            float threshold = GetThreshold(); //Determine threshold size base on collision object
-            
-            // Calculate the distance from the contact point to the start and end points
-            float distanceFromStart = (contactPoint - startPoint.position).magnitude;
-            float distanceFromEnd = (contactPoint - endPoint.position).magnitude;
+            float threshold = GetThreshold(); // Determine threshold size based on collision object
+
+            // Calculate the distance from the contact point to the start and adjusted end points
+            float distanceFromStart = (contactPoint - adjustedStartpointPosition).magnitude;
+            float distanceFromAdjustedEnd = (contactPoint - adjustedEndpointPosition).magnitude;
 
             // Determine the polarity based on which end the contact point is closer to
-            int polarity = distanceFromStart > distanceFromEnd ? -1 : 1;
+            int polarity = distanceFromStart > distanceFromAdjustedEnd ? -1 : 1;
 
             // Get the content height and the viewport height
             float contentHeight = scrollableList.content.sizeDelta.y;
@@ -68,13 +79,13 @@ namespace _Scripts.OldScrollingTypes
 
             // Calculate the new scroll position based on the distance from the middle point
             float deltaY = (contactPoint - middlePoint).magnitude * polarity * staticScrollSpeed;
-            if(AreaNum==2||AreaNum==1){
-                if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
-                    return; //Middle dead zone for no scrolling
-            }else if(AreaNum==3||AreaNum==4){
-                if (Math.Abs(contactPoint.x - middlePoint.x) <= threshold)
-                    return; //Middle dead zone for no scrolling
-            }
+            //if(AreaNum==2||AreaNum==1){
+                //if(contactPoint.magnitude <= middlePoint.magnitude+threshold&&contactPoint.magnitude >= middlePoint.magnitude-threshold)
+              //      return; //Middle dead zone for no scrolling
+            //}else if(AreaNum==3||AreaNum==4){
+            //    if (Math.Abs(contactPoint.x - middlePoint.x) <= threshold)
+              //      return; //Middle dead zone for no scrolling
+            //}
             // Update the new scroll position
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
             newScrollPosition.y += deltaY;

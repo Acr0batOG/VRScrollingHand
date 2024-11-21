@@ -1082,6 +1082,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   staticScrollSpeed: 120
+  endpointOffset: 0.01
+  startpointOffset: 0.05
 --- !u!54 &72451689
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2450,6 +2452,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   staticScrollSpeed: 75
+  endpointOffset: 0.01
+  startpointOffset: 0.05
 --- !u!54 &204318500
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3079,7 +3083,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 247470839}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
-  scrollSpeed: 450
+  scrollSpeed: 500
 --- !u!54 &247470838
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4029,7 +4033,7 @@ MonoBehaviour:
   - {fileID: 1647782371}
   - {fileID: 1804841451}
   scrollRect: {fileID: 0}
-  techniqueNumber: 3
+  techniqueNumber: 1
   areaNumber: 4
   bodyVisibility: 1
   userHeight: 1.8
@@ -6340,6 +6344,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   staticScrollSpeed: 75
+  endpointOffset: 0.01
+  startpointOffset: 0.05
 --- !u!54 &655410265
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7975,6 +7981,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   staticScrollSpeed: 75
+  endpointOffset: 0.01
+  startpointOffset: 0.05
 --- !u!54 &870261028
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10293,6 +10301,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   staticScrollSpeed: 75
+  endpointOffset: 0.01
+  startpointOffset: 0.05
 --- !u!54 &1260951434
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14019,6 +14029,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   staticScrollSpeed: 130
+  endpointOffset: 0.01
+  startpointOffset: 0.05
 --- !u!54 &1627309300
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15643,6 +15655,8 @@ MonoBehaviour:
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
   staticScrollSpeed: 170
+  endpointOffset: 0.036
+  startpointOffset: 0.045
 --- !u!54 &1765086445
 Rigidbody:
   m_ObjectHideFlags: 0
