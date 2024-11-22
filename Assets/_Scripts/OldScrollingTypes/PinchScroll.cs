@@ -7,7 +7,7 @@ namespace _Scripts.OldScrollingTypes
     public class PinchScroll : ArmUIController
     {
         // Start is called before the first frame update
-       private float scrollSpeed = 850f; // Speed multiplier for scrolling
+       private float scrollSpeed = 1000f; // Speed multiplier for scrolling
         private Vector3 lastContactPoint = Vector3.zero; // Used for dynamic scrolling to detect where the last hand position was
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
         private float contentHeight;
@@ -15,7 +15,7 @@ namespace _Scripts.OldScrollingTypes
 
         // Inertia-related variables
         private float currentScrollSpeed;
-        private float deceleration = 75f; // Rate at which scrolling slows down
+        private float deceleration = 60f; // Rate at which scrolling slows down
         private bool isScrolling;
 
         protected new void Start()

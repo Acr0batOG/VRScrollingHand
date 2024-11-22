@@ -381,10 +381,7 @@ namespace _Scripts.GameState
 
         void SetGameStart()
         {
-            if (gameManager.AreaNumber == 3 && gameManager.TechniqueNumber == 2)
-                selectNumber.text = "Select A Button to Begin";
-            else
-                selectNumber.text = "Select Arm Object To Begin";
+            selectNumber.text = "Select Green Arm Object To Begin";
 
         }
 

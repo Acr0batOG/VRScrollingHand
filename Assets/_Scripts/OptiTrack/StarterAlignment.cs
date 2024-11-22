@@ -53,7 +53,7 @@ namespace _Scripts.OptiTrack
                 // Optionally log or perform an action when the A button is pressed
                 if (isAPressed&&startCollider.enabled&&gameManager.AreaNumber==3&&gameManager.TechniqueNumber==2)
                 {
-                    ButtonSelectedRemoveCollider();
+                    //ButtonSelectedRemoveCollider();
                 }
             }
 
