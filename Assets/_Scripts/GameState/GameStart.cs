@@ -381,7 +381,7 @@ namespace _Scripts.GameState
 
         void SetGameStart()
         {
-            selectNumber.text = "Select Green Arm Object To Begin";
+            selectNumber.text = "Select Arm Object To Begin";
 
         }
 
