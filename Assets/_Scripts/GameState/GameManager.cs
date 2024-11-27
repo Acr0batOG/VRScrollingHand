@@ -23,6 +23,7 @@ namespace _Scripts.GameState
         private bool initalizeList;
         private bool trackData;
         private bool touchFinished;
+        private bool arduinoSelect;
         private GameObject handMesh; //Used to change the visibility of the hand mesh
         private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
         
@@ -50,6 +51,11 @@ namespace _Scripts.GameState
         {
             get { return bodyVisibility; }
             set { bodyVisibility = value; }
+        }
+        public bool ArduinoSelect
+        {
+            get { return arduinoSelect; }
+            set { arduinoSelect = value; }
         }
         public bool TouchFinished
         {

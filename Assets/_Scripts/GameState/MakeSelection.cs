@@ -12,7 +12,7 @@ namespace _Scripts.GameState
     public class MakeSelection : MonoBehaviour
     {
         [SerializeField] protected ScrollRect scrollableList;
-        protected GameManager GameManager;
+        protected GameManager gameManager;
         protected TextMeshPro SelectText;
         protected int SelectedItem;
         protected readonly float ItemHeight = 55f; // Block item height
@@ -28,12 +28,12 @@ namespace _Scripts.GameState
 
         void Start()
         {
-            GameManager = GameManager.instance;
-            SelectedItem = GameManager.SelectedItem;
+            gameManager = GameManager.instance;
+            SelectedItem = gameManager.SelectedItem;
             SelectionBar = GameObject.FindWithTag("SelectionBar").GetComponent<Slider>();
             SelectionBar.value = 0f;
             InitializeArray();
-            ItemCount = GameManager.NumberOfItems;
+            ItemCount = gameManager.NumberOfItems;
 
             // Initialize Firebase and set up the listener
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -76,9 +76,10 @@ namespace _Scripts.GameState
             }
 
             // Only process the event if the initial setup is complete and cooldown is not active
-            if (isInitialized && !isCooldownActive)
+            if (isInitialized && !isCooldownActive && gameManager.ArduinoSelect)
             {
                 SelectItem();
+                gameManager.ArduinoSelect = false;
             }
         }
 
@@ -100,7 +101,7 @@ namespace _Scripts.GameState
                 }
             }
 
-            GameManager.SelectedItem = SelectedItem;
+            gameManager.SelectedItem = SelectedItem;
             StartCoroutine(ResetSelection());
 
             // Check if the GameObject was found
