@@ -558,11 +558,11 @@ namespace _Scripts.GameState
             
             StartCoroutine(Wait());
             if (gameManager.AreaNumber == 3 && gameManager.TechniqueNumber == 2)
-                selectNumber.text = "Select A Button to Continue";
+                selectNumber.text = "Select Arm Object to Continue";
             else if (numberArrayIndex >= numberArray.Count)
                 selectNumber.text = "No More Items to Select";
             else
-                selectNumber.text = "Select the Object to Continue";
+                selectNumber.text = "Select Arm Object to Continue";
 
         }
 
