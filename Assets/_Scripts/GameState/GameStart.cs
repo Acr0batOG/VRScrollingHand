@@ -381,7 +381,7 @@ namespace _Scripts.GameState
 
         void SetGameStart()
         {
-            selectNumber.text = "Select Arm Object To Begin";
+            selectNumber.text = "Select Button To Begin";
 
         }
 
@@ -558,11 +558,11 @@ namespace _Scripts.GameState
             
             StartCoroutine(Wait());
             if (gameManager.AreaNumber == 3 && gameManager.TechniqueNumber == 2)
-                selectNumber.text = "Select Arm Object to Continue";
+                selectNumber.text = "Select Button to Continue";
             else if (numberArrayIndex >= numberArray.Count)
                 selectNumber.text = "No More Items to Select";
             else
-                selectNumber.text = "Select Arm Object to Continue";
+                selectNumber.text = "Select Button to Continue";
 
         }
 

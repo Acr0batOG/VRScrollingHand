@@ -161,6 +161,7 @@ namespace _Scripts.GameState
                 }
 
                 //Set the proper collider.
+                Debug.Log("Enabling Controller " + armUIDetectors[0].gameObject);
                 armUIDetectors[0].gameObject.SetActive(true); //Enable the fingertip collider
           
         }

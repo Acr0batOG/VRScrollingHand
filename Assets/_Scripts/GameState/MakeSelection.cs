@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using _Scripts.OptiTrack;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace _Scripts.GameState
         [SerializeField] protected ScrollRect scrollableList;
         protected GameManager gameManager;
         protected TextMeshPro SelectText;
+        protected StarterAlignment starterAlignment;
         protected int SelectedItem;
         protected readonly float ItemHeight = 55f; // Block item height
         protected float ItemCountMultiplier = 1.3f; // Multiplier for items
@@ -29,11 +31,13 @@ namespace _Scripts.GameState
         void Start()
         {
             gameManager = GameManager.instance;
+            starterAlignment = StarterAlignment.instance;
             SelectedItem = gameManager.SelectedItem;
             SelectionBar = GameObject.FindWithTag("SelectionBar").GetComponent<Slider>();
             SelectionBar.value = 0f;
             InitializeArray();
             ItemCount = gameManager.NumberOfItems;
+            gameManager.ArduinoSelect = false;
 
             // Initialize Firebase and set up the listener
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -74,12 +78,20 @@ namespace _Scripts.GameState
                 Debug.LogError("Firebase database error: " + args.DatabaseError.Message);
                 return;
             }
+            // Use Arduino Button to Remove Collider
+            //Works to remove collider
+            if (isInitialized && !isCooldownActive && !gameManager.ArduinoSelect)
+            {
+                Debug.Log("Removing Collider");
+                starterAlignment.ButtonSelectedRemoveCollider(); // Works
+            } 
 
             // Only process the event if the initial setup is complete and cooldown is not active
-            if (isInitialized && !isCooldownActive && gameManager.ArduinoSelect)
+            // Use the Arduino Button to make selection
+           else if (isInitialized && !isCooldownActive && gameManager.ArduinoSelect)
             {
+                Debug.Log("Making Selection");
                 SelectItem();
-                gameManager.ArduinoSelect = false;
             }
         }
 
@@ -103,6 +115,7 @@ namespace _Scripts.GameState
 
             gameManager.SelectedItem = SelectedItem;
             StartCoroutine(ResetSelection());
+            
 
             // Check if the GameObject was found
             if (selectTextObject)
@@ -121,11 +134,14 @@ namespace _Scripts.GameState
 
         IEnumerator ResetSelection()
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.65f);
+            gameManager.ArduinoSelect = false;
             SelectionBar.value = 0f;
 
             // Deactivate the cooldown
             isCooldownActive = false;
         }
+
+       
     }
 }

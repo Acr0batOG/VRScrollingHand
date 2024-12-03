@@ -34,40 +34,12 @@ namespace _Scripts.OptiTrack
             gameStart.DisableColliders();
             Renderer objectRenderer = GetComponent<Renderer>();
             objectRenderer.material.SetColor("_Color", Color.green);
-            FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
-            {
-                if (task.Exception != null)
-                {
-                    Debug.LogError($"Failed to initialize Firebase: {task.Exception}");
-                    return;
-                }
-
-                FirebaseDatabase database = FirebaseDatabase.DefaultInstance;
-                databaseReference = database.RootReference;
-
-                // Set up a listener for changes in the "button_presses" path
-                databaseReference.Child("init_presses").ChildAdded += OnChildAdded;
-                StartCoroutine(WaitBeforeSetFlag());
-            });
         }
-        IEnumerator WaitBeforeSetFlag()
-                {
-                    yield return new WaitForSeconds(2.0f);
-                    
-                }
-        void OnChildAdded(object sender, ChildChangedEventArgs args)
-        {
-            if (args.DatabaseError != null)
-            {
-                Debug.LogError("Firebase database error: " + args.DatabaseError.Message);
-                return;
-            }
 
-            // Only process the event if the initial setup is complete and cooldown is not active
-            if (!gameManager.ArduinoSelect)
-            {
-                ButtonSelectedRemoveCollider();
-            }
+        IEnumerator WaitBeforeSetFlag()
+        {
+            yield return new WaitForSeconds(2.0f);
+
         }
 
         // Update is called once per frame
@@ -146,20 +118,20 @@ namespace _Scripts.OptiTrack
 
         private void OnCollisionExit(Collision other)
         {
-            
-            startCollider.enabled = false;
-            startRenderer.enabled = false;
-            Debug.Log("Init Array");
-            Renderer objectRenderer = GetComponent<Renderer>();
-            objectRenderer.material.SetColor("_Color", Color.green);
-            
-            StartCoroutine(WaitBeforeLoadList());
-            gameStart.SetNumber();
-
-            StartCoroutine(Wait());
+            // Commented out for Arduino Starting the list
+            // startCollider.enabled = false;
+            // startRenderer.enabled = false;
+            // Debug.Log("Init Array");
+            // Renderer objectRenderer = GetComponent<Renderer>();
+            // objectRenderer.material.SetColor("_Color", Color.green);
+            //
+            // StartCoroutine(WaitBeforeLoadList());
+            // gameStart.SetNumber();
+            //
+            // StartCoroutine(Wait());
         }
 
-        private void ButtonSelectedRemoveCollider()
+        public void ButtonSelectedRemoveCollider()
         {
             startCollider.enabled = false;
             startRenderer.enabled = false;
@@ -169,12 +141,11 @@ namespace _Scripts.OptiTrack
             
             StartCoroutine(WaitBeforeLoadList());
             gameStart.SetNumber();
-            gameManager.ArduinoSelect = true;
             StartCoroutine(Wait());
         }
         private IEnumerator Wait()
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.6f);
             gameManager.EnableSelectedController();
         }
         private IEnumerator WaitBeforeLoadList()
@@ -184,7 +155,8 @@ namespace _Scripts.OptiTrack
             yield return new WaitForSeconds(.2f);
             scrollList.InitArray();
             gameManager.InitalizeList = true;
-            
+            gameManager.ArduinoSelect = true; //Set Arduino to Make Selection
+
         }
     }
 }
