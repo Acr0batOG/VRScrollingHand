@@ -72,6 +72,7 @@ namespace _Scripts.OptiTrack
             {
                 gameStart.DisableColliders();
                 scrollList.RemoveListItems();
+                gameManager.ArduinoSelect = false;
                 if (gameManager.AreaNumber == 1||gameManager.AreaNumber == 3)
                 {
                     startCollider.enabled = true;
