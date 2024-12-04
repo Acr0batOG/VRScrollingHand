@@ -572,17 +572,17 @@ namespace _Scripts.GameState
             yield return new WaitForSeconds(.36f);
             if (gameManager.AreaNumber == 1||gameManager.AreaNumber==3)
             {
-                starterAlignment.startCollider.enabled = true;
-                starterAlignment.startRenderer.enabled = true;
-                starterHandAlignment.startCollider.enabled = false;
-                starterHandAlignment.startRenderer.enabled = false;
+                // starterAlignment.startCollider.enabled = true;
+                // starterAlignment.startRenderer.enabled = true;
+                // starterHandAlignment.startCollider.enabled = false;
+                // starterHandAlignment.startRenderer.enabled = false;
             }
             else if(gameManager.AreaNumber == 2)
             {
-                starterHandAlignment.startCollider.enabled = true;
-                starterHandAlignment.startRenderer.enabled = true;
-                starterAlignment.startCollider.enabled = false;
-                starterAlignment.startRenderer.enabled = false;
+                // starterHandAlignment.startCollider.enabled = true;
+                // starterHandAlignment.startRenderer.enabled = true;
+                // starterAlignment.startCollider.enabled = false;
+                // starterAlignment.startRenderer.enabled = false;
             }
         }
 

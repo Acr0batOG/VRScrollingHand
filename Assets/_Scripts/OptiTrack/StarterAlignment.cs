@@ -75,12 +75,12 @@ namespace _Scripts.OptiTrack
                 gameManager.ArduinoSelect = false;
                 if (gameManager.AreaNumber == 1||gameManager.AreaNumber == 3)
                 {
-                    startCollider.enabled = true;
-                    startRenderer.enabled = true;
+                    // startCollider.enabled = true;
+                    // startRenderer.enabled = true;
                 }else if (gameManager.AreaNumber == 2)
                 {
-                    starterHandAlignment.startCollider.enabled = true;
-                    starterHandAlignment.startRenderer.enabled = true;
+                    // starterHandAlignment.startCollider.enabled = true;
+                    // starterHandAlignment.startRenderer.enabled = true;
                 }
                 gameManager.PreviousArea = gameManager.AreaNumber;
                 gameManager.PreviousTechnique = gameManager.TechniqueNumber;
