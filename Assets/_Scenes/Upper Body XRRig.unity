@@ -3390,7 +3390,7 @@ MonoBehaviour:
   armUIDetectors:
   - {fileID: 1647782371}
   scrollRect: {fileID: 0}
-  techniqueNumber: 1
+  techniqueNumber: 2
   areaNumber: 3
   bodyVisibility: 1
   userHeight: 1.8
@@ -16884,7 +16884,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 2000711960}
   distText: {fileID: 883789104}
   menuText: {fileID: 722904766}
-  scrollSpeed: 650
+  scrollSpeed: 365
   xrController: {fileID: 1219939058}
 --- !u!136 &2000711960
 CapsuleCollider:
