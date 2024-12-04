@@ -136,6 +136,8 @@ namespace _Scripts.OptiTrack
         {
             startCollider.enabled = false;
             startRenderer.enabled = false;
+            starterHandAlignment.startCollider.enabled = false;
+            starterHandAlignment.startRenderer.enabled = false;
             Debug.Log("Init Array");
             Renderer objectRenderer = GetComponent<Renderer>();
             objectRenderer.material.SetColor("_Color", Color.green);
