@@ -74,16 +74,16 @@ namespace _Scripts.OptiTrack
         private void OnCollisionExit(Collision other)
         {
             
-            startCollider.enabled = false;
-            startRenderer.enabled = false;
-            Debug.Log("Init Array");
-            Renderer objectRenderer = GetComponent<Renderer>();
-            objectRenderer.material.SetColor("_Color", Color.green);
-            
-            StartCoroutine(WaitBeforeLoadList());
-            gameStart.SetNumber();
-
-            StartCoroutine(Wait());
+            // startCollider.enabled = false;
+            // startRenderer.enabled = false;
+            // Debug.Log("Init Array");
+            // Renderer objectRenderer = GetComponent<Renderer>();
+            // objectRenderer.material.SetColor("_Color", Color.green);
+            //
+            // StartCoroutine(WaitBeforeLoadList());
+            // gameStart.SetNumber();
+            //
+            // StartCoroutine(Wait());
         }
 
         private IEnumerator Wait()
