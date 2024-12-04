@@ -523,6 +523,7 @@ namespace _Scripts.GameState
                     currentScrollPosition = scrollableList.content.anchoredPosition.y;
                     distanceTravelled = Math.Abs(currentScrollPosition - previousScrollPosition);
                     completionTime = 15.0f;
+                    gameManager.ArduinoSelect = false;
                     SetTrialData();
                 }
             }
