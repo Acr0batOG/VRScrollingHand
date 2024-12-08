@@ -153,6 +153,7 @@ namespace _Scripts.OptiTrack
         }
         private IEnumerator WaitBeforeLoadList()
         {
+            yield return new WaitForSeconds(.1f);
             scrollList.InitArray();
             scrollList.RemoveListItems();
             yield return new WaitForSeconds(.2f);

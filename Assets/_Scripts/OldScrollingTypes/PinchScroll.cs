@@ -27,6 +27,8 @@ namespace _Scripts.OldScrollingTypes
 
         protected void OnTriggerEnter(Collider other)
         {
+            contentHeight = scrollableList.content.sizeDelta.y;
+            viewportHeight = scrollableList.viewport.rect.height;
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Enter";

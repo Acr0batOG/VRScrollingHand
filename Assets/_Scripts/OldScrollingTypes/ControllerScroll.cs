@@ -8,6 +8,7 @@ namespace _Scripts.OldScrollingTypes
     public class ControllerScroll : ArmUIController
     {
         [SerializeField] private float scrollSpeed = 750f;  // Adjust the speed of scrolling
+        // 365 is ideal for comparable speed
 
         private float contentHeight;
         private float viewportHeight;
@@ -23,6 +24,8 @@ namespace _Scripts.OldScrollingTypes
 
         void Update()
         {
+            contentHeight = scrollableList.content.rect.height;
+            viewportHeight = scrollableList.viewport.rect.height;
             // Ensure the XRController is assigned and the inputDevice is valid
             if (xrController != null && xrController.inputDevice.isValid)
             {

@@ -39,6 +39,7 @@ namespace _Scripts.OldScrollingTypes
         private void OnTriggerEnter(Collider other)
         {
             contentHeight = scrollableList.content.sizeDelta.y;
+            viewportHeight = scrollableList.viewport.rect.height;
             touchFinished = gameManager.TouchFinished;
             if (other.gameObject.name == "Other Fingertip")
             {

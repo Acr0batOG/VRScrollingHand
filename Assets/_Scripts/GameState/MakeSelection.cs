@@ -21,6 +21,7 @@ namespace _Scripts.GameState
         protected float ItemCountMultiplier = 1.3f; // Multiplier for items
         protected float ContentSize;
         protected int ItemCount;
+        private bool isProcessing; // Flag to prevent multiple executions
         protected Slider SelectionBar;
         private float[] correctArray = new float[51];
         private float itemDistanceInit = (2454.621f / 49f);
@@ -57,11 +58,53 @@ namespace _Scripts.GameState
             });
         }
 
+        private void Update()
+        {
+            // Check if Keypad8 is pressed and processing is not already active
+            if (Input.GetKeyDown(KeyCode.Keypad8) && !isProcessing)
+            {
+                isProcessing = true; // Prevent further calls during processing
+
+                if (isInitialized && !isCooldownActive && !gameManager.ArduinoSelect)
+                {
+                    Debug.Log("Removing Collider");
+                    StartCoroutine(ProcessRemoveCollider());
+                }
+                else if (isInitialized && !isCooldownActive && gameManager.ArduinoSelect)
+                {
+                    Debug.Log("Making Selection");
+                    StartCoroutine(ProcessSelection());
+                }
+                else
+                {
+                    // Reset the flag if no conditions are met
+                    isProcessing = false;
+                }
+            }
+        }
+
+        private IEnumerator ProcessRemoveCollider()
+        {
+            yield return new WaitForSeconds(.4f);
+            starterAlignment.ButtonSelectedRemoveCollider();
+            yield return new WaitForSeconds(0.4f); // Optional delay if necessary
+            isProcessing = false; // Reset the flag
+        }
+
+        private IEnumerator ProcessSelection()
+        {
+            SelectItem();
+            yield return new WaitForSeconds(0.4f); // Optional delay if necessary
+            isProcessing = false; // Reset the flag
+        }
+
         IEnumerator WaitBeforeSetFlag()
         {
             yield return new WaitForSeconds(2.0f);
             isInitialized = true;
         }
+        
+        
 
         void InitializeArray()
         {
