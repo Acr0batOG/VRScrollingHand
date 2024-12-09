@@ -846,7 +846,7 @@ MonoBehaviour:
   saveData: 0
   timeLimit: 1
   selectedNumber: 0
-  itemMultiplier: 4
+  itemMultiplier: 2
   scrollableList: {fileID: 679323135}
   correctAudioSource: {fileID: 438998793}
   incorrectAudioSource: {fileID: 1636637039}
