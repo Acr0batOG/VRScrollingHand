@@ -23,7 +23,7 @@ namespace _Scripts.GameState
         protected int ItemCount;
         private bool isProcessing; // Flag to prevent multiple executions
         protected Slider SelectionBar;
-        private float[] correctArray = new float[51];
+        private float[] correctArray;
         private float itemDistanceInit = (2454.621f / 49f);
         private DatabaseReference databaseReference;
         private bool isInitialized = false; // Flag to check if setup is complete
@@ -33,12 +33,14 @@ namespace _Scripts.GameState
         {
             gameManager = GameManager.instance;
             starterAlignment = StarterAlignment.instance;
+            correctArray = new float[gameManager.NumberOfItems+1];
             SelectedItem = gameManager.SelectedItem;
             SelectionBar = GameObject.FindWithTag("SelectionBar").GetComponent<Slider>();
             SelectionBar.value = 0f;
             InitializeArray();
             ItemCount = gameManager.NumberOfItems;
             gameManager.ArduinoSelect = false;
+            
 
             // Initialize Firebase and set up the listener
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -108,7 +110,7 @@ namespace _Scripts.GameState
 
         void InitializeArray()
         {
-            for (int i = 0; i <= 50; i++)
+            for (int i = 0; i <= gameManager.NumberOfItems; i++)
             {
                 correctArray[i] = i * itemDistanceInit - 25f;
             }

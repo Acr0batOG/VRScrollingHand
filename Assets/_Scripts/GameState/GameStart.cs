@@ -39,8 +39,8 @@ namespace _Scripts.GameState
         private FirebaseAuth auth;
         private Stopwatch stopwatch;
         public List<int> numberArray = new(); // Array to hold numbers the user will select, will be shuffled each time
-        private float[] distanceArray = new float [50];
-        private float[] colorArray = new float [51];
+        private float[] distanceArray;
+        private float[] colorArray;
         public int numberArrayIndex;
         int previousSelectedItem;
         private int previousSelectedNumber;
@@ -51,7 +51,7 @@ namespace _Scripts.GameState
         int previousBlockId;
         int previousUserId;
         int previousNumberOfItems;
-        private int startingItem = 25;
+        private int startingItem;
         private int timeExceededValue = -1;
         private float distanceToItem;
         private float distanceTravelled;
@@ -87,6 +87,9 @@ namespace _Scripts.GameState
             firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
             starterAlignment = StarterAlignment.instance;
             starterHandAlignment = StarterHandAlignment.instance;
+            startingItem = gameManager.NumberOfItems / 2;
+            distanceArray = new float [gameManager.NumberOfItems];
+            colorArray = new float [gameManager.NumberOfItems+1];
             FirebaseSetup();
             InitialSetup();
             SetGameStart(); //Start up the game
@@ -116,12 +119,13 @@ namespace _Scripts.GameState
 
         void InitializeArray()
         {
-            for (int i = 0; i <= 50; i++)
+            for (int i = 0; i <= gameManager.NumberOfItems; i++)
             {
-                if(i < 50)
+                if(i < gameManager.NumberOfItems)
                     distanceArray[i] = i * itemDistanceInit;
                 //Debug.Log("arr[" + i + "] = " + distanceArray[i]);
                 colorArray[i] = i * itemDistanceInit - 25f;
+                
             }
         }
         void InitialSetup()
@@ -202,7 +206,7 @@ namespace _Scripts.GameState
 
             if (timeLimit)
             {
-                if (stopwatch.Elapsed.Seconds >= 15)
+                if (stopwatch.Elapsed.Seconds >= 20)
                 {
                     Debug.Log("Time exceeded");
                     CheckCorrect(timeExceededValue);

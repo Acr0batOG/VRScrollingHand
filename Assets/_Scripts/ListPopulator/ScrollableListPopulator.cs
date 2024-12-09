@@ -12,7 +12,7 @@ namespace _Scripts.ListPopulator
         [SerializeField] private GameObject listItemPrefab; // Reference to the prefab for list items
         private int numberOfItems; // Number of items to populate
         int previousNumberOfItems;
-        private const float ListStartOffset = .0002f;
+        private float ListStartOffset = .0002f;
         [SerializeField] private Transform content; // Reference to the Content object in the ScrollView
         [SerializeField] private ScrollRect scrollRect; // Reference to the ScrollRect component
         GameManager gameManager;
@@ -22,6 +22,10 @@ namespace _Scripts.ListPopulator
         {
             gameManager = GameManager.instance;
             numberOfItems = gameManager.NumberOfItems; //Get number of items
+            if (numberOfItems >= 200)
+            {
+                ListStartOffset = .0000125f;
+            }
             previousNumberOfItems = numberOfItems;
         }
 
