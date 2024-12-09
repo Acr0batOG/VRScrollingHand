@@ -148,12 +148,11 @@ namespace _Scripts.OptiTrack
         }
         private IEnumerator Wait()
         {
-            yield return new WaitForSeconds(.6f);
+            yield return new WaitForSeconds(.2f);
             gameManager.EnableSelectedController();
         }
         private IEnumerator WaitBeforeLoadList()
         {
-            yield return new WaitForSeconds(.1f);
             scrollList.InitArray();
             scrollList.RemoveListItems();
             yield return new WaitForSeconds(.2f);
