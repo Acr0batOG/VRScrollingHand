@@ -135,6 +135,7 @@ namespace _Scripts.GameState
                 UpdateVisibility(); //Used to update body visibility
                 previousBodyVisibility = bodyVisibility;
             }
+            
         }
 
         public void EnableSelectedController()

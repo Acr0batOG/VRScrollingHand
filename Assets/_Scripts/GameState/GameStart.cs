@@ -128,6 +128,18 @@ namespace _Scripts.GameState
                 
             }
         }
+
+        void RemoveDistArray()
+        {
+            for (int i = 0; i <= gameManager.NumberOfItems; i++)
+            {
+                if(i < gameManager.NumberOfItems)
+                    distanceArray[i] = 0;
+                //Debug.Log("arr[" + i + "] = " + distanceArray[i]);
+                colorArray[i] = 0;
+                
+            }
+        }
         void InitialSetup()
         {
             stopwatch = new Stopwatch(); //Create a stopwatch object for timing
@@ -171,7 +183,7 @@ namespace _Scripts.GameState
         void Update()
         {
             float currentPositionY = scrollableList.content.anchoredPosition.y;
-
+            
             // Find the index of the color range that currentPositionY is within
             for (int i = 0; i < colorArray.Length - 1; i++)
             {
@@ -206,7 +218,7 @@ namespace _Scripts.GameState
 
             if (timeLimit)
             {
-                if (stopwatch.Elapsed.Seconds >= 20)
+                if (stopwatch.Elapsed.Seconds >= 30)
                 {
                     Debug.Log("Time exceeded");
                     CheckCorrect(timeExceededValue);
@@ -301,7 +313,7 @@ namespace _Scripts.GameState
             graphic2.color = originalColor2;
         }
         void ResetGame(){
-            previousNumberOfItems = gameManager.NumberOfItems;
+            
             Shuffle(numberArray);
             numberArrayIndex = 0; //Set array index back to 0
             currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
