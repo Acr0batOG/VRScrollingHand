@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2b82c735-9275-4c6d-82f5-b5dae8f22e6f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VRProjectSetup/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/GameState/GameStart.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/ListPopulator/ScrollableListPopulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/ListPopulator/ScrollableListPopulator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +237,7 @@
       <workItem from="1733712634955" duration="754000" />
       <workItem from="1733771865005" duration="284000" />
       <workItem from="1734033157166" duration="2746000" />
-      <workItem from="1734126114162" duration="1381000" />
+      <workItem from="1734126114162" duration="1760000" />
     </task>
     <servers />
   </component>
