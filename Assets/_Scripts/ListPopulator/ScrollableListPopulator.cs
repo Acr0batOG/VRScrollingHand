@@ -22,7 +22,7 @@ namespace _Scripts.ListPopulator
         {
             gameManager = GameManager.instance;
             numberOfItems = gameManager.NumberOfItems; //Get number of items
-            if (numberOfItems >= 200)
+            if (numberOfItems == 200)
             {
                 ListStartOffset = .0000125f;
             }
@@ -30,18 +30,30 @@ namespace _Scripts.ListPopulator
         }
 
         public void InitArray()
-        {   
+        {  
+            if (gameManager.NumberOfItems == 200)
+            {
+                ListStartOffset = .0000125f;
+            } 
+            else if (gameManager.NumberOfItems == 100)
+            {
+                ListStartOffset = .00005f;
+            }
+            else if (gameManager.NumberOfItems == 50)
+            {
+                ListStartOffset = .0002f;
+            }
             PopulateList();  //Populate the list
             SetScrollPositionToMidpoint();
         }
     
         void Update(){
             numberOfItems = gameManager.NumberOfItems;
-            if(previousNumberOfItems!=numberOfItems){ //If change in the number of items reset list
-                RemoveListItems(); 
-                PopulateList();
-                SetScrollPositionToMidpoint();
-                previousNumberOfItems = numberOfItems;}
+            // if(previousNumberOfItems!=numberOfItems){ //If change in the number of items reset list
+            //     RemoveListItems(); 
+            //     PopulateList();
+            //     SetScrollPositionToMidpoint();
+            //     previousNumberOfItems = numberOfItems;}
         }
 
         private void PopulateList()

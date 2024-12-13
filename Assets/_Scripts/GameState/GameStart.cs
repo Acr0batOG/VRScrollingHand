@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using _Scripts.Database_Objects;
 using _Scripts.Firebase;
+using _Scripts.ListPopulator;
 using _Scripts.OptiTrack;
 using Firebase;
 using Firebase.Auth;
@@ -32,6 +33,7 @@ namespace _Scripts.GameState
         public String trialIdStr;
         public String userIdStr;
         private GameManager gameManager;
+        private ScrollableListPopulator scrollableListPopulator;
         private StarterAlignment starterAlignment;
         private StarterHandAlignment starterHandAlignment;
         private FirebaseUpdateGame firebaseGame;
@@ -313,8 +315,17 @@ namespace _Scripts.GameState
             graphic2.color = originalColor2;
         }
         void ResetGame(){
+            if (previousNumberOfItems != gameManager.NumberOfItems)
+            {
+                StartCoroutine(WaitBeforeReset());
+                
+            }
+            else
+            {
+                Shuffle(numberArray);
+            }
             previousNumberOfItems = gameManager.NumberOfItems;
-            Shuffle(numberArray);
+            
             numberArrayIndex = 0; //Set array index back to 0
             currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
             currentUserId = firebaseGame.UserId;
@@ -324,6 +335,23 @@ namespace _Scripts.GameState
             stopGame = false; //Reset stop game to allow selections again.
         }
 
+        private IEnumerator WaitBeforeReset()
+        {
+            string arrayString = string.Join(", ", numberArray);
+            Debug.Log("Before Reset" + arrayString);
+            yield return new WaitForSeconds(.8f);
+            RemoveArray(numberArray);
+            String arrayString1 = string.Join(", ", numberArray);
+            Debug.Log("After Removal" + arrayString1);
+            startingItem = gameManager.NumberOfItems / 2; //Change to middle selection
+            FillArray(numberArray);
+            Shuffle(numberArray);
+            RemoveDistArray();
+            InitializeArray();
+            scrollableListPopulator.RemoveListItems();
+            String arrayString2 = string.Join(", ", numberArray);
+            Debug.Log("After Reset" + arrayString2);
+        }
         void FillArray(List<int> array)
         {
             float[] rangeArray = {.25f,.35f,.55f,.65f,.85f,.95f}; //Holds the difference between items
