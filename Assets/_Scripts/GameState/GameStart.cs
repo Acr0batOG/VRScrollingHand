@@ -313,7 +313,7 @@ namespace _Scripts.GameState
             graphic2.color = originalColor2;
         }
         void ResetGame(){
-            
+            previousNumberOfItems = gameManager.NumberOfItems;
             Shuffle(numberArray);
             numberArrayIndex = 0; //Set array index back to 0
             currentBlockId = firebaseGame.BlockId; // UserId and blockId from superclass
