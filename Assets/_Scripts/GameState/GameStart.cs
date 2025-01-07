@@ -348,7 +348,15 @@ namespace _Scripts.GameState
             Shuffle(numberArray);
             RemoveDistArray();
             InitializeArray();
-            scrollableListPopulator.RemoveListItems();
+            try
+            {
+                scrollableListPopulator.RemoveListItems();
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Tried Rendering");
+            }
+
             String arrayString2 = string.Join(", ", numberArray);
             Debug.Log("After Reset" + arrayString2);
         }

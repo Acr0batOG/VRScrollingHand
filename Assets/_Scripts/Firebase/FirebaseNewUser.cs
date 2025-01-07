@@ -16,6 +16,7 @@ namespace _Scripts.Firebase
         [SerializeField] private bool insertUser;
         int techniqueNumber;
         int areaNumber;
+        int numberItems;
         // Previous values of userName and userHeight
         string previousUserName;
         private float previousUserHeight;
@@ -181,31 +182,36 @@ namespace _Scripts.Firebase
             int k = 0;
             int[] techniqueNum = { 3, 5 };
             int[] areaNum = { 1, 2 };
-            //Loop through each block combination the user will need to be tested on, and insert each user possibility
-            for (int i = 1; i <= areaNum.Length; i++)
+            int[] numberOfItems = { 50, 100, 200 };
+
+// Loop through each combination of techniqueNum, areaNum, and numberOfItems
+            for (int h = 0; h < numberOfItems.Length; h++) // Start from 0 to handle array index properly
             {
-                for (int j = 1; j<= techniqueNum.Length; j++)
+                int numberItems = numberOfItems[h]; // Get the current number of items
+
+                for (int i = 0; i < areaNum.Length; i++) // Loop through areaNum (1 and 2)
                 {
+                    for (int j = 0; j < techniqueNum.Length; j++) // Loop through techniqueNum (3 and 5)
+                    {
+                        k++;
+                        int blockId = k;
 
-                    k++;
-                    int blockId = k;
-                    
                         // Set the values for the current combination
-                        techniqueNumber = techniqueNum[j-1];
-                        areaNumber = i;
+                        int techniqueNumber = techniqueNum[j];
+                        int areaNumber = areaNum[i];
 
-
-                        // Retrieve the last blockId and then insert a new block
-                        InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber));
-                    
+                        // Insert the current combination into the database
+                        InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber, numberItems));
+                    }
                 }
+
+                // Additional blocks for areaNumber = 3 (as in your original code)
+                areaNumber = 3;
+                InsertBlock(new Block(++k, userId, areaNumber, 1, numberItems));
+                InsertBlock(new Block(++k, userId, areaNumber, 2, numberItems));
             }
-
-            areaNumber = 3;
-
-            InsertBlock(new Block(++k, userId, areaNumber, 1));
-            InsertBlock(new Block(++k, userId, areaNumber, 2));
         }
+
 
 
         void InsertBlock(Block block)

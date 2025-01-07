@@ -22,6 +22,8 @@ namespace _Scripts.Firebase
         private FirebaseAuth auth;
         private int areaNumber;
         private int techniqueNumber;
+
+        private int numberOfItems;
         //Property for UserId
         public int UserId
         {
@@ -150,6 +152,7 @@ namespace _Scripts.Firebase
                         // Retrieve block data
                         areaNumber = int.Parse(snapshot.Child("AreaNumber").Value.ToString());
                         techniqueNumber = int.Parse(snapshot.Child("TechniqueNumber").Value.ToString());
+                        numberOfItems  = int.Parse(snapshot.Child("NumberOfItems").Value.ToString());
                         //Load the block data into the game. Changing Area and Technique based on block 
                         dataText.text = "User Id: " + userId + "\n Area Number: " + areaNumber + "\n Technique Number: "
                                         + techniqueNumber +" \n";
@@ -157,6 +160,7 @@ namespace _Scripts.Firebase
                         // Update GameManager with retrieved block data
                         gameManager.AreaNumber = areaNumber;
                         gameManager.TechniqueNumber = techniqueNumber;
+                        gameManager.NumberOfItems = numberOfItems;
                     }
                     else
                     {
