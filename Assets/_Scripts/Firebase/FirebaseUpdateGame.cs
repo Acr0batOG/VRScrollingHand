@@ -155,7 +155,7 @@ namespace _Scripts.Firebase
                         numberOfItems  = int.Parse(snapshot.Child("NumberOfItems").Value.ToString());
                         //Load the block data into the game. Changing Area and Technique based on block 
                         dataText.text = "User Id: " + userId + "\n Area Number: " + areaNumber + "\n Technique Number: "
-                                        + techniqueNumber +" \n";
+                                        + techniqueNumber +" \n Number of Items: " + numberOfItems + " \n";
 
                         // Update GameManager with retrieved block data
                         gameManager.AreaNumber = areaNumber;
