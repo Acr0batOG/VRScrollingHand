@@ -10,13 +10,14 @@ namespace _Scripts.Database_Objects
         public int TechniqueNumber;
         public int SelectedItem;
         public int CorrectItem;
+        public int NumberOfItems;
         public float ItemLocation;
         public float DistanceFromItem;
         public float DistanceTravelled;
         public Trial() {
         }
 
-        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled) {
+        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled, int numberOfItems) {
             this.UserId = userId;
             this.BlockId = blockId;
             this.TrialId = trialId;
@@ -29,6 +30,7 @@ namespace _Scripts.Database_Objects
             this.ItemLocation = itemLocation;
             this.DistanceFromItem = distanceFromItem;
             this.DistanceTravelled = distanceTravelled;
+            this.NumberOfItems = numberOfItems;
 
         }
     }
