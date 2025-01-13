@@ -362,9 +362,9 @@ namespace _Scripts.GameState
         }
         void FillArray(List<int> array)
         {
-            float[] rangeArray = {.25f,.35f,.55f,.65f,.85f,.95f}; //Holds the difference between items
+            float[] rangeArray = {.25f,.35f,.85f,.95f}; //{.25f,.35f,.55f,.65f,.85f,.95f}; Remove medium //Holds the difference between items
             float[] valueArray = new float[3];
-            int[] itemsToBeUsed = new int[6];
+            int[] itemsToBeUsed = new int[4];//new int[6]; Old items with medium
             int k = 0;
             for (int i = 0; i < rangeArray.Length; i+=2)
             {
