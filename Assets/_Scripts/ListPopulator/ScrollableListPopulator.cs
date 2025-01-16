@@ -30,7 +30,11 @@ namespace _Scripts.ListPopulator
             if (gameManager.NumberOfItems == 200)
             {
                 ListStartOffset = .0000125f; //Different offset for centering the number of items
-            } 
+            }
+            else if (gameManager.NumberOfItems == 125)
+            {
+                ListStartOffset = .0000625f;
+            }
             else if (gameManager.NumberOfItems == 100)
             {
                 ListStartOffset = .00005f;
@@ -39,6 +43,7 @@ namespace _Scripts.ListPopulator
             {
                 ListStartOffset = .0002f;
             }
+            
             PopulateList();  //Populate the list
             SetScrollPositionToMidpoint();
         }

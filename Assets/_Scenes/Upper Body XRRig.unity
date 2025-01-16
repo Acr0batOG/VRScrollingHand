@@ -3521,7 +3521,7 @@ MonoBehaviour:
   areaNumber: 3
   bodyVisibility: 1
   userHeight: 1.8
-  numberOfItems: 200
+  numberOfItems: 125
 --- !u!1001 &388811138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16769,7 +16769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f97f049f3d0cb54081c39562a06eea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userName: User1
+  userName: KhaladPilot
   userHeight: 1.85
   insertUser: 0
 --- !u!1 &1994093089

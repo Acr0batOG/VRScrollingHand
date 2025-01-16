@@ -182,7 +182,7 @@ namespace _Scripts.Firebase
             int k = 0;
             int[] techniqueNum = { 3, 5 };
             int[] areaNum = { 1, 2 };
-            int[] numberOfItems = { 50, 100, 200 };
+            int[] numberOfItems = { 50, 125, 200 };
 
 // Loop through each combination of techniqueNum, areaNum, and numberOfItems
             for (int h = 0; h < numberOfItems.Length; h++) // Start from 0 to handle array index properly
