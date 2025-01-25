@@ -41,10 +41,13 @@ namespace _Scripts.OldScrollingTypes
             contentHeight = scrollableList.content.sizeDelta.y;
             viewportHeight = scrollableList.viewport.rect.height;
             touchFinished = gameManager.TouchFinished;
+            Vector3 currentContactPoint = other.ClosestPoint(startPoint.position);
             if (other.gameObject.name == "Other Fingertip")
             {
                 LengthCheck(); // Check arm length
                 menuText.text = "Enter"; // Update menu text
+                float normalisedLandingPoint = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
+                GameManager.NormalisedLandingPoint = normalisedLandingPoint;
                 lastContactPoint = other.ClosestPoint(startPoint.position); // Set new contact position
                 if (!touchFinished) // Give user 8 frames on collision enter to use Point scroll type
                 {

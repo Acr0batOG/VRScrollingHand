@@ -354,7 +354,7 @@ namespace _Scripts.GameState
             }
             catch (Exception e)
             {
-                Debug.Log("Tried Rendering");
+                Debug.Log(e + " Tried Rendering");
             }
 
             String arrayString2 = string.Join(", ", numberArray);
@@ -657,9 +657,13 @@ namespace _Scripts.GameState
                     DataSnapshot snapshot = task.Result;
                     // Get the last trialId
                     int lastTrialId = 0;
+                    float landingPoint = gameManager.NormalisedLandingPoint;
                     //Insert correct answer bool and time to select answer in Firebase
                     bool correctSelection = isCorrect;
                     float timeToComplete = completionTime;
+                    float overshootError = (distanceToItem - distanceTravelled)*-1;
+                    float sizeOfList = scrollableList.content.sizeDelta.y - scrollableList.viewport.rect.height;
+                    
                     if (gameManager.SelectedItem < 0)
                     {
                         timeToComplete = 15.0f;
@@ -668,7 +672,7 @@ namespace _Scripts.GameState
                         // Insert a new trial with the incremented trialId
                         InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId++, timeToComplete, 
                             correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 
-                            numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled, gameManager.NumberOfItems));
+                            numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled, gameManager.NumberOfItems, previousScrollPosition, landingPoint, overshootError, sizeOfList));
                     }
                 }
                 else

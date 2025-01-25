@@ -27,9 +27,13 @@ namespace _Scripts.OldScrollingTypes
         {
             contentHeight = scrollableList.content.sizeDelta.y;
             viewportHeight = scrollableList.viewport.rect.height;
+            Vector3 currentContactPoint = other.ClosestPoint(startPoint.position);
             if (other.gameObject.name == "Other Fingertip")
             {
                 menuText.text = "Enter";
+                //Log the inital touch position of the object
+                float normalisedLandingPoint = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
+                GameManager.NormalisedLandingPoint = normalisedLandingPoint;
                 //Debug.Log(other.gameObject.name);
                 // Initialize last contact point but don't scroll yet
                 lastContactPoint = other.ClosestPoint(startPoint.position);

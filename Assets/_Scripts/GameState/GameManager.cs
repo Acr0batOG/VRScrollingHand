@@ -19,6 +19,7 @@ namespace _Scripts.GameState
         private int selectedItem;
         private int previousTechnique = -1;
         private int previousArea = -1;
+        private float normalisedLandingPoint;
         private bool previousBodyVisibility = true;
         private bool initalizeList;
         private bool trackData;
@@ -33,6 +34,11 @@ namespace _Scripts.GameState
         {
             get { return techniqueNumber; }
             set { techniqueNumber = value; }
+        }
+        public float NormalisedLandingPoint
+        {
+            get { return normalisedLandingPoint; }
+            set { normalisedLandingPoint = value; }
         }
         public ScrollRect ScrollRect
         {

@@ -14,10 +14,14 @@ namespace _Scripts.Database_Objects
         public float ItemLocation;
         public float DistanceFromItem;
         public float DistanceTravelled;
+        public float StartingPoint;
+        public float InitialNormalisedLandingPoint;
+        public float OvershootErrorDistance;
+        public float SizeOfList;
         public Trial() {
         }
 
-        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled, int numberOfItems) {
+        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled, int numberOfItems, float startingPoint, float initialNormalisedLandingPoint, float overshootErrorDistance, float sizeOfList) {
             this.UserId = userId;
             this.BlockId = blockId;
             this.TrialId = trialId;
@@ -31,6 +35,10 @@ namespace _Scripts.Database_Objects
             this.DistanceFromItem = distanceFromItem;
             this.DistanceTravelled = distanceTravelled;
             this.NumberOfItems = numberOfItems;
+            this.StartingPoint = startingPoint;
+            this.InitialNormalisedLandingPoint = initialNormalisedLandingPoint;
+            this.OvershootErrorDistance = overshootErrorDistance;
+            this.SizeOfList = sizeOfList;
 
         }
     }
