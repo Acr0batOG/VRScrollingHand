@@ -31,6 +31,7 @@ namespace _Scripts.OldScrollingTypes
         protected int ItemCount;
         private float[] correctArray = new float [51];
         private float itemDistanceInit = (2454.621f/49f);
+        
 
         protected void Start()
         {

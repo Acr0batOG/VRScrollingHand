@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace _Scripts.Database_Objects
 {
     public class Trial { //Object for database insertion
@@ -12,16 +14,21 @@ namespace _Scripts.Database_Objects
         public int CorrectItem;
         public int NumberOfItems;
         public float ItemLocation;
-        public float DistanceFromItem;
+        public float DistanceToItem;
         public float DistanceTravelled;
         public float StartingPoint;
         public float InitialNormalisedLandingPoint;
         public float OvershootErrorDistance;
         public float SizeOfList;
+        public float ExactLandingPoint;
+        public float AmplitudeOfFlick;
+        public float AverageSpeedOfFlicks;
+        public int NumberOfFlicks;
+        public List<float> TimeBetweenFlicksArray;
         public Trial() {
         }
 
-        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled, int numberOfItems, float startingPoint, float initialNormalisedLandingPoint, float overshootErrorDistance, float sizeOfList) {
+        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceToItem, float distanceTravelled, int numberOfItems, float startingPoint, float initialNormalisedLandingPoint, float overshootErrorDistance, float sizeOfList, float exactLandingPoint, float amplitudeOfFlick, float averageSpeedOfFlicks, int numberOfFlicks, List<float> timeBetweenFlicksArray) {
             this.UserId = userId;
             this.BlockId = blockId;
             this.TrialId = trialId;
@@ -32,13 +39,19 @@ namespace _Scripts.Database_Objects
             this.SelectedItem = selectedItem;
             this.CorrectItem = correctItem;
             this.ItemLocation = itemLocation;
-            this.DistanceFromItem = distanceFromItem;
+            this.DistanceToItem = distanceToItem;
             this.DistanceTravelled = distanceTravelled;
             this.NumberOfItems = numberOfItems;
             this.StartingPoint = startingPoint;
             this.InitialNormalisedLandingPoint = initialNormalisedLandingPoint;
             this.OvershootErrorDistance = overshootErrorDistance;
             this.SizeOfList = sizeOfList;
+            this.ExactLandingPoint = exactLandingPoint;
+            this.AmplitudeOfFlick = amplitudeOfFlick;
+            this.AverageSpeedOfFlicks = averageSpeedOfFlicks;
+            this.NumberOfFlicks = numberOfFlicks;
+            this.TimeBetweenFlicksArray = timeBetweenFlicksArray;
+            
 
         }
     }

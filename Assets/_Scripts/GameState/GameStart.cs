@@ -5,6 +5,7 @@ using System.Diagnostics;
 using _Scripts.Database_Objects;
 using _Scripts.Firebase;
 using _Scripts.ListPopulator;
+using _Scripts.OldScrollingTypes;
 using _Scripts.OptiTrack;
 using Firebase;
 using Firebase.Auth;
@@ -33,6 +34,7 @@ namespace _Scripts.GameState
         public String trialIdStr;
         public String userIdStr;
         private GameManager gameManager;
+        private ArmUIController armUIController;
         private ScrollableListPopulator scrollableListPopulator;
         private StarterAlignment starterAlignment;
         private StarterHandAlignment starterHandAlignment;
@@ -87,6 +89,7 @@ namespace _Scripts.GameState
             saveData = true;
             gameManager = GameManager.instance; //Game manager instance 
             firebaseGame = FirebaseUpdateGame.instance; //Firebase manager instance
+            armUIController = ArmUIController.instance;
             starterAlignment = StarterAlignment.instance;
             starterHandAlignment = StarterHandAlignment.instance;
             startingItem = gameManager.NumberOfItems / 2;
@@ -648,6 +651,7 @@ namespace _Scripts.GameState
         private void SetTrialData()
         {
             // Query trial data based on the user ID
+            armUIController.SelectionMadeSetData();
             string userIdStr = firebaseGame.UserId.ToString();
             reference.Child("Game").Child("Study2").Child("Trials").Child("User" + userIdStr).OrderByKey().LimitToLast(1).GetValueAsync().
                 ContinueWithOnMainThread(task =>
@@ -657,12 +661,17 @@ namespace _Scripts.GameState
                     DataSnapshot snapshot = task.Result;
                     // Get the last trialId
                     int lastTrialId = 0;
-                    float landingPoint = gameManager.NormalisedLandingPoint;
+                    float normalisedLandingPoint = gameManager.NormalisedLandingPoint;
                     //Insert correct answer bool and time to select answer in Firebase
                     bool correctSelection = isCorrect;
                     float timeToComplete = completionTime;
                     float overshootError = (distanceToItem - distanceTravelled)*-1;
                     float sizeOfList = scrollableList.content.sizeDelta.y - scrollableList.viewport.rect.height;
+                    float exactLandingPoint = normalisedLandingPoint * sizeOfList;
+                    float amplitudeOfFlick = gameManager.AmplitudeOfFlicks;
+                    float averageSpeedOfFlicks = gameManager.AverageSpeedOfFlicks;
+                    int numberOfFlicks = gameManager.NumberOfFlicks;
+                    List<float> timeBetweenFlicksArray = gameManager.TimeBetweenFlicksArray;
                     
                     if (gameManager.SelectedItem < 0)
                     {
@@ -672,7 +681,9 @@ namespace _Scripts.GameState
                         // Insert a new trial with the incremented trialId
                         InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId++, timeToComplete, 
                             correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 
-                            numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled, gameManager.NumberOfItems, previousScrollPosition, landingPoint, overshootError, sizeOfList));
+                            numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled, gameManager.NumberOfItems,
+                            previousScrollPosition, normalisedLandingPoint, overshootError, sizeOfList, exactLandingPoint,
+                            amplitudeOfFlick, averageSpeedOfFlicks, numberOfFlicks, timeBetweenFlicksArray));
                     }
                 }
                 else

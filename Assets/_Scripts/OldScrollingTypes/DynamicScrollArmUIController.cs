@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using _Scripts.Calculators;
 using UnityEngine;
 
@@ -10,17 +13,24 @@ namespace _Scripts.OldScrollingTypes
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
         private float contentHeight;
         private float viewportHeight;
+        private Stopwatch stopwatch;
 
         // Inertia-related variables
         private float currentScrollSpeed;
         private float deceleration = 75f; // Rate at which scrolling slows down
         private bool isScrolling;
 
+        
+
         protected new void Start()
         {
             base.Start();
             contentHeight = scrollableList.content.sizeDelta.y;
             viewportHeight = scrollableList.viewport.rect.height;
+            trialStartTime = Time.time;
+            stopwatch = new Stopwatch();
+            timeBetweenFlicksArray = new List<float>();
+            
         }
 
         protected void OnTriggerEnter(Collider other)
@@ -36,6 +46,15 @@ namespace _Scripts.OldScrollingTypes
                 GameManager.NormalisedLandingPoint = normalisedLandingPoint;
                 //Debug.Log(other.gameObject.name);
                 // Initialize last contact point but don't scroll yet
+                if(stopwatch.IsRunning)
+                    stopwatch.Stop();
+                
+                TimeSpan elapsedTime = stopwatch.Elapsed;
+               
+                lastSwipeTime  = (float)elapsedTime.TotalSeconds;
+                timeBetweenFlicksArray.Add(lastSwipeTime);
+                
+                stopwatch.Reset();
                 lastContactPoint = other.ClosestPoint(startPoint.position);
 
                 Scroll(other);
@@ -49,6 +68,11 @@ namespace _Scripts.OldScrollingTypes
             {
                 isScrolling = true;
                 Scroll(other);
+                
+                Vector3 currentContactPoint = other.ClosestPoint(startPoint.position);
+                float handMovement = Vector3.Distance(lastContactPoint, currentContactPoint);
+                amplitudeOfFlick += handMovement;
+                
 
                 // Restart dwell selection coroutine if list position changes significantly
                
@@ -61,6 +85,13 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit";
                 isScrolling = false;
+                
+                numberOfFlicks++; // Count this as a flick
+                totalSwipeTime += Time.time - lastSwipeTime;
+                
+                averageSpeedOfFlicks = amplitudeOfFlick/totalSwipeTime;
+                
+                stopwatch.Start();
                 
             }
         }

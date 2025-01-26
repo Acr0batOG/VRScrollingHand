@@ -19,12 +19,16 @@ namespace _Scripts.GameState
         private int selectedItem;
         private int previousTechnique = -1;
         private int previousArea = -1;
+        private int numberOfFlicks = 0;
+        private float amplitudeOfFlicks;
         private float normalisedLandingPoint;
+        private float averageSpeedOfFlicks;
         private bool previousBodyVisibility = true;
         private bool initalizeList;
         private bool trackData;
         private bool touchFinished;
         private bool arduinoSelect;
+        private List<float> timeBetweenFlicksArray;
         private GameObject handMesh; //Used to change the visibility of the hand mesh
         private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
         
@@ -35,10 +39,31 @@ namespace _Scripts.GameState
             get { return techniqueNumber; }
             set { techniqueNumber = value; }
         }
+        public int NumberOfFlicks
+        {
+            get { return numberOfFlicks; }
+            set { numberOfFlicks = value; }
+        }
+
+        public float AmplitudeOfFlicks
+        {
+            get { return amplitudeOfFlicks; }
+            set { amplitudeOfFlicks = value; }
+        }
+        public float AverageSpeedOfFlicks
+        {
+            get { return averageSpeedOfFlicks; }
+            set { averageSpeedOfFlicks = value; }
+        }
         public float NormalisedLandingPoint
         {
             get { return normalisedLandingPoint; }
             set { normalisedLandingPoint = value; }
+        }
+        public List<float> TimeBetweenFlicksArray
+        {
+            get { return timeBetweenFlicksArray; }
+            set { timeBetweenFlicksArray = value; }
         }
         public ScrollRect ScrollRect
         {
