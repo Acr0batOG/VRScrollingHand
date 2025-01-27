@@ -16,7 +16,6 @@ namespace _Scripts.OldScrollingTypes
         private readonly float fingerScrollMultiplier = 2.1f;
         private readonly float fingertipScrollMultiplier = 3.0f;
         private Coroutine pauseCoroutine; // Coroutine for the pause
-        private GameManager gameManager;
         float contentHeight;
         float viewportHeight;
 

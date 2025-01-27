@@ -10,8 +10,7 @@ namespace _Scripts.OldScrollingTypes
 {
     public class PointStaticScrollArmUIController : PointScrollArmUIController
     {
-        [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scrolling
-        private GameManager gameManager;
+        [SerializeField] private float staticScrollSpeed = 75f; //Speed multiplier for static scroll
         private int scrollCounter;
         private bool touchFinished;
         private Coroutine pauseCoroutine; // Coroutine for the pause
