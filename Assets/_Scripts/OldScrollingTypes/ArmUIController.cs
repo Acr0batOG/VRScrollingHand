@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using _Scripts.GameState;
 using TMPro;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace _Scripts.OldScrollingTypes
         [SerializeField] protected CapsuleCollider capsuleCollider;
         [SerializeField] protected TextMeshPro distText;
         [SerializeField] protected TextMeshProUGUI menuText;
-        protected GameManager GameManager;
+        protected GameManager gameManager;
         protected Slider SelectionBar;
         protected TextMeshPro SelectText;
         protected float UserHeight;
@@ -29,38 +30,33 @@ namespace _Scripts.OldScrollingTypes
         protected float PreviousScrollPosition; // Previous scroll position for dwell check
         protected float ContentSize;
         protected int ItemCount;
-        private float[] correctArray = new float [51];
+        
+        // Metrics tracking variables
+        protected float totalAmplitudeOfSwipe = 0f; // Logged
+        protected float swipeAmplitude = 0f; // Not Logged
+        protected float totalSwipeTime = 0f; // Not logged
+        protected int numberOfFlicks = 0; //Logged
+        protected float lastSwipeTime = 0f; //Not logged
+        protected float averageSwipeSpeed = 0f;
+        
+        protected float timeBetweenSwipes = 0f;
+
+        protected List<float> timeBetweenSwipesArray; //Logged
+        protected float trialStartTime; // Not logged
+        protected float[] correctArray = new float [51];
         private float itemDistanceInit = (2454.621f/49f);
 
         protected void Start()
         {
-            GameManager = GameManager.instance;
-            AreaNum = GameManager.AreaNumber; // Get area being used
-            SelectedItem = GameManager.SelectedItem;
+            gameManager = GameManager.instance;
+            AreaNum = gameManager.AreaNumber; // Get area being used
+            SelectedItem = gameManager.SelectedItem;
             SelectionBar = GameObject.FindWithTag("SelectionBar").GetComponent<Slider>();
             InitializeArray();
             SelectionBar.value = 0f;
-            ItemCount = GameManager.NumberOfItems;
+            ItemCount = gameManager.NumberOfItems;
+            timeBetweenSwipesArray = new List<float>();
             
-            // switch (AreaNum) // Switch to set the start and end points
-            // {
-            //     case 1:
-            //         startPoint = GameObject.FindWithTag("Elbow").transform; // Arm scrolling
-            //         endPoint = GameObject.FindWithTag("Wrist").transform;
-            //         break;
-            //     case 2:
-            //         startPoint = GameObject.FindWithTag("Wrist").transform; //Hand scrolling
-            //         endPoint = GameObject.FindWithTag("LFingertip").transform;
-            //         break;
-            //     case 3:
-            //         startPoint = GameObject.FindWithTag("Fingerbase").transform; //Finger scrolling
-            //         endPoint = GameObject.FindWithTag("RFingertip").transform;
-            //         break;
-            //     case 4:
-            //         startPoint = GameObject.FindWithTag("Fingermid").transform; //Fingertip scrolling
-            //         endPoint = GameObject.FindWithTag("RFingertip").transform;
-            //         break;
-            //}
         }
 
         void Update()
@@ -69,68 +65,26 @@ namespace _Scripts.OldScrollingTypes
             Vector3 middlePoint = (startPoint.position + endPoint.position) / 2f;
             Vector3 direction = (endPoint.position - startPoint.position).normalized;
             float distance = Vector3.Distance(startPoint.position, endPoint.position);
-            UserHeight = GameManager.UserHeight; // Get height of character
+            UserHeight = gameManager.UserHeight; // Get height of character
             int previousArea = AreaNum;
-            AreaNum = GameManager.AreaNumber;
-            SelectedItem = GameManager.SelectedItem;
-            ItemCount = GameManager.NumberOfItems; //Replace itemCount if NumberOfItems ever changes
+            AreaNum = gameManager.AreaNumber;
+            SelectedItem = gameManager.SelectedItem;
+            ItemCount = gameManager.NumberOfItems; //Replace itemCount if NumberOfItems ever changes
+            
+            
+            //Logged
+            
+            
+            gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
+            gameManager.NumberOfFlicks = numberOfFlicks;
+            gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+            
+            
 
-            // AreaCheck(previousArea, AreaNum); //Check if area has changed
-            //
-            // switch (AreaNum) // Switch to set the start and end points
-            // {
-            //     case 1: // Arm scrolling
-            //         OrientCollider(capsuleCollider, middlePoint, direction, distance, UserHeight, ARMModify);
-            //         break;
-            //     case 2: // Hand scrolling
-            //         OrientCollider(capsuleCollider, middlePoint, direction, distance, UserHeight, HandModify);
-            //         break;
-            //     case 3: // Finger scrolling. Shift the capsule slightly
-            //         OrientCollider(capsuleCollider, middlePoint, direction, distance, UserHeight, FingerModify);
-            //         break;
-            //     case 4: // Fingertip scrolling
-            //         OrientCollider(capsuleCollider, middlePoint, direction, distance, UserHeight, FingertipModify);
-            //         break;
-            // }
+           
         }
 
-        // void OrientCollider(CapsuleCollider armUICapsuleCollider, Vector3 middlePoint, Vector3 direction, float distance, float armUiUserHeight, float multiplier)
-        // {
-        //     armUICapsuleCollider.center = Vector3.zero; // Reset center to origin
-        //     armUICapsuleCollider.height = distance * armUiUserHeight * multiplier; // Set height based on distance and user height
-        //     armUICapsuleCollider.transform.position = middlePoint; // Position the collider at the midpoint
-        //     // Set the direction of the collider to Y-axis
-        //     armUICapsuleCollider.direction = 1; // 0 for X, 1 for Y, 2 for Z
-        //
-        //     // Calculate the rotation to align with the direction vector
-        //     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
-        //
-        //     // Apply the rotation to the collider
-        //     armUICapsuleCollider.transform.rotation = rotation;
-        // }
-        // void AreaCheck(int previousArea, int armUIAreaNum){
-        //     if(armUIAreaNum!=previousArea){
-        //         switch (armUIAreaNum) // Switch to set the start and end points
-        //         {
-        //             case 1:
-        //                 startPoint = GameObject.FindWithTag("Elbow").transform; // Arm scrolling
-        //                 endPoint = GameObject.FindWithTag("Wrist").transform;
-        //                 break;
-        //             case 2:
-        //                 startPoint = GameObject.FindWithTag("Wrist").transform; //Hand scrolling
-        //                 endPoint = GameObject.FindWithTag("LFingertip").transform;
-        //                 break;
-        //             case 3:
-        //                 startPoint = GameObject.FindWithTag("Fingerbase").transform; //Finger scrolling
-        //                 endPoint = GameObject.FindWithTag("RFingertip").transform;
-        //                 break;
-        //             case 4:
-        //                 startPoint = GameObject.FindWithTag("Fingermid").transform; //Fingertip scrolling
-        //                 endPoint = GameObject.FindWithTag("RFingertip").transform;
-        //                 break;
-        //         }
-        //     }
-        // } 
+        
 
         protected virtual void Scroll(Collider fingerCollider)
         {
@@ -166,7 +120,7 @@ namespace _Scripts.OldScrollingTypes
                 }
             }
             
-            GameManager.SelectedItem = SelectedItem;
+            gameManager.SelectedItem = SelectedItem;
             // Calculate the selected item index based on the scroll position and item height
             // Check if the GameObject was found
             if (selectTextObject)

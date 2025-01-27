@@ -86,7 +86,7 @@ namespace _Scripts.OldScrollingTypes
             float contentHeight = scrollableList.content.sizeDelta.y;
             float viewportHeight = scrollableList.viewport.rect.height;
 
-            int totalBins = GameManager.NumberOfItems; // Total number of bins for scrolling
+            int totalBins = gameManager.NumberOfItems; // Total number of bins for scrolling
 
             // Calculate arm length and offsets
             float armLength = (endPoint.position - startPoint.position).magnitude;

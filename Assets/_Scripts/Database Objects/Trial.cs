@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace _Scripts.Database_Objects
 {
     public class Trial { //Object for database insertion
@@ -18,10 +20,14 @@ namespace _Scripts.Database_Objects
         public float InitialNormalisedLandingPoint;
         public float OvershootErrorDistance;
         public float SizeOfList;
+        public float TotalAmplitudeOfSwipes;
+        public int NumberOfFlicks;
+        public List<float> TimeBetweenSwipesArray;
+        public float AverageSpeed;
         public Trial() {
         }
 
-        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled, int numberOfItems, float startingPoint, float initialNormalisedLandingPoint, float overshootErrorDistance, float sizeOfList) {
+        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled, int numberOfItems, float startingPoint, float initialNormalisedLandingPoint, float overshootErrorDistance, float sizeOfList, float totalAmplitudeOfSwipes, int numberOfFlicks, List<float> timeBetweenSwipesArray, float averageSpeed) {
             this.UserId = userId;
             this.BlockId = blockId;
             this.TrialId = trialId;
@@ -39,6 +45,10 @@ namespace _Scripts.Database_Objects
             this.InitialNormalisedLandingPoint = initialNormalisedLandingPoint;
             this.OvershootErrorDistance = overshootErrorDistance;
             this.SizeOfList = sizeOfList;
+            this.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipes;
+            this.NumberOfFlicks = numberOfFlicks;
+            this.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+            this.AverageSpeed = averageSpeed;
 
         }
     }

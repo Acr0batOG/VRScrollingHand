@@ -663,7 +663,10 @@ namespace _Scripts.GameState
                     float timeToComplete = completionTime;
                     float overshootError = (distanceToItem - distanceTravelled)*-1;
                     float sizeOfList = scrollableList.content.sizeDelta.y - scrollableList.viewport.rect.height;
-                    
+                    float totalAmplitudeOfSwipes = gameManager.TotalAmplitudeOfSwipes;
+                    int numberOfFlicks = gameManager.NumberOfFlicks;
+                    List<float> timeBetweenSwipesArray = gameManager.TimeBetweenSwipesArray;
+                    float averageSpeed = gameManager.TotalAmplitudeOfSwipes / timeToComplete; 
                     if (gameManager.SelectedItem < 0)
                     {
                         timeToComplete = 15.0f;
@@ -672,7 +675,9 @@ namespace _Scripts.GameState
                         // Insert a new trial with the incremented trialId
                         InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId++, timeToComplete, 
                             correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 
-                            numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled, gameManager.NumberOfItems, previousScrollPosition, landingPoint, overshootError, sizeOfList));
+                            numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled,
+                            gameManager.NumberOfItems, previousScrollPosition, landingPoint, overshootError, sizeOfList,
+                            totalAmplitudeOfSwipes, numberOfFlicks, timeBetweenSwipesArray, averageSpeed));
                     }
                 }
                 else

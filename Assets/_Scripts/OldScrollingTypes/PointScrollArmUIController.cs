@@ -59,7 +59,7 @@ namespace _Scripts.OldScrollingTypes
             float contentHeight = scrollableList.content.sizeDelta.y;
             float viewportHeight = scrollableList.viewport.rect.height;
 
-            int totalBins = GameManager.NumberOfItems; // Total number of bins for scrolling
+            int totalBins = gameManager.NumberOfItems; // Total number of bins for scrolling
 
             // Calculate arm length and offsets
             float length = (endPoint.position - startPoint.position).magnitude;
@@ -98,8 +98,8 @@ namespace _Scripts.OldScrollingTypes
         // Check arm length and adjust offsets accordingly
         protected void LengthCheck()
         {
-            UserPointHeight = GameManager.UserHeight; // Get height from GameManager
-            int lengthCheckAreaNum = GameManager.AreaNumber; // Check the area number
+            UserPointHeight = gameManager.UserHeight; // Get height from GameManager
+            int lengthCheckAreaNum = gameManager.AreaNumber; // Check the area number
 
             switch(lengthCheckAreaNum){
                 case 1: 

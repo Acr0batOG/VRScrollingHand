@@ -19,7 +19,9 @@ namespace _Scripts.GameState
         private int selectedItem;
         private int previousTechnique = -1;
         private int previousArea = -1;
+        private int numberOfFlicks;
         private float normalisedLandingPoint;
+        private float totalAmplitudeOfSwipes;
         private bool previousBodyVisibility = true;
         private bool initalizeList;
         private bool trackData;
@@ -27,6 +29,7 @@ namespace _Scripts.GameState
         private bool arduinoSelect;
         private GameObject handMesh; //Used to change the visibility of the hand mesh
         private GameObject upperBodyMesh; //Used to change the visibility of the hand mesh
+        private List<float> timeBetweenSwipesArray;
         
 
         // Property for techniqueNumber
@@ -34,6 +37,23 @@ namespace _Scripts.GameState
         {
             get { return techniqueNumber; }
             set { techniqueNumber = value; }
+        }
+        public List<float> TimeBetweenSwipesArray
+        {
+            get { return timeBetweenSwipesArray; }
+            set { timeBetweenSwipesArray = value; }
+        }
+
+        public float TotalAmplitudeOfSwipes
+        {
+            get { return totalAmplitudeOfSwipes; }
+            set { totalAmplitudeOfSwipes = value; }
+        }
+        
+        public int NumberOfFlicks
+        {
+            get { return numberOfFlicks; }
+            set { numberOfFlicks = value; }
         }
         public float NormalisedLandingPoint
         {

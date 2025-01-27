@@ -32,6 +32,7 @@ namespace _Scripts.OldScrollingTypes
             gameManager = GameManager.instance;
             LengthCheck(); // Check arm length
             AdjustSpeed(); // Update speed based on point used to scroll
+            trialStartTime = Time.time;
             contentHeight = scrollableList.content.sizeDelta.y;
             viewportHeight = scrollableList.viewport.rect.height;
         }
@@ -47,8 +48,11 @@ namespace _Scripts.OldScrollingTypes
                 LengthCheck(); // Check arm length
                 menuText.text = "Enter"; // Update menu text
                 float normalisedLandingPoint = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
-                GameManager.NormalisedLandingPoint = normalisedLandingPoint;
+                gameManager.NormalisedLandingPoint = normalisedLandingPoint;
                 lastContactPoint = other.ClosestPoint(startPoint.position); // Set new contact position
+                timeBetweenSwipes = Time.time - lastSwipeTime; // Time since the last swipe
+                timeBetweenSwipesArray.Add(timeBetweenSwipes);
+                lastSwipeTime = Time.time;
                 if (!touchFinished) // Give user 8 frames on collision enter to use Point scroll type
                 {
                     Scroll(other);
@@ -68,6 +72,13 @@ namespace _Scripts.OldScrollingTypes
         {
             if (other.gameObject.name == "Other Fingertip")
             {
+                Vector3 currentContactPoint = other.ClosestPoint(startPoint.position);
+                float handMovement = Vector3.Distance(lastContactPoint, currentContactPoint);
+                totalAmplitudeOfSwipe += handMovement;
+
+                float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
+                float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
+                swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
                 isScrolling = true;
                 if (!touchFinished) // Give user 8 frames after enter to use Point scroll type then switch
                 {
@@ -87,6 +98,8 @@ namespace _Scripts.OldScrollingTypes
         {
             if (other.gameObject.name == "Other Fingertip")
             {
+                numberOfFlicks++; // Count this as a flick
+                totalSwipeTime += Time.time - lastSwipeTime;
                 menuText.text = "Exit"; // Update menu text
                 isScrolling = false;
             }
@@ -96,7 +109,7 @@ namespace _Scripts.OldScrollingTypes
         {
             Vector3 contactPoint = fingerCollider.ClosestPoint(startPoint.position); // Get the closest contact point
 
-            int totalBins = GameManager.NumberOfItems; // Total number of bins for scrolling
+            int totalBins = gameManager.NumberOfItems; // Total number of bins for scrolling
 
             // Calculate arm length and offsets
             float armLength = (endPoint.position - startPoint.position).magnitude;
