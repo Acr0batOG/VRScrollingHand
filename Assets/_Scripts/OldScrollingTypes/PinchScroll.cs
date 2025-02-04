@@ -35,6 +35,10 @@ namespace _Scripts.OldScrollingTypes
                 //Debug.Log(other.gameObject.name);
                 // Initialize last contact point but don't scroll yet
                 lastContactPoint = other.ClosestPoint(startPoint.position);
+                
+                timeBetweenSwipes = Time.time - lastSwipeTime; // Time since the last swipe
+                timeBetweenSwipesArray.Add(timeBetweenSwipes);
+                lastSwipeTime = Time.time;
 
                 Scroll(other);
                
@@ -47,8 +51,15 @@ namespace _Scripts.OldScrollingTypes
             {
                 isScrolling = true;
                 Scroll(other);
+                
+                
+                Vector3 currentContactPoint = other.ClosestPoint(startPoint.position);
+                float handMovement = Vector3.Distance(lastContactPoint, currentContactPoint);
+                totalAmplitudeOfSwipe += handMovement;
 
-                // Restart dwell selection coroutine if list position changes significantly
+                float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
+                float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
+                swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
                 
             }
         }
@@ -59,6 +70,9 @@ namespace _Scripts.OldScrollingTypes
             {
                 menuText.text = "Exit";
                 isScrolling = false;
+                
+                numberOfFlicks++; // Count this as a flick
+                totalSwipeTime += Time.time - lastSwipeTime;
               
                 
             }

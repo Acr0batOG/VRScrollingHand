@@ -33,7 +33,18 @@ namespace _Scripts.OldScrollingTypes
                 if (xrController.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 thumbstickInput))
                 {
                     // Get the vertical input from the thumbstick
-                    float verticalInput = thumbstickInput.y;
+                    float verticalInput = thumbstickInput.y; 
+                    if (Mathf.Abs(verticalInput) > 0.1f)
+                    {
+                        numberOfFlicks++;
+                        float currentTime = Time.time;
+                        if (lastSwipeTime > 0)
+                        {
+                            timeBetweenSwipesArray.Add(currentTime - lastSwipeTime);
+                        }
+                        lastSwipeTime = currentTime;
+                        totalAmplitudeOfSwipe += Mathf.Abs(verticalInput);
+                    }
                
 
                     // Calculate the new scroll position based on the joystick input
