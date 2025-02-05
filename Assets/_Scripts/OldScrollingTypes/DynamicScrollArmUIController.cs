@@ -40,6 +40,7 @@ namespace _Scripts.OldScrollingTypes
                 lastContactPoint = other.ClosestPoint(startPoint.position);
                 
                 timeBetweenSwipes = Time.time - lastSwipeTime; // Time since the last swipe
+                Debug.Log("Time between " + timeBetweenSwipes);
                 timeBetweenSwipesArray.Add(timeBetweenSwipes);
                 lastSwipeTime = Time.time;
 
@@ -68,7 +69,9 @@ namespace _Scripts.OldScrollingTypes
                 isScrolling = false;
                 
                 numberOfFlicks++; // Count this as a flick
+                Debug.Log("Flicks " + numberOfFlicks);
                 totalSwipeTime += Time.time - lastSwipeTime;
+                Debug.Log("Total Time " + totalSwipeTime);
                 
             }
         }
@@ -100,7 +103,7 @@ namespace _Scripts.OldScrollingTypes
             Debug.Log(totalAmplitudeOfSwipe + " Amplitude Of Swipe");
 
             swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
-            Debug.Log(totalAmplitudeOfSwipe + " Amplitude Of Swipe");
+            
             // Update the last contact point
             lastContactPoint = currentContactPoint;
         }
