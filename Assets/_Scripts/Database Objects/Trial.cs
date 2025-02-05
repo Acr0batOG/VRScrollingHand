@@ -22,12 +22,12 @@ namespace _Scripts.Database_Objects
         public float SizeOfList;
         public float TotalAmplitudeOfSwipes;
         public int NumberOfFlicks;
-        public List<double> TimeBetweenSwipesArray;
+        public List<float> TimeBetweenSwipesArray;
         public float AverageSpeed;
         public Trial() {
         }
 
-        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled, int numberOfItems, float startingPoint, float initialNormalisedLandingPoint, float overshootErrorDistance, float sizeOfList, float totalAmplitudeOfSwipes, int numberOfFlicks, List<double> timeBetweenSwipesArray, float averageSpeed) {
+        public Trial(int userId, int blockId, int trialId, float timeToComplete, bool correctSelection, int areaNumber, int techniqueNumber, int selectedItem, int correctItem, float itemLocation, float distanceFromItem, float distanceTravelled, int numberOfItems, float startingPoint, float initialNormalisedLandingPoint, float overshootErrorDistance, float sizeOfList, float totalAmplitudeOfSwipes, int numberOfFlicks, List<float> timeBetweenSwipesArray, float averageSpeed) {
             this.UserId = userId;
             this.BlockId = blockId;
             this.TrialId = trialId;

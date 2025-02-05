@@ -97,8 +97,10 @@ namespace _Scripts.OldScrollingTypes
             
             float handMovement = Vector3.Distance(lastContactPoint, currentContactPoint);
             totalAmplitudeOfSwipe += handMovement;
+            Debug.Log(totalAmplitudeOfSwipe + " Amplitude Of Swipe");
 
             swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
+            Debug.Log(totalAmplitudeOfSwipe + " Amplitude Of Swipe");
             // Update the last contact point
             lastContactPoint = currentContactPoint;
         }
