@@ -42,6 +42,7 @@ namespace _Scripts.OldScrollingTypes
         protected float timeBetweenSwipes = 0f;
 
         protected List<float> timeBetweenSwipesArray; //Logged
+        protected int previousSelectedItem = 0;
         protected float trialStartTime; // Not logged
         protected float[] correctArray = new float [51];
         private float itemDistanceInit = (2454.621f/49f);
@@ -78,6 +79,12 @@ namespace _Scripts.OldScrollingTypes
             gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
             gameManager.NumberOfFlicks = numberOfFlicks;
             gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+            if (gameManager.SelectedItem != previousSelectedItem)
+            {
+                timeBetweenSwipesArray.Clear();
+            }
+            
+            previousSelectedItem = gameManager.SelectedItem;
             
             
 
