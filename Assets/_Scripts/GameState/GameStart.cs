@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using _Scripts.Database_Objects;
 using _Scripts.Firebase;
 using _Scripts.ListPopulator;
@@ -665,7 +666,8 @@ namespace _Scripts.GameState
                     float sizeOfList = scrollableList.content.sizeDelta.y - scrollableList.viewport.rect.height;
                     float totalAmplitudeOfSwipes = gameManager.TotalAmplitudeOfSwipes;
                     int numberOfFlicks = gameManager.NumberOfFlicks;
-                    List<float> timeBetweenSwipesArray = gameManager.TimeBetweenSwipesArray;
+                    List<double> timeBetweenSwipesArray = gameManager.TimeBetweenSwipesArray.Select(f => (double)f).ToList();
+
                     float averageSpeed = gameManager.TotalAmplitudeOfSwipes / timeToComplete; 
                     if (gameManager.SelectedItem < 0)
                     {

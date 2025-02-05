@@ -55,13 +55,7 @@ namespace _Scripts.OldScrollingTypes
                 isScrolling = true;
                 Scroll(other);
                 
-                Vector3 currentContactPoint = other.ClosestPoint(startPoint.position);
-                float handMovement = Vector3.Distance(lastContactPoint, currentContactPoint);
-                totalAmplitudeOfSwipe += handMovement;
-
-                float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
-                float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
-                swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
+                
 
             }
         }
@@ -100,7 +94,11 @@ namespace _Scripts.OldScrollingTypes
             
             // Update the distance text
             distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentScrollSpeed}";
+            
+            float handMovement = Vector3.Distance(lastContactPoint, currentContactPoint);
+            totalAmplitudeOfSwipe += handMovement;
 
+            swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
             // Update the last contact point
             lastContactPoint = currentContactPoint;
         }
