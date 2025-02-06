@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using _Scripts.Calculators;
 using UnityEngine;
 
@@ -132,12 +134,22 @@ namespace _Scripts.OldScrollingTypes
             }
             if (gameManager.SelectedItem != previousSelectedItem)
             {
-                timeBetweenSwipesArray.Clear();
-                numberOfFlicks = 0;
-                totalAmplitudeOfSwipe = 0f;
+                StartCoroutine(WaitBeforeReset());
+
+                
             }
 
             previousSelectedItem = gameManager.SelectedItem;
         }
+        IEnumerator WaitBeforeReset()
+        {
+            yield return new WaitForSeconds(.5f);
+            timeBetweenSwipesArray.Clear();
+            numberOfFlicks = 0;
+            totalAmplitudeOfSwipe = 0f;
+            
+        
+        }
     }
+    
 }

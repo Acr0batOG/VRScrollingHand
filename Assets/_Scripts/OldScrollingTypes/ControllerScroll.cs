@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -64,6 +65,23 @@ namespace _Scripts.OldScrollingTypes
             gameManager.TotalAmplitudeOfSwipes = 0; //No amplitude for controller scrolling
             gameManager.NumberOfFlicks = numberOfFlicks;
             gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+            
+            if (gameManager.SelectedItem != previousSelectedItem)
+            {
+                StartCoroutine(WaitBeforeReset());
+                
+            }
+
+            previousSelectedItem = gameManager.SelectedItem;
+        }
+        IEnumerator WaitBeforeReset()
+        {
+            yield return new WaitForSeconds(.5f);
+            timeBetweenSwipesArray.Clear();
+            numberOfFlicks = 0;
+            totalAmplitudeOfSwipe = 0f;
+            
+        
         }
     }
 }
