@@ -40,7 +40,7 @@ namespace _Scripts.OldScrollingTypes
                     {
                         numberOfFlicks++;  // Count the flick
                         isJoystickPushed = false; // Reset state
-                        gameManager.NumberOfFlicks = numberOfFlicks;
+                        Debug.Log(numberOfFlicks);
                     }
 
                     // If joystick is pushed, accumulate swipe amplitude and mark state
@@ -48,7 +48,7 @@ namespace _Scripts.OldScrollingTypes
                     {
                         totalAmplitudeOfSwipe += Mathf.Abs(verticalInput);
                         isJoystickPushed = true;
-                        gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
+                        Debug.Log(totalAmplitudeOfSwipe);
                     }
 
                     // Scroll content
@@ -56,6 +56,8 @@ namespace _Scripts.OldScrollingTypes
                     newScrollPosition.y -= verticalInput * scrollSpeed * Time.deltaTime;
                     newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
                     scrollableList.content.anchoredPosition = newScrollPosition;
+                    gameManager.NumberOfFlicks = numberOfFlicks;
+                    gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
                 }
             }
             else
