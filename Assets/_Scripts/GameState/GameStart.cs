@@ -666,7 +666,10 @@ namespace _Scripts.GameState
                     float totalAmplitudeOfSwipes = gameManager.TotalAmplitudeOfSwipes;
                     int numberOfFlicks = gameManager.NumberOfFlicks;
                     List<float> timeBetweenSwipesArray = gameManager.TimeBetweenSwipesArray;
-                    float averageSpeed = gameManager.TotalAmplitudeOfSwipes / timeToComplete; 
+                    float averageSpeed = gameManager.TotalAmplitudeOfSwipes / timeToComplete;
+                    float startingPoint = sizeOfList / 2f;
+                    if(gameManager.TechniqueNumber == 5)
+                        startingPoint = sizeOfList * landingPoint;
                     if (gameManager.SelectedItem < 0)
                     {
                         timeToComplete = 15.0f;
@@ -676,7 +679,7 @@ namespace _Scripts.GameState
                         InsertTrial(new Trial(firebaseGame.UserId, firebaseGame.BlockId, lastTrialId++, timeToComplete, 
                             correctSelection, gameManager.AreaNumber, gameManager.TechniqueNumber, gameManager.SelectedItem, 
                             numberArray[numberArrayIndex-1], itemLocation, distanceToItem, distanceTravelled,
-                            gameManager.NumberOfItems, previousScrollPosition, landingPoint, overshootError, sizeOfList,
+                            gameManager.NumberOfItems, startingPoint, landingPoint, overshootError, sizeOfList,
                             totalAmplitudeOfSwipes, numberOfFlicks, timeBetweenSwipesArray, averageSpeed));
                     }
                 }
