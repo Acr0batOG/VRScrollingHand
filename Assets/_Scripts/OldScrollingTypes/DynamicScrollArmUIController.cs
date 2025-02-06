@@ -110,6 +110,7 @@ namespace _Scripts.OldScrollingTypes
             gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
             gameManager.NumberOfFlicks = numberOfFlicks;
             gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+            
         }
 
         private void Update()
@@ -124,6 +125,14 @@ namespace _Scripts.OldScrollingTypes
                 newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
                 scrollableList.content.anchoredPosition = newScrollPosition;
             }
+            if (gameManager.SelectedItem != previousSelectedItem)
+            {
+                timeBetweenSwipesArray.Clear();
+                numberOfFlicks = 0;
+                totalAmplitudeOfSwipe = 0f;
+            }
+
+            previousSelectedItem = gameManager.SelectedItem;
         }
     }
 }
