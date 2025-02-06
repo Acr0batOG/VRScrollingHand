@@ -35,9 +35,9 @@ namespace _Scripts.OldScrollingTypes
                 //Debug.Log(other.gameObject.name);
                 // Initialize last contact point but don't scroll yet
                 lastContactPoint = other.ClosestPoint(startPoint.position);
-                
                 timeBetweenSwipes = Time.time - lastSwipeTime; // Time since the last swipe
-                timeBetweenSwipesArray.Add(timeBetweenSwipes);
+                if(timeBetweenSwipes < 2.0f)
+                    timeBetweenSwipesArray.Add(timeBetweenSwipes);
                 lastSwipeTime = Time.time;
 
                 Scroll(other);
@@ -57,9 +57,11 @@ namespace _Scripts.OldScrollingTypes
                 float handMovement = Vector3.Distance(lastContactPoint, currentContactPoint);
                 totalAmplitudeOfSwipe += handMovement;
 
-                float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
-                float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
-                swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
+                
+                
+                gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
+                gameManager.NumberOfFlicks = numberOfFlicks;
+                gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
                 
             }
         }
@@ -99,6 +101,13 @@ namespace _Scripts.OldScrollingTypes
 
             newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
             scrollableList.content.anchoredPosition = newScrollPosition;
+            
+            float handMovement = Vector3.Distance(lastContactPoint, currentContactPoint);
+            totalAmplitudeOfSwipe += handMovement;
+
+            float normalisedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, currentContactPoint);
+            float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
+            swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
 
             // Update the distance text
             distText.text = $"Dynamic Standard Scroll: Position {currentContactPoint} Scroll Position {newScrollPosition.y} Delta Position  {currentScrollSpeed}";
@@ -119,6 +128,14 @@ namespace _Scripts.OldScrollingTypes
                 newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
                 scrollableList.content.anchoredPosition = newScrollPosition;
             }
+            if (gameManager.SelectedItem != previousSelectedItem)
+            {
+                timeBetweenSwipesArray.Clear();
+                numberOfFlicks = 0;
+                totalAmplitudeOfSwipe = 0f;
+            }
+
+            previousSelectedItem = gameManager.SelectedItem;
         }
     }
 }

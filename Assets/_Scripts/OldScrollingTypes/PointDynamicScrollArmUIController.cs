@@ -50,7 +50,8 @@ namespace _Scripts.OldScrollingTypes
                 gameManager.NormalisedLandingPoint = normalisedLandingPoint;
                 lastContactPoint = other.ClosestPoint(startPoint.position); // Set new contact position
                 timeBetweenSwipes = Time.time - lastSwipeTime; // Time since the last swipe
-                timeBetweenSwipesArray.Add(timeBetweenSwipes);
+                if(timeBetweenSwipes < 2.0f)
+                    timeBetweenSwipesArray.Add(timeBetweenSwipes);
                 lastSwipeTime = Time.time;
                 if (!touchFinished) // Give user 8 frames on collision enter to use Point scroll type
                 {
@@ -89,7 +90,9 @@ namespace _Scripts.OldScrollingTypes
                     DynamicScroll(other);
                 }
 
-                
+                gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
+                gameManager.NumberOfFlicks = numberOfFlicks;
+                gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
             }
         }
 
@@ -101,6 +104,10 @@ namespace _Scripts.OldScrollingTypes
                 totalSwipeTime += Time.time - lastSwipeTime;
                 menuText.text = "Exit"; // Update menu text
                 isScrolling = false;
+                
+                gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
+                gameManager.NumberOfFlicks = numberOfFlicks;
+                gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
             }
         }
 
@@ -179,6 +186,14 @@ namespace _Scripts.OldScrollingTypes
                 newScrollPosition.y = Mathf.Clamp(newScrollPosition.y, 0, contentHeight - viewportHeight);
                 scrollableList.content.anchoredPosition = newScrollPosition;
             }
+            if (gameManager.SelectedItem != previousSelectedItem)
+            {
+                timeBetweenSwipesArray.Clear();
+                numberOfFlicks = 0;
+                totalAmplitudeOfSwipe = 0f;
+            }
+
+            previousSelectedItem = gameManager.SelectedItem;
         }
 
         void AdjustSpeed()

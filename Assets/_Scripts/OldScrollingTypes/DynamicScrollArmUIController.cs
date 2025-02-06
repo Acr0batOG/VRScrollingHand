@@ -41,7 +41,8 @@ namespace _Scripts.OldScrollingTypes
                 
                 timeBetweenSwipes = Time.time - lastSwipeTime; // Time since the last swipe
                 Debug.Log("Time between " + timeBetweenSwipes);
-                timeBetweenSwipesArray.Add(timeBetweenSwipes);
+                if(timeBetweenSwipes < 2.0f)
+                    timeBetweenSwipesArray.Add(timeBetweenSwipes);
                 lastSwipeTime = Time.time;
 
                 Scroll(other);
@@ -56,7 +57,9 @@ namespace _Scripts.OldScrollingTypes
                 isScrolling = true;
                 Scroll(other);
                 
-                
+                gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
+                gameManager.NumberOfFlicks = numberOfFlicks;
+                gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
 
             }
         }
@@ -111,9 +114,7 @@ namespace _Scripts.OldScrollingTypes
             // Update the last contact point
             lastContactPoint = currentContactPoint;
             
-            gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
-            gameManager.NumberOfFlicks = numberOfFlicks;
-            gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+            
             
         }
 

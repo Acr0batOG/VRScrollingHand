@@ -37,12 +37,11 @@ namespace _Scripts.OldScrollingTypes
                     if (Mathf.Abs(verticalInput) > 0.1f)
                     {
                         numberOfFlicks++;
-                        float currentTime = Time.time;
-                        if (lastSwipeTime > 0)
-                        {
-                            timeBetweenSwipesArray.Add(currentTime - lastSwipeTime);
-                        }
-                        lastSwipeTime = currentTime;
+                        timeBetweenSwipes = Time.time - lastSwipeTime; // Time since the last swipe
+                        if(timeBetweenSwipes < 2.0f && timeBetweenSwipes > 0.0f)
+                            timeBetweenSwipesArray.Add(timeBetweenSwipes);
+                        lastSwipeTime = Time.time;
+                        
                         totalAmplitudeOfSwipe += Mathf.Abs(verticalInput);
                     }
                
@@ -62,6 +61,9 @@ namespace _Scripts.OldScrollingTypes
             {
                 Debug.LogWarning("XRController is not assigned or inputDevice is not valid.");
             }
+            gameManager.TotalAmplitudeOfSwipes = 0; //No amplitude for controller scrolling
+            gameManager.NumberOfFlicks = numberOfFlicks;
+            gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
         }
     }
 }
