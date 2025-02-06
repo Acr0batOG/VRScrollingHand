@@ -82,6 +82,8 @@ namespace _Scripts.OldScrollingTypes
             if (gameManager.SelectedItem != previousSelectedItem)
             {
                 timeBetweenSwipesArray.Clear();
+                numberOfFlicks = 0;
+                totalAmplitudeOfSwipe = 0f;
             }
             
             previousSelectedItem = gameManager.SelectedItem;
