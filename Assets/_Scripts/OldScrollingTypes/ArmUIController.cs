@@ -76,9 +76,7 @@ namespace _Scripts.OldScrollingTypes
             //Logged
             
             
-            gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
-            gameManager.NumberOfFlicks = numberOfFlicks;
-            gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+            
             if (gameManager.SelectedItem != previousSelectedItem)
             {
                 timeBetweenSwipesArray.Clear();

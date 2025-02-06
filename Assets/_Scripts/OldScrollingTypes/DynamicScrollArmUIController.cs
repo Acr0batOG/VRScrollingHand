@@ -106,6 +106,10 @@ namespace _Scripts.OldScrollingTypes
             
             // Update the last contact point
             lastContactPoint = currentContactPoint;
+            
+            gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
+            gameManager.NumberOfFlicks = numberOfFlicks;
+            gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
         }
 
         private void Update()
