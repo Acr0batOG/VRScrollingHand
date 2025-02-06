@@ -666,7 +666,7 @@ namespace _Scripts.GameState
                     float totalAmplitudeOfSwipes = gameManager.TotalAmplitudeOfSwipes;
                     int numberOfFlicks = gameManager.NumberOfFlicks;
                     List<float> timeBetweenSwipesArray = gameManager.TimeBetweenSwipesArray;
-                    float averageSpeed = gameManager.TotalAmplitudeOfSwipes / timeToComplete;
+                    float averageSpeed = distanceTravelled / timeToComplete;
                     float startingPoint = sizeOfList / 2f;
                     if(gameManager.TechniqueNumber == 5)
                         startingPoint = sizeOfList * landingPoint;
