@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using _Scripts.GameState;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -16,12 +18,17 @@ namespace _Scripts.OldScrollingTypes
         [SerializeField] private XRController xrController;
 
         private bool isJoystickPushed = false; // Track joystick movement state
+        
+        private GameManager gameManager;
 
         protected new void Start()
         {
+            gameManager = GameManager.instance;
             contentHeight = scrollableList.content.rect.height;
             viewportHeight = scrollableList.viewport.rect.height;
             trialStartTime = Time.time;
+            
+
         }
 
         void Update()
@@ -64,6 +71,22 @@ namespace _Scripts.OldScrollingTypes
             {
                 Debug.LogWarning("XRController is not assigned or inputDevice is not valid.");
             }
+            if (gameManager.SelectedItem != previousSelectedItem)
+            {
+                StartCoroutine(WaitBeforeReset());
+            }
+
+            previousSelectedItem = gameManager.SelectedItem;
+            
+            
+        }
+        IEnumerator WaitBeforeReset()
+        {
+            yield return new WaitForSeconds(.1f);
+            numberOfFlicks = 0;
+            totalAmplitudeOfSwipe = 0f;
+            
+        
         }
     }
 }
