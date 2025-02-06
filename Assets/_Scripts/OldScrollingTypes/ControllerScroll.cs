@@ -21,6 +21,7 @@ namespace _Scripts.OldScrollingTypes
         {
             contentHeight = scrollableList.content.rect.height;
             viewportHeight = scrollableList.viewport.rect.height;
+            previousSelectedItem = gameManager.SelectedItem;
         }
 
         void Update()
@@ -76,7 +77,7 @@ namespace _Scripts.OldScrollingTypes
         }
         IEnumerator WaitBeforeReset()
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.1f);
             timeBetweenSwipesArray.Clear();
             numberOfFlicks = 0;
             totalAmplitudeOfSwipe = 0f;

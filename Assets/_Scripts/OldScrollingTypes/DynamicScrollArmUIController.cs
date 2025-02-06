@@ -24,6 +24,7 @@ namespace _Scripts.OldScrollingTypes
             contentHeight = scrollableList.content.sizeDelta.y;
             viewportHeight = scrollableList.viewport.rect.height;
             trialStartTime = Time.time;
+            previousSelectedItem = gameManager.SelectedItem;
         }
 
         protected void OnTriggerEnter(Collider other)
@@ -136,14 +137,13 @@ namespace _Scripts.OldScrollingTypes
             {
                 StartCoroutine(WaitBeforeReset());
 
-                
             }
 
             previousSelectedItem = gameManager.SelectedItem;
         }
         IEnumerator WaitBeforeReset()
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.1f);
             timeBetweenSwipesArray.Clear();
             numberOfFlicks = 0;
             totalAmplitudeOfSwipe = 0f;

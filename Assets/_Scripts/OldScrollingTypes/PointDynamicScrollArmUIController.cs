@@ -195,7 +195,7 @@ namespace _Scripts.OldScrollingTypes
         }
         IEnumerator WaitBeforeReset()
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.1f);
             timeBetweenSwipesArray.Clear();
             numberOfFlicks = 0;
             totalAmplitudeOfSwipe = 0f;
