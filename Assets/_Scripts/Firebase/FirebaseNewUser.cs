@@ -184,19 +184,17 @@ namespace _Scripts.Firebase
             int[] areaNum = { 1, 2 };
             int[] numberOfItems = { 50, 100, 200 };
 
-// Loop through each combination of techniqueNum, areaNum, and numberOfItems
-            for (int h = 0; h < numberOfItems.Length; h++) // Start from 0 to handle array index properly
+            // Loop through each combination of techniqueNum, areaNum, and numberOfItems
+            for (int i = 0; i < areaNum.Length; i++) // Loop through areaNum (1 and 2)
             {
-                int numberItems = numberOfItems[h]; // Get the current number of items
-
-                for (int i = 0; i < areaNum.Length; i++) // Loop through areaNum (1 and 2)
+                for (int j = 0; j < techniqueNum.Length; j++) // Loop through techniqueNum (3 and 5)
                 {
-                    for (int j = 0; j < techniqueNum.Length; j++) // Loop through techniqueNum (3 and 5)
+                    for (int h = 0; h < numberOfItems.Length; h++) // Loop through numberOfItems (50, 100, 200)
                     {
+                        int numberItems = numberOfItems[h];  
                         k++;
                         int blockId = k;
 
-                        // Set the values for the current combination
                         int techniqueNumber = techniqueNum[j];
                         int areaNumber = areaNum[i];
 
@@ -204,13 +202,29 @@ namespace _Scripts.Firebase
                         InsertBlock(new Block(blockId, userId, areaNumber, techniqueNumber, numberItems));
                     }
                 }
-
-                // Additional blocks for areaNumber = 3 (as in your original code)
-                areaNumber = 3;
-                InsertBlock(new Block(++k, userId, areaNumber, 1, numberItems));
-                InsertBlock(new Block(++k, userId, areaNumber, 2, numberItems));
             }
+
+            // Now insert additional blocks for areaNumber = 3 AFTER area 1 & 2 are done
+            int areaNumberThree = 3;
+
+            for (int h = 0; h < numberOfItems.Length; h++) // Loop through numberOfItems (50, 100, 200)
+            {
+                int numberItems = numberOfItems[h]; // Get current number of items
+    
+                InsertBlock(new Block(++k, userId, areaNumberThree, 1, numberItems));
+                
+            }
+            for (int h = 0; h < numberOfItems.Length; h++) 
+            {
+                int numberItems = numberOfItems[h]; // Get current number of items
+    
+                InsertBlock(new Block(++k, userId, areaNumberThree, 2, numberItems));
+                
+            }
+            
+
         }
+
 
 
 
