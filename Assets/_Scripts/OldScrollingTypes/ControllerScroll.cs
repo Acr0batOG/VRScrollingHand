@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -21,7 +20,6 @@ namespace _Scripts.OldScrollingTypes
         {
             contentHeight = scrollableList.content.rect.height;
             viewportHeight = scrollableList.viewport.rect.height;
-            previousSelectedItem = gameManager.SelectedItem;
         }
 
         void Update()
@@ -40,7 +38,7 @@ namespace _Scripts.OldScrollingTypes
                     {
                         numberOfFlicks++;
                         timeBetweenSwipes = Time.time - lastSwipeTime; // Time since the last swipe
-                        if(timeBetweenSwipes < 2.0f && timeBetweenSwipes > 0.0f)
+                        if(timeBetweenSwipes < 2.0f)
                             timeBetweenSwipesArray.Add(timeBetweenSwipes);
                         lastSwipeTime = Time.time;
                         
@@ -57,33 +55,12 @@ namespace _Scripts.OldScrollingTypes
 
                     // Apply the new scroll position
                     scrollableList.content.anchoredPosition = newScrollPosition;
-                    
-                    gameManager.NumberOfFlicks = numberOfFlicks;
-                    gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
                 }
             }
             else
             {
                 Debug.LogWarning("XRController is not assigned or inputDevice is not valid.");
             }
-            
-            
-            if (gameManager.SelectedItem != previousSelectedItem)
-            {
-                StartCoroutine(WaitBeforeReset());
-                
-            }
-
-            previousSelectedItem = gameManager.SelectedItem;
-        }
-        IEnumerator WaitBeforeReset()
-        {
-            yield return new WaitForSeconds(.1f);
-            timeBetweenSwipesArray.Clear();
-            numberOfFlicks = 0;
-            totalAmplitudeOfSwipe = 0f;
-            
-        
         }
     }
 }
