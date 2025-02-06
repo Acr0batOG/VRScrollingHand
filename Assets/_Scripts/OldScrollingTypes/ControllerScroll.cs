@@ -57,15 +57,16 @@ namespace _Scripts.OldScrollingTypes
 
                     // Apply the new scroll position
                     scrollableList.content.anchoredPosition = newScrollPosition;
+                    
+                    gameManager.NumberOfFlicks = numberOfFlicks;
+                    gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
                 }
             }
             else
             {
                 Debug.LogWarning("XRController is not assigned or inputDevice is not valid.");
             }
-            gameManager.TotalAmplitudeOfSwipes = 0; //No amplitude for controller scrolling
-            gameManager.NumberOfFlicks = numberOfFlicks;
-            gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+            
             
             if (gameManager.SelectedItem != previousSelectedItem)
             {
