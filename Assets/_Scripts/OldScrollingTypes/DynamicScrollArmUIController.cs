@@ -73,6 +73,10 @@ namespace _Scripts.OldScrollingTypes
                 totalSwipeTime += Time.time - lastSwipeTime;
                 Debug.Log("Total Time " + totalSwipeTime);
                 
+                gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
+                gameManager.NumberOfFlicks = numberOfFlicks;
+                gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+                
             }
         }
 
