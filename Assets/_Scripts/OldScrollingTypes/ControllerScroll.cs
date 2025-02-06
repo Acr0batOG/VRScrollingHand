@@ -40,6 +40,7 @@ namespace _Scripts.OldScrollingTypes
                     {
                         numberOfFlicks++;  // Count the flick
                         isJoystickPushed = false; // Reset state
+                        gameManager.NumberOfFlicks = numberOfFlicks;
                     }
 
                     // If joystick is pushed, accumulate swipe amplitude and mark state
@@ -47,6 +48,7 @@ namespace _Scripts.OldScrollingTypes
                     {
                         totalAmplitudeOfSwipe += Mathf.Abs(verticalInput);
                         isJoystickPushed = true;
+                        gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
                     }
 
                     // Scroll content
