@@ -47,15 +47,15 @@ namespace _Scripts.OldScrollingTypes
                     {
                         numberOfFlicks++;  // Count the flick
                         isJoystickPushed = false; // Reset state
-                        Debug.Log(numberOfFlicks);
+                       
                     }
 
                     // If joystick is pushed, accumulate swipe amplitude and mark state
                     if (!Mathf.Approximately(verticalInput, 0f))
                     {
-                        totalAmplitudeOfSwipe += Mathf.Abs(verticalInput);
+                        
                         isJoystickPushed = true;
-                        Debug.Log(totalAmplitudeOfSwipe);
+                      
                     }
 
                     // Scroll content
@@ -84,7 +84,6 @@ namespace _Scripts.OldScrollingTypes
         {
             yield return new WaitForSeconds(.1f);
             numberOfFlicks = 0;
-            totalAmplitudeOfSwipe = 0f;
             
         
         }
