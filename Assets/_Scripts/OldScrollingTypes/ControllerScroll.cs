@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -20,6 +21,8 @@ namespace _Scripts.OldScrollingTypes
         {
             contentHeight = scrollableList.content.rect.height;
             viewportHeight = scrollableList.viewport.rect.height;
+            trialStartTime = Time.time;
+            timeBetweenSwipesArray = new List<float>();
         }
 
         void Update()
