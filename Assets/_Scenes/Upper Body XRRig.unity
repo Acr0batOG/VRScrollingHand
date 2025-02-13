@@ -3521,7 +3521,7 @@ MonoBehaviour:
   areaNumber: 3
   bodyVisibility: 1
   userHeight: 1.8
-  numberOfItems: 125
+  numberOfItems: 200
 --- !u!1001 &388811138
 PrefabInstance:
   m_ObjectHideFlags: 0

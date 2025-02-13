@@ -91,7 +91,7 @@ namespace _Scripts.GameState
             starterHandAlignment = StarterHandAlignment.instance;
             startingItem = gameManager.NumberOfItems / 2;
             distanceArray = new float [gameManager.NumberOfItems];
-            colorArray = new float [gameManager.NumberOfItems+1];
+            colorArray = new float [gameManager.NumberOfItems + 1];
             FirebaseSetup();
             InitialSetup();
             SetGameStart(); //Start up the game
@@ -485,6 +485,9 @@ namespace _Scripts.GameState
                     // Debug.Log(numberArray[numberArrayIndex - 1]);
                     // Debug.Log("Actual Position " + scrollableList.content.anchoredPosition.y);
                     // Debug.Log("Array Number " + arr[numberArray[numberArrayIndex-1]-1]);
+                    Debug.Log("Distance Array: " + string.Join(", ", distanceArray));
+                    Debug.Log("Number Array: " + string.Join(", ", numberArray));
+
                     itemLocation = distanceArray[numberArray[numberArrayIndex] - 1];
                     distanceToItem =  Math.Abs(scrollableList.content.anchoredPosition.y - itemLocation);
                     // Debug.Log(distanceToItem);
