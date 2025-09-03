@@ -8,7 +8,7 @@ namespace _Scripts.Scrolling_Types
     public class PointDynamicScrolling : ScrollBase, IScrollable
     {
 
-        private const int TriggerTimeMax = 8;
+        private const int TriggerTimeMax = 800;
         private int triggerTimer = 0;
         private float slowMovementThreshold = .001f; // To detect and ignore movement within the collision below this threshold
         private Coroutine pauseCoroutine; // Coroutine for the pause

@@ -384,7 +384,7 @@ namespace _Scripts.GameState
             if (gameManager.AreaNumber == 3 && gameManager.TechniqueNumber == 2)
                 selectNumber.text = "Select A Button to Begin";
             else
-                selectNumber.text = "Select Arm Object To Begin";
+                selectNumber.text = "Tap the green zone to start the trial";
 
         }
 
@@ -450,7 +450,7 @@ namespace _Scripts.GameState
                 {
                     (numberArray[numberArrayIndex], numberArray[numberArrayIndex + 1]) = (numberArray[numberArrayIndex + 1], numberArray[numberArrayIndex]);
                 }
-                    selectNumber.text = "Item #" + (numberArrayIndex + 1) + ", Please Select: " +
+                    selectNumber.text = "Trial #" + (numberArrayIndex + 1) + ", Please Select: " +
                                         numberArray[numberArrayIndex]
                                             .ToString(); // Set the number the user will be retrieving
                     numberArrayIndex++; //Update the array index to select next item
@@ -565,7 +565,7 @@ namespace _Scripts.GameState
             else if (numberArrayIndex >= numberArray.Count)
                 selectNumber.text = "No More Items to Select";
             else
-                selectNumber.text = "Select the Object to Continue";
+                selectNumber.text = "Tap the green zone to start the trial";
 
         }
 
