@@ -22,7 +22,7 @@ namespace _Scripts.OptiTrack
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawSphere(ovrCameraRig.position, 0.1f);
+            //Gizmos.DrawSphere(ovrCameraRig.position, 0.1f);
         }
     }
 }
