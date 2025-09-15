@@ -433,7 +433,7 @@ namespace _Scripts.GameState
 
         void SetGameStart()
         {
-            selectNumber.text = "Select Button To Begin";
+            selectNumber.text = "Press the Button to\n Start the Trial";
 
         }
 
@@ -502,7 +502,7 @@ namespace _Scripts.GameState
                 {
                     (numberArray[numberArrayIndex], numberArray[numberArrayIndex + 1]) = (numberArray[numberArrayIndex + 1], numberArray[numberArrayIndex]);
                 }
-                    selectNumber.text = "Item #" + (numberArrayIndex + 1) + ", Please Select: " +
+                    selectNumber.text = "Trial #" + (numberArrayIndex + 1) + "\nPlease Select: " +
                                         numberArray[numberArrayIndex]
                                             .ToString(); // Set the number the user will be retrieving
                     numberArrayIndex++; //Update the array index to select next item
@@ -614,11 +614,11 @@ namespace _Scripts.GameState
             
             StartCoroutine(Wait());
             if (gameManager.AreaNumber == 3 && gameManager.TechniqueNumber == 2)
-                selectNumber.text = "Select Button to Continue";
+                selectNumber.text = "Press the Button to\n Start the Trial";
             else if (numberArrayIndex >= numberArray.Count)
                 selectNumber.text = "No More Items to Select";
             else
-                selectNumber.text = "Select Button to Continue";
+                selectNumber.text = "Press the Button to\n Start the Trial";
 
         }
 
