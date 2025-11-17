@@ -9,6 +9,9 @@ TagManager:
   - Detector
   - DistText
   - MenuText
+  - Wrist
+  - Elbow
+  - WristOther
   layers:
   - Default
   - TransparentFX
