@@ -13,7 +13,7 @@ namespace _Scripts.OldScrollingTypes
         private float contentHeight;
         private float viewportHeight;
 
-        private List<(float time, float speed)> speedHistory = new List<(float time, float speed)>();
+        private Queue<(float time, float speed)> speedHistory = new Queue<(float, float)>();
 
         // Inertia-related variables
         private float currentScrollSpeed;
@@ -109,8 +109,8 @@ namespace _Scripts.OldScrollingTypes
             float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
             currentScrollSpeed = normalisedPositionDifference * scrollSpeed;
 
-            if(currentScrollSpeed > absoluteMaxSpeed){
-                absoluteMaxSpeed = currentScrollSpeed;
+            if(Mathf.abs(currentScrollSpeed) > absoluteMaxSpeed){
+                absoluteMaxSpeed = Mathf.abs(currentScrollSpeed);
             }
 
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
@@ -137,40 +137,37 @@ namespace _Scripts.OldScrollingTypes
 
         private void UpdateAverageSpeeds(float now)
         {
-            // Compute 1-second average
+            // 1-second average
             float sum1 = 0f;
             int count1 = 0;
-            
-            // Compute 10-second average
-            float sum10 = 0f;
-            int count10 = 0;
 
-            foreach (var entry in speedHistory)
+            foreach (var (t, s) in speedHistory)
             {
-                float deltaTime = now - entry.time;
-
-                if (deltaTime <= 1f)
+                if (Time.time - t <= 1f)
                 {
-                    sum1 += entry.speed;
+                    sum1 += s;
                     count1++;
-                }
-
-                if (deltaTime <= 10f)
-                {
-                    sum10 += entry.speed;
-                    count10++;
                 }
             }
 
             float avg1 = count1 > 0 ? sum1 / count1 : 0f;
+
+            // 10-second average
+            float sum10 = 0f;
+            int count10 = 0;
+
+            foreach (var (t, s) in speedHistory)
+            {
+                sum10 += s;
+                count10++;
+            }
+
             float avg10 = count10 > 0 ? sum10 / count10 : 0f;
 
-            // Update maximums
-            if (avg1 > maxSpeedSecond)
-                maxSpeedSecond = avg1;
+            // Update max averages
+            maxSpeedSecond = Mathf.Max(maxSpeedSecond, avg1);
+            maxSpeedTenSecond = Mathf.Max(maxSpeedTenSecond, avg10);
 
-            if (avg10 > maxSpeedTenSecond)
-                maxSpeedTenSecond = avg10;
         }
 
 
@@ -192,15 +189,14 @@ namespace _Scripts.OldScrollingTypes
 
             }
 
-            float now = Time.time;
+            float speed = Mathf.Abs(currentScrollSpeed);
 
-            // Record current scroll speed each frame
-            speedHistory.Add((now, Mathf.Abs(currentScrollSpeed)));
+            // Record this frame’s speed
+            speedHistory.Enqueue((Time.time, speed));
 
-            // Remove old entries (keep only last 10 seconds)
-            speedHistory.RemoveAll(entry => now - entry.time > 10f);
-
-            UpdateAverageSpeeds(now);
+            // Remove old entries > 10 seconds
+            while (speedHistory.Count > 0 && Time.time - speedHistory.Peek().time > 10f)
+                speedHistory.Dequeue();
 
             previousSelectedItem = gameManager.SelectedItem;
         }
@@ -210,6 +206,9 @@ namespace _Scripts.OldScrollingTypes
             timeBetweenSwipesArray.Clear();
             numberOfFlicks = 0;
             totalAmplitudeOfSwipe = 0f;
+            absoluteMaxSpeed = 0f;
+            maxSpeedSecond = 0f;
+            maxSpeedTenSecond = 0f;
             
         
         }
