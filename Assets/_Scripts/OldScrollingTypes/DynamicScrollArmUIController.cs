@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Calculators;
+using System;
 using UnityEngine;
 
 namespace _Scripts.OldScrollingTypes
@@ -109,8 +110,8 @@ namespace _Scripts.OldScrollingTypes
             float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
             currentScrollSpeed = normalisedPositionDifference * scrollSpeed;
 
-            if(Mathf.abs(currentScrollSpeed) > absoluteMaxSpeed){
-                absoluteMaxSpeed = Mathf.abs(currentScrollSpeed);
+            if(MathF.Abs(currentScrollSpeed) > absoluteMaxSpeed){
+                absoluteMaxSpeed = MathF.Abs(currentScrollSpeed);
             }
 
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
@@ -126,7 +127,7 @@ namespace _Scripts.OldScrollingTypes
             totalAmplitudeOfSwipe += handMovement;
             Debug.Log(totalAmplitudeOfSwipe + " Amplitude Of Swipe");
 
-            swipeAmplitude = Mathf.Abs(normalisedPosition - previousNormalizedPosition);
+            swipeAmplitude = MathF.Abs(normalisedPosition - previousNormalizedPosition);
             
             // Update the last contact point
             lastContactPoint = currentContactPoint;
@@ -165,8 +166,8 @@ namespace _Scripts.OldScrollingTypes
             float avg10 = count10 > 0 ? sum10 / count10 : 0f;
 
             // Update max averages
-            maxSpeedSecond = Mathf.Max(maxSpeedSecond, avg1);
-            maxSpeedTenSecond = Mathf.Max(maxSpeedTenSecond, avg10);
+            maxSpeedSecond = MathF.Max(maxSpeedSecond, avg1);
+            maxSpeedTenSecond = MathF.Max(maxSpeedTenSecond, avg10);
 
         }
 
@@ -189,7 +190,7 @@ namespace _Scripts.OldScrollingTypes
 
             }
 
-            float speed = Mathf.Abs(currentScrollSpeed);
+            float speed = MathF.Abs(currentScrollSpeed);
 
             // Record this frame’s speed
             speedHistory.Enqueue((Time.time, speed));
