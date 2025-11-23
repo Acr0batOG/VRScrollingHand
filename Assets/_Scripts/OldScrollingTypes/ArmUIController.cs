@@ -38,6 +38,10 @@ namespace _Scripts.OldScrollingTypes
         protected int numberOfFlicks = 0; //Logged
         protected float lastSwipeTime = 0f; //Not logged
         protected float averageSwipeSpeed = 0f;
+        protected float absoluteMaxSpeed = float.NegativeInfinity;
+        protected float maxSpeedSecond = float.NegativeInfinity;
+
+        protected float maxSpeedTenSecond = float.NegativeInfinity;
         
         protected float timeBetweenSwipes = 0f;
 

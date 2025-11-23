@@ -13,6 +13,8 @@ namespace _Scripts.OldScrollingTypes
         private float contentHeight;
         private float viewportHeight;
 
+        private List<(float time, float speed)> speedHistory = new List<(float time, float speed)>();
+
         // Inertia-related variables
         private float currentScrollSpeed;
         private float deceleration = 75f; // Rate at which scrolling slows down
@@ -82,6 +84,14 @@ namespace _Scripts.OldScrollingTypes
                 gameManager.TotalAmplitudeOfSwipes = totalAmplitudeOfSwipe;
                 gameManager.NumberOfFlicks = numberOfFlicks;
                 gameManager.TimeBetweenSwipesArray = timeBetweenSwipesArray;
+
+                Debug.Log("Max Speed 1 ms" + absoluteMaxSpeed);
+
+                Debug.Log("Max Speed 1 second" + maxSpeedSecond);
+
+                Debug.Log("Max Speed 10 Second" + maxSpeedTenSecond);
+
+             
                 
             }
         }
@@ -98,6 +108,10 @@ namespace _Scripts.OldScrollingTypes
             float previousNormalizedPosition = ArmPositionCalculator.GetNormalisedPositionOnArm(endPoint.position, startPoint.position, lastContactPoint);
             float normalisedPositionDifference = normalisedPosition - previousNormalizedPosition;
             currentScrollSpeed = normalisedPositionDifference * scrollSpeed;
+
+            if(currentScrollSpeed > absoluteMaxSpeed){
+                absoluteMaxSpeed = currentScrollSpeed;
+            }
 
             Vector2 newScrollPosition = scrollableList.content.anchoredPosition;
             newScrollPosition.y += currentScrollSpeed; // Addition because moving the hand up should scroll down
@@ -121,6 +135,45 @@ namespace _Scripts.OldScrollingTypes
             
         }
 
+        private void UpdateAverageSpeeds(float now)
+        {
+            // Compute 1-second average
+            float sum1 = 0f;
+            int count1 = 0;
+            
+            // Compute 10-second average
+            float sum10 = 0f;
+            int count10 = 0;
+
+            foreach (var entry in speedHistory)
+            {
+                float deltaTime = now - entry.time;
+
+                if (deltaTime <= 1f)
+                {
+                    sum1 += entry.speed;
+                    count1++;
+                }
+
+                if (deltaTime <= 10f)
+                {
+                    sum10 += entry.speed;
+                    count10++;
+                }
+            }
+
+            float avg1 = count1 > 0 ? sum1 / count1 : 0f;
+            float avg10 = count10 > 0 ? sum10 / count10 : 0f;
+
+            // Update maximums
+            if (avg1 > maxSpeedSecond)
+                maxSpeedSecond = avg1;
+
+            if (avg10 > maxSpeedTenSecond)
+                maxSpeedTenSecond = avg10;
+        }
+
+
         private void Update()
         {
             // Apply inertia
@@ -138,6 +191,16 @@ namespace _Scripts.OldScrollingTypes
                 StartCoroutine(WaitBeforeReset());
 
             }
+
+            float now = Time.time;
+
+            // Record current scroll speed each frame
+            speedHistory.Add((now, Mathf.Abs(currentScrollSpeed)));
+
+            // Remove old entries (keep only last 10 seconds)
+            speedHistory.RemoveAll(entry => now - entry.time > 10f);
+
+            UpdateAverageSpeeds(now);
 
             previousSelectedItem = gameManager.SelectedItem;
         }
